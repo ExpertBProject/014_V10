@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Connection>
+  <SQL Server="PORTATIL-BERTA" Db="INTERCOMPANY" DbUser="sa" DbPwd="B1Admin$"/>
+  <DI Server="PORTATIL-BERTA" LicenseServer="PORTATIL-BERTA:30000" UserName="manager" Password="159357" DbPassword="B1Admin$" DbUserName="sa"/>
+</Connection>
