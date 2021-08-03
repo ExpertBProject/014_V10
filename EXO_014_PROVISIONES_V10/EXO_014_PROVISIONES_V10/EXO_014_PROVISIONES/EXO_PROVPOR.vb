@@ -1,9 +1,9 @@
 ﻿Imports System.Xml
-
+Imports SAPbouiCOM
 Public Class EXO_PROVPOR
-    Inherits EXO_Generales.EXO_DLLBase
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, ByRef actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Inherits EXO_UIAPI.EXO_DLLBase
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
 
         If actualizar Then
             cargaCampos()
@@ -13,7 +13,7 @@ Public Class EXO_PROVPOR
 #Region "Inicialización"
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -24,27 +24,27 @@ Public Class EXO_PROVPOR
         Dim res As String = ""
         'Return Nothing
 
-        'Dim menuXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_MENUDEFPROV.xml")
+        'Dim menuXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_MENUDEFPROV.xml")
         'Dim menu As Xml.XmlDocument = New Xml.XmlDocument
         'menu.LoadXml(menuXML)
         'Return menu
 
-        menuXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_MENUDEFPROV.xml")
-        SboApp.LoadBatchActions(menuXML)
-        Res = SboApp.GetLastBatchResults
+        menuXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_MENUDEFPROV.xml")
+        objGlobal.SBOApp.LoadBatchActions(menuXML)
+        res = objGlobal.SBOApp.GetLastBatchResults
 
     End Function
 
     Private Sub cargaCampos()
-        If objGlobal.conexionSAP.esAdministrador Then
-            Dim oXML As String = ""
-            Dim udoObj As EXO_Generales.EXO_UDO = Nothing
+        If objGlobal.refDi.comunes.esAdministrador Then
+            Dim sXML As String = ""
+            Dim res As String = ""
 
             'UDO Grupo de comisiones para artículos
-            oXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "UDO_EXO_PROVPOR.xml")
-            udoObj = New EXO_Generales.EXO_UDO("EXO_PROVPOR", objGlobal)
-            objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Validando: UDO EXO_PROVPOR", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
-            udoObj.validaObjeto(oXML)
+            sXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "UDO_EXO_PROVPOR.xml")
+            objGlobal.SBOApp.StatusBar.SetText("Validando: UDO_EXO_PROVPOR", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+            objGlobal.refDi.comunes.LoadBDFromXML(sXML)
+            res = objGlobal.SBOApp.GetLastBatchResults
         End If
 
 
@@ -52,25 +52,25 @@ Public Class EXO_PROVPOR
 
     'Para definir autorizaciones
     Private Sub cargaAutorizaciones()
-        Dim autorizacionXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_AUPROVPOR.xml")
-        Me.objGlobal.conexionSAP.LoadBDFromXML(autorizacionXML)
-        Dim res As String = SboApp.GetLastBatchResults
+        Dim autorizacionXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_AUPROVPOR.xml")
+        objGlobal.refDi.comunes.LoadBDFromXML(autorizacionXML)
+        Dim res As String = objGlobal.SBOApp.GetLastBatchResults
     End Sub
 
 #End Region
 
 #Region "Eventos"
-    Public Overrides Function SBOApp_MenuEvent(ByRef infoEvento As EXO_Generales.EXO_MenuEvent) As Boolean
+    Public Overrides Function SBOApp_MenuEvent(infoEvento As MenuEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         Try
             If infoEvento.BeforeAction = True Then
                 Select Case infoEvento.MenuUID
                     Case "EXO-MnProvPor"
-                        objGlobal.conexionSAP.cargaFormUdoBD("EXO_PROVPOR")
+                        objGlobal.funcionesUI.cargaFormUdoBD("EXO_PROVPOR")
 
                     Case Else
-                        oForm = SboApp.Forms.ActiveForm
+                        oForm = objGlobal.SBOApp.Forms.ActiveForm
 
                         Select Case oForm.TypeEx
 
@@ -84,7 +84,7 @@ Public Class EXO_PROVPOR
 
                 End Select
             Else
-                oForm = SboApp.Forms.ActiveForm
+                oForm = objGlobal.SBOApp.Forms.ActiveForm
 
                 Select Case oForm.TypeEx
                     Case "UDO_EXO_PROVPOR"
@@ -100,16 +100,16 @@ Public Class EXO_PROVPOR
             Return MyBase.SBOApp_MenuEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
-    Private Function EventHandler_Form_Visible(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_Form_Visible(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim oConds As SAPbouiCOM.Conditions = Nothing
         Dim oCond As SAPbouiCOM.Condition = Nothing
@@ -120,7 +120,7 @@ Public Class EXO_PROVPOR
 
             If pVal.ActionSuccess = True Then
                 'Recuperar el formulario
-                oForm = SboApp.Forms.Item(pVal.FormUID)
+                oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
 
 
@@ -146,7 +146,7 @@ Public Class EXO_PROVPOR
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
-    Public Overrides Function SBOApp_ItemEvent(ByRef infoEvento As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -250,14 +250,14 @@ Public Class EXO_PROVPOR
             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         End Try
     End Function
-    Public Overrides Function SBOApp_FormDataEvent(ByRef infoEvento As EXO_Generales.EXO_BusinessObjectInfo) As Boolean
+    Public Overrides Function SBOApp_FormDataEvent(ByVal infoEvento As BusinessObjectInfo) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim oXml As New Xml.XmlDocument
 
@@ -274,13 +274,13 @@ Public Class EXO_PROVPOR
 
 
                             Case SAPbouiCOM.BoEventTypes.et_FORM_DATA_UPDATE
-                                oForm = SboApp.Forms.Item(infoEvento.FormUID)
+                                oForm = objGlobal.SBOApp.Forms.Item(infoEvento.FormUID)
                                 'If ComprobarDatos(oForm) = False Then
                                 '    Return False
                                 'End If
 
                             Case SAPbouiCOM.BoEventTypes.et_FORM_DATA_ADD
-                                oForm = SboApp.Forms.Item(infoEvento.FormUID)
+                                oForm = objGlobal.SBOApp.Forms.Item(infoEvento.FormUID)
                                 If ComprobarDatos(oForm) = False Then
                                     Return False
                                 End If
@@ -308,7 +308,7 @@ Public Class EXO_PROVPOR
                             Case SAPbouiCOM.BoEventTypes.et_FORM_DATA_ADD
 
                                 If infoEvento.ActionSuccess = True Then
-                                    oForm = SboApp.Forms.Item(infoEvento.FormUID)
+                                    oForm = objGlobal.SBOApp.Forms.Item(infoEvento.FormUID)
 
 
                                 End If
@@ -316,7 +316,7 @@ Public Class EXO_PROVPOR
 
                             Case SAPbouiCOM.BoEventTypes.et_FORM_DATA_LOAD
                                 If infoEvento.ActionSuccess = True Then
-                                    oForm = SboApp.Forms.Item(infoEvento.FormUID)
+                                    oForm = objGlobal.SBOApp.Forms.Item(infoEvento.FormUID)
 
 
                                 End If
@@ -329,15 +329,21 @@ Public Class EXO_PROVPOR
 
             Return MyBase.SBOApp_FormDataEvent(infoEvento)
 
+        Catch exCOM As System.Runtime.InteropServices.COMException
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
+            Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
-    Private Function EventHandler_Choose_FromList_Before(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
-        Dim oCFLEvento As EXO_Generales.EXO_infoItemEvent = Nothing
+    Private Function EventHandler_Choose_FromList_Before(ByRef pVal As ItemEvent) As Boolean
+        Dim oCFLEvento As IChooseFromListEvent = Nothing
+        Dim oDataTable As SAPbouiCOM.DataTable = Nothing
         Dim oConds As SAPbouiCOM.Conditions = Nothing
         Dim oCond As SAPbouiCOM.Condition = Nothing
         Dim oForm As SAPbouiCOM.Form = Nothing
@@ -345,10 +351,10 @@ Public Class EXO_PROVPOR
         EventHandler_Choose_FromList_Before = False
 
         Try
-            oForm = Me.SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
             If (pVal.ItemUID = "0_U_G" AndAlso pVal.ColUID = "C_0_2") OrElse (pVal.ItemUID = "1_U_G" AndAlso pVal.ColUID = "C_1_2") Then
-                oCFLEvento = CType(pVal, EXO_Generales.EXO_infoItemEvent)
+                oCFLEvento = CType(pVal, IChooseFromListEvent)
 
                 oConds = New SAPbouiCOM.Conditions
 
@@ -377,23 +383,23 @@ Public Class EXO_PROVPOR
         End Try
     End Function
 
-    Private Function EventHandler_Choose_FromList_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
-        Dim oCFLEvento As EXO_Generales.EXO_infoItemEvent = Nothing
-        Dim oDataTable As EXO_Generales.EXO_infoItemEvent.EXO_SeleccionadosCHFL = Nothing
+    Private Function EventHandler_Choose_FromList_After(ByRef pVal As ItemEvent) As Boolean
+        Dim oCFLEvento As IChooseFromListEvent = Nothing
+        Dim oDataTable As SAPbouiCOM.DataTable = Nothing
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim iRow As Integer
 
         EventHandler_Choose_FromList_After = False
 
         Try
-            oForm = Me.SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
             If oForm.Mode = SAPbouiCOM.BoFormMode.fm_FIND_MODE Then
                 oForm = Nothing
                 GC.Collect()
                 Return True
             End If
 
-            oCFLEvento = CType(pVal, EXO_Generales.EXO_infoItemEvent)
+            oCFLEvento = CType(pVal, IChooseFromListEvent)
 
             Select Case pVal.ItemUID
                 Case "0_U_G" 'Matrix
@@ -403,7 +409,7 @@ Public Class EXO_PROVPOR
                             iRow = oCFLEvento.Row
 
 
-                            oDataTable = pVal.SelectedObjects
+                            oDataTable = oCFLEvento.SelectedObjects
 
                             If oDataTable IsNot Nothing Then
                                 Try
@@ -443,7 +449,7 @@ Public Class EXO_PROVPOR
 
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
             sSQL = "SELECT ItmsGrpCod,ItmsGrpNam from OITB where Locked='N'"
             oRs.DoQuery(sSQL)
@@ -486,7 +492,7 @@ Public Class EXO_PROVPOR
         ComprobarDatos = False
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
             dtFechaD = ((CType(oForm.Items.Item("20_U_E").Specific, SAPbouiCOM.EditText).String.ToString))
             dtFechaH = ((CType(oForm.Items.Item("21_U_E").Specific, SAPbouiCOM.EditText).String))
             dtFechaD = (Format(CDate(dtFechaD), "yyyy/MM/dd"))
@@ -494,7 +500,7 @@ Public Class EXO_PROVPOR
             sSql = "SELECT DocEntry FROM [@EXO_PROVPOR] WHERE ('" & dtFechaD & "' BETWEEN U_EXO_FDESDE And U_EXO_FHASTA) OR ('" & dtFechaH & "' BETWEEN  U_EXO_FDESDE And U_EXO_FHASTA) "
             oRs.DoQuery(sSql)
             If oRs.RecordCount > 0 Then
-                Me.SboApp.MessageBox("Ya existe un registro con las fechas seleccionadas")
+                objGlobal.SBOApp.MessageBox("Ya existe un registro con las fechas seleccionadas")
                 Exit Function
             End If
 

@@ -1,8 +1,9 @@
-﻿Public Class SAP_VENTASCOM
-    Inherits EXO_Generales.EXO_DLLBase
+﻿Imports SAPbouiCOM
+Public Class SAP_VENTASCOM
+    Inherits EXO_UIAPI.EXO_DLLBase
     Private Shared _bItemCodeChanged As Boolean = False
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, ByRef actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
 
         If actualizar Then
             cargaCampos()
@@ -11,7 +12,7 @@
 #Region "Inicialización"
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -22,7 +23,7 @@
     End Function
 
     Private Sub cargaCampos()
-        If objGlobal.conexionSAP.esAdministrador Then
+        If objGlobal.refDi.comunes.esAdministrador Then
 
             Dim autorizacionXML As String = ""
             Dim oXML As String = ""
@@ -34,7 +35,7 @@
 #End Region
 
 #Region "Eventos"
-    Public Overrides Function SBOApp_ItemEvent(ByRef infoEvento As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -134,15 +135,17 @@
             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         End Try
     End Function
 
-    Private Function EventHandler_Validate_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_Validate_After(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim sCodProyecto As String
         Dim strSql As String
@@ -151,8 +154,8 @@
         EventHandler_Validate_After = False
 
         Try
-            oForm = SboApp.Forms.Item(pVal.FormUID)
-            oRs = CType(objGlobal.conexionSAP.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
+            oRs = CType(objGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
             oForm.Freeze(True)
 
@@ -209,23 +212,23 @@
         End Try
     End Function
 
-    Private Function EventHandler_Choose_FromList_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
-        Dim oCFLEvento As EXO_Generales.EXO_infoItemEvent = Nothing
-        Dim oDataTable As EXO_Generales.EXO_infoItemEvent.EXO_SeleccionadosCHFL = Nothing
+    Private Function EventHandler_Choose_FromList_After(ByRef pVal As ItemEvent) As Boolean
+        Dim oCFLEvento As IChooseFromListEvent = Nothing
+        Dim oDataTable As SAPbouiCOM.DataTable = Nothing
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim sCFL_ID As String = ""
 
         EventHandler_Choose_FromList_After = False
 
         Try
-            oForm = Me.SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
             If oForm.Mode = SAPbouiCOM.BoFormMode.fm_FIND_MODE Then
                 oForm = Nothing
                 GC.Collect()
                 Return True
             End If
 
-            oCFLEvento = CType(pVal, EXO_Generales.EXO_infoItemEvent)
+            oCFLEvento = CType(pVal, IChooseFromListEvent)
 
             Select Case oCFLEvento.ChooseFromListUID
                 Case "6", "7", "1", "29", "27", "28", "16" 'Artículo, Descripción o Número de catálogo de IC
@@ -260,7 +263,7 @@
 #End Region
 
 #Region "Auxiliares"
-    Public Shared Function Obtener_CentrosCoste(ByRef oObjGlobal As EXO_Generales.EXO_General, ByRef oForm As SAPbouiCOM.Form, ByVal iRow As Integer) As Boolean
+    Public Shared Function Obtener_CentrosCoste(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef oForm As SAPbouiCOM.Form, ByVal iRow As Integer) As Boolean
         Dim strSql As String = ""
         Dim oRs As SAPbobsCOM.Recordset = Nothing
         Dim sCodProyecto As String = ""
@@ -268,7 +271,7 @@
         Dim sDime As String = ""
         Try
             Obtener_CentrosCoste = False
-            oRs = CType(oObjGlobal.conexionSAP.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(oObjGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
             If oForm.TypeEx = "392" Then
                 sCodProyecto = CStr(CType(CType(oForm.Items.Item("76").Specific, SAPbouiCOM.Matrix).Columns.Item("16").Cells.Item(iRow).Specific, SAPbouiCOM.EditText).String)
             Else

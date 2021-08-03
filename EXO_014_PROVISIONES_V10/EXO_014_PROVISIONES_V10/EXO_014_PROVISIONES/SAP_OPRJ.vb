@@ -1,7 +1,8 @@
-﻿Public Class SAP_OPRJ
-    Inherits EXO_Generales.EXO_DLLBase
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, ByRef actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+﻿Imports SAPbouiCOM
+Public Class SAP_OPRJ
+    Inherits EXO_UIAPI.EXO_DLLBase
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
 
         If actualizar Then
             cargaCampos()
@@ -10,7 +11,7 @@
 #Region "Inicialización"
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -21,16 +22,16 @@
     End Function
 
     Private Sub cargaCampos()
-        If objGlobal.conexionSAP.esAdministrador Then
+        If objGlobal.refDi.comunes.esAdministrador Then
 
 
             Dim autorizacionXML As String = ""
             Dim oXML As String = ""
             Dim udoObj As EXO_Generales.EXO_UDO = Nothing
 
-            oXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "UDFs_OPRJ.xml")
-            objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Validando: UDFs OPRJ   ", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
-            objGlobal.conexionSAP.LoadBDFromXML(oXML)
+            oXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "UDFs_OPRJ.xml")
+            objGlobal.SBOApp.StatusBar.SetText("Validando: UDFs OPRJ   ", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+            objGlobal.refDi.comunes.LoadBDFromXML(oXML)
 
         End If
 
@@ -38,7 +39,7 @@
 #End Region
 
 #Region "Eventos"
-    Public Overrides Function SBOApp_ItemEvent(ByRef infoEvento As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -142,15 +143,17 @@
             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         End Try
     End Function
 
-    Private Function EventHandler_Form_Load(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_Form_Load(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim oCFLs As SAPbouiCOM.ChooseFromListCollection = Nothing
         Dim oCFL As SAPbouiCOM.ChooseFromList = Nothing
@@ -161,11 +164,11 @@
         Try
             'Recuperar el formulario
 
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
             oCFLs = oForm.ChooseFromLists
 
-            oCFLCreationParams = CType(Me.SboApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_ChooseFromListCreationParams), SAPbouiCOM.ChooseFromListCreationParams)
+            oCFLCreationParams = CType(objGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_ChooseFromListCreationParams), SAPbouiCOM.ChooseFromListCreationParams)
 
             oCFLCreationParams.MultiSelection = False
             oCFLCreationParams.ObjectType = "62"
@@ -173,7 +176,7 @@
 
             oCFL = oCFLs.Add(oCFLCreationParams)
 
-            oCFLCreationParams = CType(Me.SboApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_ChooseFromListCreationParams), SAPbouiCOM.ChooseFromListCreationParams)
+            oCFLCreationParams = CType(objGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_ChooseFromListCreationParams), SAPbouiCOM.ChooseFromListCreationParams)
 
             oCFLCreationParams.MultiSelection = False
             oCFLCreationParams.ObjectType = "62"
@@ -198,13 +201,11 @@
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFL, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFLCreationParams, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFLs, Object))
-            'EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCond, Object))
-            'EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oConds, Object))
         End Try
     End Function
 
-    Private Function EventHandler_Choose_FromList_Before(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
-        Dim oCFLEvento As EXO_Generales.EXO_infoItemEvent = Nothing
+    Private Function EventHandler_Choose_FromList_Before(ByRef pVal As ItemEvent) As Boolean
+        Dim oCFLEvento As IChooseFromListEvent = Nothing
         Dim oConds As SAPbouiCOM.Conditions = Nothing
         Dim oCond As SAPbouiCOM.Condition = Nothing
         Dim oForm As SAPbouiCOM.Form = Nothing
@@ -212,10 +213,10 @@
         EventHandler_Choose_FromList_Before = False
 
         Try
-            oForm = Me.SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
             If pVal.ItemUID = "3" AndAlso pVal.ColUID = "U_EXO_OCRCODE" Then
-                oCFLEvento = CType(pVal, EXO_Generales.EXO_infoItemEvent)
+                oCFLEvento = CType(pVal, IChooseFromListEvent)
 
                 oConds = New SAPbouiCOM.Conditions
 
@@ -226,7 +227,7 @@
 
                 oForm.ChooseFromLists.Item(oCFLEvento.ChooseFromListUID).SetConditions(oConds)
             ElseIf pVal.ItemUID = "3" AndAlso pVal.ColUID = "U_EXO_OCRCODE5" Then
-                oCFLEvento = CType(pVal, EXO_Generales.EXO_infoItemEvent)
+                oCFLEvento = CType(pVal, IChooseFromListEvent)
 
                 oConds = New SAPbouiCOM.Conditions
 
@@ -252,23 +253,23 @@
         End Try
     End Function
 
-    Private Function EventHandler_Choose_FromList_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
-        Dim oCFLEvento As EXO_Generales.EXO_infoItemEvent = Nothing
-        Dim oDataTable As EXO_Generales.EXO_infoItemEvent.EXO_SeleccionadosCHFL = Nothing
+    Private Function EventHandler_Choose_FromList_After(ByRef pVal As ItemEvent) As Boolean
+        Dim oCFLEvento As IChooseFromListEvent = Nothing
+        Dim oDataTable As SAPbouiCOM.DataTable = Nothing
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim iRow As Integer
 
         EventHandler_Choose_FromList_After = False
 
         Try
-            oForm = Me.SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
             If oForm.Mode = SAPbouiCOM.BoFormMode.fm_FIND_MODE Then
                 oForm = Nothing
                 GC.Collect()
                 Return True
             End If
 
-            oCFLEvento = CType(pVal, EXO_Generales.EXO_infoItemEvent)
+            oCFLEvento = CType(pVal, IChooseFromListEvent)
 
             Select Case pVal.ItemUID
                 Case "3" 'Matrix
@@ -276,7 +277,7 @@
                     Select Case pVal.ColUID
                         Case "U_EXO_OCRCODE"
                             iRow = oCFLEvento.Row
-                            oDataTable = pVal.SelectedObjects
+                            oDataTable = oCFLEvento.SelectedObjects
 
                             If oDataTable IsNot Nothing Then
                                 Try

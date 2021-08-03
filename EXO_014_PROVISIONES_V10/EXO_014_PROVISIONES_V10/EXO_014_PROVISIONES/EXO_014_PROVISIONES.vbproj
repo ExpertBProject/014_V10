@@ -99,29 +99,39 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EXO_BasicDLL">
+    <Reference Include="EXO_BasicDLL, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\9.1.0.27\x86\desarrollo\EXO_BasicDLL.dll</HintPath>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_BasicDLL.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_CleanCOM">
+    <Reference Include="EXO_CleanCOM, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\9.1.0.27\x86\desarrollo\EXO_CleanCOM.dll</HintPath>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_CleanCOM.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_DIAPI">
+    <Reference Include="EXO_DIAPI, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\9.1.0.27\x86\desarrollo\EXO_DIAPI.dll</HintPath>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_DIAPI.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_Generales">
+    <Reference Include="EXO_Generales, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\9.1.0.27\x86\desarrollo\EXO_Generales.dll</HintPath>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_Generales.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_Log">
+    <Reference Include="EXO_Log, Version=9.1.0.28, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\9.1.0.27\x86\desarrollo\EXO_Log.dll</HintPath>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_Log.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_UIAPI, Version=9.1.0.37, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EXO_UIAPI, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\9.1.0.27\x86\desarrollo\EXO_UIAPI.dll</HintPath>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_UIAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SAPbobsCOM, Version=9.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\Interop.SAPbobsCOM.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SAPbouiCOM, Version=9.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\Interop.SAPbouiCOM.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -204,26 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="XML_BD\UDFs_OINV.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="SAPbobsCOM">
-      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30090}</Guid>
-      <VersionMajor>9</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="SAPbouiCOM">
-      <Guid>{6048236A-956D-498D-A6F1-9C81C13AB6E8}</Guid>
-      <VersionMajor>9</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="XML_BD\EXO_AUPROVPOR.xml">

@@ -1,0 +1,2 @@
+08-07-2021:08:39:28:778425	(INF)	(Principal.main) Inicializacion
+08-07-2021:08:39:29:326615	(ERR)	(EXO_UIPAI.New) Excepcion instanciacion UI API: Connection - Could not find SBO that match the connection string

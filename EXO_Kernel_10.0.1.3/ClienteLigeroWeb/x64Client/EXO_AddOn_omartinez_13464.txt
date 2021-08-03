@@ -1,0 +1,244 @@
+08-07-2021:08:40:52:601212	(INF)	(Principal.main) Inicializacion
+08-07-2021:08:40:57:500202	(INF)	(EXO_UIAPI.New) Company no es nulo: PD_PPADILLA, omartinez, Clasico
+08-07-2021:08:40:57:515878	(INF)	(EXO_UIAPI.New) Creando refDiapi, depuracion: True
+08-07-2021:08:40:57:515878	(INF)	(EXO_DIAPI.New AddOn) Instanciando EXO_DI, Version B1: 1000160, depurando: True
+08-07-2021:08:40:57:515878	(INF)	TipoCliente: Clasico
+08-07-2021:08:40:57:531453	(INF)	Actualiza Test
+08-07-2021:08:40:57:578324	(INF)	Identidad windows: S-1-5-21-3499540947-3103408795-499106512-1116
+08-07-2021:08:40:57:593952	(INF)	Ruta Inicial enlazadas: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:40:57:593952	(INF)	Identidad windows: S-1-5-21-3499540947-3103408795-499106512-1116
+08-07-2021:08:40:57:593952	(INF)	Ruta Final enlazadas: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:40:57:593952	(INF)	(EXO_OGEN.New) Ventana: False
+08-07-2021:08:40:57:609589	(INF)	(OGEN.validaVersion HANA) creacion referenciaSQL
+08-07-2021:08:40:57:609589	(INF)	(EXO_DIAPI.creaReferenciaSQL) Tipo servidor BD: dst_HANADB
+08-07-2021:08:40:57:609589	(INF)	(EXO_DIAPI.creaReferenciaSQL) No instanciado
+08-07-2021:08:40:57:609589	(INF)	(EXO_SQLHANA.New) Obteniendo cadena de conexion.
+08-07-2021:08:40:58:238124	(INF)	OGEN=Nothing Generando cadenaSQL: UID=B1SLDUSER;PWD=12629iYk;SERVERNODE=xper-hanades02.hanab1.local:30013;DATABASENAME=TS1
+08-07-2021:08:40:58:238124	(INF)	(EXO_SQLHANA.New) Validando cadena conexion New.
+08-07-2021:08:40:58:284981	(INF)	(EXO_SQLHANA.validaConexion) NO conectado SQL.
+08-07-2021:08:40:58:284981	(INF)	(EXO_SQLHANA.validaConexion) Instanciando conexion SQL: Cadena conexion HANA: #UID=B1SLDUSER;PWD=12629iYk;SERVERNODE=xper-hanades02.hanab1.local:30013;DATABASENAME=TS1#
+08-07-2021:08:40:58:460528	(INF)	(EXO_DIAPI.creaReferenciaSQL) FIN Constructor HANA, conexion valida: True
+08-07-2021:08:40:58:540647	(INF)	(EXO_OGEN) Validacion de version 10.0.1.4
+08-07-2021:08:40:58:549014	(INF)	(EXO_OGEN.rutaBaseUpd) Inicio: 
+08-07-2021:08:40:58:564627	(INF)	Actualiza Test
+08-07-2021:08:40:58:642759	(INF)	(EXO_OGEN.rutaBaseUpd) Fin: E:\Desarrollo\Ficheros
+08-07-2021:08:40:58:642759	(INF)	Validando ruta(Clasico): E:\Desarrollo\Ficheros
+08-07-2021:08:40:58:642759	(INF)	Actualiza Test
+08-07-2021:08:40:58:705265	(INF)	Actualiza Test
+08-07-2021:08:40:58:752132	(INF)	Validando permiso: E:\Desarrollo\Ficheros
+08-07-2021:08:40:58:752132	(INF)	(PermLectDir) verificando: E:\Desarrollo\Ficheros
+08-07-2021:08:40:58:752132	(INF)	(PermLectDir) verificando: E:\Desarrollo\Ficheros
+08-07-2021:08:40:58:752132	(INF)	(EXO_OGEN.actualizaAct) Actualiza Act
+08-07-2021:08:40:58:830270	(INF)	(EXO_OGEN.actualizaAct) FIN
+08-07-2021:08:40:58:830270	(INF)	Actualiza Test
+08-07-2021:08:40:58:991162	(INF)	(EXO_OGEN.New) FIN
+08-07-2021:08:40:58:991162	(INF)	(EXO_DIAPI.actualizaCodigoUsuario) Obteniendo codigo usuario: omartinez
+08-07-2021:08:40:59:038070	(INF)	(EXO_DIAPI.actualizaCodigoUsuario) Usuario omartinez, 0
+08-07-2021:08:40:59:209924	(INF)	(EXO_DI) ChkGCHG
+08-07-2021:08:41:00:030503	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Numero de DLLs enlazadas a sincronizar: 11
+08-07-2021:08:41:00:030503	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: EPPlus.dll(EPPlus.dll) , Resultado: False
+08-07-2021:08:41:00:034505	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:034505	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:035505	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:036506	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: EPPlus.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:037506	(INF)	Actualiza Test
+08-07-2021:08:41:00:084510	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:EPPlus.dll:False
+08-07-2021:08:41:00:084510	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: EPPlus.dll
+08-07-2021:08:41:00:084510	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:084510	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\EPPlus.dll
+08-07-2021:08:41:00:087509	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: EPPlus.dll(EPPlus.dll) , Resultado: True
+08-07-2021:08:41:00:088509	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: EPPlus.dll (EPPlus.dll) EPPlus.dll
+08-07-2021:08:41:00:088509	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: EXOCryptorLib.dll(EXOCryptorLib.dll) , Resultado: False
+08-07-2021:08:41:00:088509	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:088509	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:088509	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:089509	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: EXOCryptorLib.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:089509	(INF)	Actualiza Test
+08-07-2021:08:41:00:128513	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:EXOCryptorLib.dll:False
+08-07-2021:08:41:00:128513	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: EXOCryptorLib.dll
+08-07-2021:08:41:00:128513	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:129510	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\EXOCryptorLib.dll
+08-07-2021:08:41:00:129510	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: EXOCryptorLib.dll(EXOCryptorLib.dll) , Resultado: True
+08-07-2021:08:41:00:130509	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: EXOCryptorLib.dll (EXOCryptorLib.dll) EXOCryptorLib.dll
+08-07-2021:08:41:00:130509	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: PP_CONEXIONES(PP_CONEXIONES) , Resultado: False
+08-07-2021:08:41:00:130509	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:130509	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:131510	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:131510	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: PP_CONEXIONES.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:131510	(INF)	Actualiza Test
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:PP_CONEXIONES.dll:False
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: PP_CONEXIONES.dll
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\PP_CONEXIONES.dll
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: PP_CONEXIONES(PP_CONEXIONES) , Resultado: True
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: PP_CONEXIONES (PP_CONEXIONES) PP_CONEXIONES
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: PP_DI_TRADUCCIONES(PP_DI_TRADUCCIONES) , Resultado: False
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:172758	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: PP_DI_TRADUCCIONES.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:172758	(INF)	Actualiza Test
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:PP_DI_TRADUCCIONES.dll:False
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: PP_DI_TRADUCCIONES.dll
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\PP_DI_TRADUCCIONES.dll
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: PP_DI_TRADUCCIONES(PP_DI_TRADUCCIONES) , Resultado: True
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: PP_DI_TRADUCCIONES (PP_DI_TRADUCCIONES) PP_DI_TRADUCCIONES
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: PP_CHOOSE(PP_CHOOSE) , Resultado: False
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:219629	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: PP_CHOOSE.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:219629	(INF)	Actualiza Test
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:PP_CHOOSE.dll:False
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: PP_CHOOSE.dll
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\PP_CHOOSE.dll
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: PP_CHOOSE(PP_CHOOSE) , Resultado: True
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: PP_CHOOSE (PP_CHOOSE) PP_CHOOSE
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: PP_LISTAS_XSJS(PP_LISTAS_XSJS) , Resultado: False
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:250878	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: PP_LISTAS_XSJS.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:250878	(INF)	Actualiza Test
+08-07-2021:08:41:00:316952	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:PP_LISTAS_XSJS.dll:False
+08-07-2021:08:41:00:316952	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: PP_LISTAS_XSJS.dll
+08-07-2021:08:41:00:317946	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:317946	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\PP_LISTAS_XSJS.dll
+08-07-2021:08:41:00:319950	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: PP_LISTAS_XSJS(PP_LISTAS_XSJS) , Resultado: True
+08-07-2021:08:41:00:320950	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: PP_LISTAS_XSJS (PP_LISTAS_XSJS) PP_LISTAS_XSJS
+08-07-2021:08:41:00:320950	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: PP_DI_CAMPOS_OBLIGATORIOS(PP_DI_CAMPOS_OBLIGATORIOS) , Resultado: False
+08-07-2021:08:41:00:321949	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:321949	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:322954	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:322954	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: PP_DI_CAMPOS_OBLIGATORIOS.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:322954	(INF)	Actualiza Test
+08-07-2021:08:41:00:368963	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:PP_DI_CAMPOS_OBLIGATORIOS.dll:False
+08-07-2021:08:41:00:369966	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: PP_DI_CAMPOS_OBLIGATORIOS.dll
+08-07-2021:08:41:00:369966	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:369966	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\PP_DI_CAMPOS_OBLIGATORIOS.dll
+08-07-2021:08:41:00:371957	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: PP_DI_CAMPOS_OBLIGATORIOS(PP_DI_CAMPOS_OBLIGATORIOS) , Resultado: True
+08-07-2021:08:41:00:371957	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: PP_DI_CAMPOS_OBLIGATORIOS (PP_DI_CAMPOS_OBLIGATORIOS) PP_DI_CAMPOS_OBLIGATORIOS
+08-07-2021:08:41:00:371957	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: Newtonsoft.Json(Newtonsoft.Json) , Resultado: False
+08-07-2021:08:41:00:371957	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:372969	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:372969	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:372969	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: Newtonsoft.Json.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:373957	(INF)	Actualiza Test
+08-07-2021:08:41:00:419956	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:Newtonsoft.Json.dll:False
+08-07-2021:08:41:00:420954	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: Newtonsoft.Json.dll
+08-07-2021:08:41:00:420954	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:420954	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\Newtonsoft.Json.dll
+08-07-2021:08:41:00:421958	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: Newtonsoft.Json(Newtonsoft.Json) , Resultado: True
+08-07-2021:08:41:00:422958	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: Newtonsoft.Json (Newtonsoft.Json) Newtonsoft.Json
+08-07-2021:08:41:00:422958	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: ConvertExcelToXML(ConvertExcelToXML) , Resultado: False
+08-07-2021:08:41:00:422958	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:422958	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:422958	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:422958	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: ConvertExcelToXML.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:422958	(INF)	Actualiza Test
+08-07-2021:08:41:00:462957	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:ConvertExcelToXML.dll:False
+08-07-2021:08:41:00:462957	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: ConvertExcelToXML.dll
+08-07-2021:08:41:00:462957	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:463995	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\ConvertExcelToXML.dll
+08-07-2021:08:41:00:464961	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: ConvertExcelToXML(ConvertExcelToXML) , Resultado: True
+08-07-2021:08:41:00:464961	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: ConvertExcelToXML (ConvertExcelToXML) ConvertExcelToXML
+08-07-2021:08:41:00:465960	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: PP_UTILITIES(PP_UTILITIES) , Resultado: False
+08-07-2021:08:41:00:465960	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:465960	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:466967	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:466967	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: PP_UTILITIES.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:466967	(INF)	Actualiza Test
+08-07-2021:08:41:00:508004	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:PP_UTILITIES.dll:False
+08-07-2021:08:41:00:508004	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: PP_UTILITIES.dll
+08-07-2021:08:41:00:508964	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:508964	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\PP_UTILITIES.dll
+08-07-2021:08:41:00:509964	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: PP_UTILITIES(PP_UTILITIES) , Resultado: True
+08-07-2021:08:41:00:509964	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: PP_UTILITIES (PP_UTILITIES) PP_UTILITIES
+08-07-2021:08:41:00:509964	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Verificando DLL: PP_SAPB1WebBrowserLibrary(PP_SAPB1WebBrowserLibrary) , Resultado: False
+08-07-2021:08:41:00:510967	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas
+08-07-2021:08:41:00:510967	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:512003	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Verificacion enlazadas, dirLocal:  E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client, dirRemoto: E:\Desarrollo\Ficheros\10.Dll_64\ENL
+08-07-2021:08:41:00:512966	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Validando: PP_SAPB1WebBrowserLibrary.dll, ruta E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:512966	(INF)	Actualiza Test
+08-07-2021:08:41:00:547956	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\ENL:PP_SAPB1WebBrowserLibrary.dll:False
+08-07-2021:08:41:00:547956	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Existe fichero: PP_SAPB1WebBrowserLibrary.dll
+08-07-2021:08:41:00:547956	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) Directorio Local: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client
+08-07-2021:08:41:00:547956	(INF)	(EXO_OGEN.verificarVersionDLLEnlazada) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\PP_SAPB1WebBrowserLibrary.dll
+08-07-2021:08:41:00:547956	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) ruta verificada DLL: PP_SAPB1WebBrowserLibrary(PP_SAPB1WebBrowserLibrary) , Resultado: True
+08-07-2021:08:41:00:547956	(INF)	(EXO_OGEN.sincronizaDLLsEnlazadas) Actualizada DLL: PP_SAPB1WebBrowserLibrary (PP_SAPB1WebBrowserLibrary) PP_SAPB1WebBrowserLibrary
+08-07-2021:08:41:00:547956	(INF)	(EXO_DIAPI.New AddOn) Instanciado EXO_DI 1000160
+08-07-2021:08:41:00:547956	(INF)	(EXO_UIAPI.New) Creada refDiapi
+08-07-2021:08:41:00:563512	(INF)	Proceso unico: True
+08-07-2021:08:41:00:699443	(INF)	(EXO_UIAPI.New) Usuario RecordSet: B1_50445F50504144494C4C41_RW
+08-07-2021:08:41:00:699443	(INF)	(EXO_UIAPI.New) Hosted Enviroment: False
+08-07-2021:08:41:00:699443	(INF)	(EXO_UIAPI.New) XSEngineBaseURL: https://TS1.n00.xper-hanades02:4300
+08-07-2021:08:41:00:762884	(ERR)	(EXO_UIAPI.New) (En desarrollo.) Error en la conexion al Service Layer: General Failure
+08-07-2021:08:41:00:837199	(INF)	(EXO_UIAPI.New) ID Proceso B1: 10264
+08-07-2021:08:41:00:837199	(INF)	(EXO_UIAPI.New) ID Proceso Addon: 13464
+08-07-2021:08:41:00:837199	(INF)	(EXO_UIAPI.New) ID Manejador Addon: 1432
+08-07-2021:08:41:00:837199	(INF)	(EXO_UIAPI.New) ID MainWindowHandle Addon: 0
+08-07-2021:08:41:00:837199	(INF)	(EXO_UIAPI.New) ID nombre proceso Addon: msvsmon
+08-07-2021:08:41:00:837199	(INF)	(EXO_UIAPI.New) Instanciado UI API.
+08-07-2021:08:41:00:852819	(INF)	(Principal.main) Cliente tipo: Clasico
+08-07-2021:08:41:00:899706	(INF)	(EXO_DatosLicencia:New) esCloud: False, esWeb: False
+08-07-2021:08:41:00:915328	(INF)	URL HK: https://xper-hanades02:40000/license/GetHardwareKey
+08-07-2021:08:41:00:977830	(INF)	(Set) HK: M1559301899
+08-07-2021:08:41:00:977830	(INF)	(Set) SN: 000000000850527084
+08-07-2021:08:41:00:977830	(INF)	(Set) IN: 0020213024
+08-07-2021:08:41:01:107352	(INF)	(Principal.main) Parametros: 2
+08-07-2021:08:41:01:970299	(INF)	(EXO_DI) ChkGCHG
+08-07-2021:08:41:02:222089	(INF)	(EXO_Eventos.cargaDLLs) Numero de Extensiones a cargar: 3
+08-07-2021:08:41:02:223089	(INF)	(EXO_Eventos.cargaDLLs) Ruta Local AddOn: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs
+08-07-2021:08:41:02:372096	(INF)	Actualiza Test
+08-07-2021:08:41:02:394097	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\EXT:EXO_PRT_PADILLA.dll:False
+08-07-2021:08:41:02:394097	(INF)	Existe el fichero E:\Desarrollo\Ficheros\10.Dll_64\EXT\EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:394097	(INF)	(EXO_OGEN.VerificarVersionDLL) Fichero a validar: EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:394097	(INF)	Actualiza Test
+08-07-2021:08:41:02:417105	(INF)	(EXO_OGEN.VerificarVersionDLL) Validando: EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:418101	(INF)	(EXO_OGEN.verificadirectorioLocal) Existe directorio: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs
+08-07-2021:08:41:02:418101	(INF)	(EXO_OGEN.VerificarVersionDLL) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:418101	(INF)	E:\Desarrollo\Ficheros\10.Dll_64\EXT\EXO_PRT_PADILLA.dll,E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:420100	(INF)	(EXO_Eventos.cargaDLLs) Ruta verificada DLL: Extensión Puertas Padilla(EXO_PRT_PADILLA.dll) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:421097	(INF)	(EXO_Eventos.cargaDLLs) Validada DLL: Extensión Puertas Padilla (EXO_PRT_PADILLA.dll) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:421097	(INF)	(EXO_Eventos.cargaDLLs) Fichero a cargar (rutaFinal): E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA.dll
+08-07-2021:08:41:02:441098	(INF)	(EXO_Eventos.cargaDLLs) Cargada DLL: Extensión Puertas Padilla (EXO_PRT_PADILLA.dll) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA.dll
+			Info ensamblado: EXO_PRT_PADILLA, Version=10.2011.2.111, Culture=neutral, PublicKeyToken=null
+08-07-2021:08:41:02:532493	(INF)	(EXO_Eventos.cargaDLLs) Numero de Clases en la DLL (EXO_PRT_PADILLA.dll:False): 85
+08-07-2021:08:41:02:532493	(INF)	(EXO_Eventos.cargaDLLs) Instanciando clase: EXO_PRT_PADILLA.Main_DLL
+08-07-2021:08:41:14:820586	(INF)	Actualiza Test
+08-07-2021:08:41:14:866373	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\EXT:PP_LOGISTICA.dll:False
+08-07-2021:08:41:14:866373	(INF)	Existe el fichero E:\Desarrollo\Ficheros\10.Dll_64\EXT\PP_LOGISTICA.dll
+08-07-2021:08:41:14:866373	(INF)	(EXO_OGEN.VerificarVersionDLL) Fichero a validar: PP_LOGISTICA.dll
+08-07-2021:08:41:14:866373	(INF)	Actualiza Test
+08-07-2021:08:41:14:897719	(INF)	(EXO_OGEN.VerificarVersionDLL) Validando: PP_LOGISTICA.dll
+08-07-2021:08:41:14:897719	(INF)	(EXO_OGEN.verificadirectorioLocal) Existe directorio: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs
+08-07-2021:08:41:14:897719	(INF)	(EXO_OGEN.VerificarVersionDLL) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\PP_LOGISTICA.dll
+08-07-2021:08:41:14:897719	(INF)	E:\Desarrollo\Ficheros\10.Dll_64\EXT\PP_LOGISTICA.dll,E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\PP_LOGISTICA.dll
+08-07-2021:08:41:14:897719	(INF)	(EXO_Eventos.cargaDLLs) Ruta verificada DLL: Gestión Compras y Almacén(PP_LOGISTICA.dll) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\PP_LOGISTICA.dll
+08-07-2021:08:41:14:897719	(INF)	(EXO_Eventos.cargaDLLs) Validada DLL: Gestión Compras y Almacén (PP_LOGISTICA.dll) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\PP_LOGISTICA.dll
+08-07-2021:08:41:14:897719	(INF)	(EXO_Eventos.cargaDLLs) Fichero a cargar (rutaFinal): E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\PP_LOGISTICA.dll
+08-07-2021:08:41:14:913268	(INF)	(EXO_Eventos.cargaDLLs) Cargada DLL: Gestión Compras y Almacén (PP_LOGISTICA.dll) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\PP_LOGISTICA.dll
+			Info ensamblado: PP_LOGISTICA, Version=10.2011.2.120, Culture=neutral, PublicKeyToken=null
+08-07-2021:08:41:15:007057	(INF)	(EXO_Eventos.cargaDLLs) Numero de Clases en la DLL (PP_LOGISTICA.dll:False): 26
+08-07-2021:08:41:15:007057	(INF)	(EXO_Eventos.cargaDLLs) Instanciando clase: PP_LOGISTICA.Main_DLL
+08-07-2021:08:41:18:759638	(INF)	Actualiza Test
+08-07-2021:08:41:18:790891	(INF)	(EXO_OGEN.exiteDLLenServidor) Validando fichero en servidor: E:\Desarrollo\Ficheros\10.Dll_64\EXT:EXO_PRT_PADILLA_MAESTROS.dll:False
+08-07-2021:08:41:18:790891	(INF)	Existe el fichero E:\Desarrollo\Ficheros\10.Dll_64\EXT\EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:790891	(INF)	(EXO_OGEN.VerificarVersionDLL) Fichero a validar: EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:790891	(INF)	Actualiza Test
+08-07-2021:08:41:18:822143	(INF)	(EXO_OGEN.VerificarVersionDLL) Validando: EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:822143	(INF)	(EXO_OGEN.verificadirectorioLocal) Existe directorio: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs
+08-07-2021:08:41:18:822143	(INF)	(EXO_OGEN.VerificarVersionDLL) No existe el fichero: E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:822143	(INF)	E:\Desarrollo\Ficheros\10.Dll_64\EXT\EXO_PRT_PADILLA_MAESTROS.dll,E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:822143	(INF)	(EXO_Eventos.cargaDLLs) Ruta verificada DLL: EXO_PRT_PADILLA_MAESTROS(EXO_PRT_PADILLA_MAESTROS) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:822143	(INF)	(EXO_Eventos.cargaDLLs) Validada DLL: EXO_PRT_PADILLA_MAESTROS (EXO_PRT_PADILLA_MAESTROS) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:822143	(INF)	(EXO_Eventos.cargaDLLs) Fichero a cargar (rutaFinal): E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA_MAESTROS.dll
+08-07-2021:08:41:18:822143	(INF)	(EXO_Eventos.cargaDLLs) Cargada DLL: EXO_PRT_PADILLA_MAESTROS (EXO_PRT_PADILLA_MAESTROS) E:\Desarrollo\Usuarios\omartinez\PPADILLA\EXO_Kernel_10.0.1.3\ClienteLigeroWeb\x64Client\DLLs\EXO_PRT_PADILLA_MAESTROS.dll
+			Info ensamblado: EXO_PRT_PADILLA_MAESTROS, Version=10.1.3.1, Culture=neutral, PublicKeyToken=null
+08-07-2021:08:41:18:915888	(INF)	(EXO_Eventos.cargaDLLs) Numero de Clases en la DLL (EXO_PRT_PADILLA_MAESTROS:True): 38
+08-07-2021:08:41:18:915888	(INF)	(EXO_Eventos.cargaDLLs) Instanciando clase: EXO_PRT_PADILLA_MAESTROS.PP_CONDICION
+08-07-2021:08:41:21:320065	(ERR)	(EXO_Eventos.cargaDLLs) Excepcion Filtros dll: (PP_CONDICION)XML - Cannot load from string  [66000-36]
+08-07-2021:08:41:21:523093	(INF)	(EXO_UIAPI.mantenUI) Iniciando timer mantenUI, activo: False
+08-07-2021:08:41:41:767157	(INF)	(EXO_Basic.New) (True) Conectada aplicación para PUERTAS PADILLA S.L.: 10.1.3.3, Usuario BD: B1_50445F50504144494C4C41_RW

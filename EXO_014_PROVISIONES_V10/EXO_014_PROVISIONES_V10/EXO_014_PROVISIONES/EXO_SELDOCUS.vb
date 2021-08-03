@@ -3,12 +3,13 @@ Imports System.Xml
 Imports System.Xml.Serialization
 Imports System.Net
 Imports System.Text
+Imports SAPbouiCOM
 
 Public Class EXO_SELDOCUS
-    Inherits EXO_Generales.EXO_DLLBase
+    Inherits EXO_UIAPI.EXO_DLLBase
 
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, ByRef actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
 
         If actualizar Then
             cargaCampos()
@@ -18,7 +19,7 @@ Public Class EXO_SELDOCUS
 #Region "Inicialización"
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -28,10 +29,10 @@ Public Class EXO_SELDOCUS
         Dim menuXML As String = ""
         Dim res As String = ""
 
-        menuXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_MENUCONPROV.xml")
-        SboApp.LoadBatchActions(menuXML)
-        res = SboApp.GetLastBatchResults
-        'Dim menuXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_MENUCONPROV.xml")
+        menuXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_MENUCONPROV.xml")
+        objglobal.SboApp.LoadBatchActions(menuXML)
+        res = objglobal.SboApp.GetLastBatchResults
+        'Dim menuXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_MENUCONPROV.xml")
         'Dim menu As Xml.XmlDocument = New Xml.XmlDocument
         'menu.LoadXml(menuXML)
         'Return menu
@@ -40,30 +41,28 @@ Public Class EXO_SELDOCUS
     End Function
 
     Private Sub cargaCampos()
-        If objGlobal.conexionSAP.esAdministrador Then
+        If objGlobal.refDi.comunes.esAdministrador Then
             Dim autorizacionXML As String = ""
             Dim oXML As String = ""
             Dim udoObj As EXO_Generales.EXO_UDO = Nothing
 
-            oXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "UDFs_OINV.xml")
-            objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Validando: UDFs OINV ", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
-            objGlobal.conexionSAP.LoadBDFromXML(oXML)
-
-
+            oXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "UDFs_OINV.xml")
+            objGlobal.SBOApp.StatusBar.SetText("Validando: UDFs OINV ", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+            objGlobal.refDi.comunes.LoadBDFromXML(oXML)
         End If
     End Sub
 
     'Para definir autorizaciones
     Private Sub cargaAutorizaciones()
-        Dim autorizacionXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_AUSELDOCUS.xml")
-        Me.objGlobal.conexionSAP.LoadBDFromXML(autorizacionXML)
-        Dim res As String = SboApp.GetLastBatchResults
+        Dim autorizacionXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_AUSELDOCUS.xml")
+        objGlobal.refDi.comunes.LoadBDFromXML(autorizacionXML)
+        Dim res As String = objglobal.SboApp.GetLastBatchResults
     End Sub
 
 #End Region
 
 #Region "Eventos"
-    Public Overrides Function SBOApp_MenuEvent(ByRef infoEvento As EXO_Generales.EXO_MenuEvent) As Boolean
+    Public Overrides Function SBOApp_MenuEvent(infoEvento As MenuEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         Try
@@ -75,16 +74,16 @@ Public Class EXO_SELDOCUS
             End If
             Return MyBase.SBOApp_MenuEvent(infoEvento)
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
-    Public Overrides Function SBOApp_ItemEvent(ByRef infoEvento As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -190,20 +189,22 @@ Public Class EXO_SELDOCUS
             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
-            Return False
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
+        Return False
         End Try
     End Function
-    Private Function EventHandler_Matrix_Link_Press_Before(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_Matrix_Link_Press_Before(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         EventHandler_Matrix_Link_Press_Before = False
 
         Try
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
             If pVal.ItemUID = "EXO_GR" Then
                 If pVal.ColUID = "DocEntry" Then
@@ -221,7 +222,7 @@ Public Class EXO_SELDOCUS
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
-    Private Function EventHandler_ItemPressed_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_ItemPressed_After(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim sSQL As String = ""
         Dim Datos(3) As String
@@ -231,7 +232,7 @@ Public Class EXO_SELDOCUS
         EventHandler_ItemPressed_After = False
 
         Try
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
             If pVal.ItemUID = "btVer" Or pVal.ItemUID = "Check_0" Then
                 If pVal.ActionSuccess = True Then
@@ -239,17 +240,17 @@ Public Class EXO_SELDOCUS
                     'comprobar si ha metido fechas
 
                     If CType(oForm.Items.Item("EXO_001").Specific, SAPbouiCOM.EditText).Value = "" Then
-                        Me.SboApp.MessageBox("Antes de consultar los documentos a enviar debe seleccionar una fecha desde.")
+                        objGlobal.SBOApp.MessageBox("Antes de consultar los documentos a enviar debe seleccionar una fecha desde.")
                         Exit Function
                     End If
 
                     If CType(oForm.Items.Item("EXO_002").Specific, SAPbouiCOM.EditText).Value = "" Then
-                        Me.SboApp.MessageBox("Antes de consultar los documentos a enviar debe seleccionar una fecha hasta.")
+                        objGlobal.SBOApp.MessageBox("Antes de consultar los documentos a enviar debe seleccionar una fecha hasta.")
                         Exit Function
                     End If
 
                     If CType(oForm.Items.Item("Cmb_0").Specific, SAPbouiCOM.ComboBox).Value = "" Then
-                        Me.SboApp.MessageBox("Antes de consultar los documentos a enviar debe seleccionar un grupo de artículos.")
+                        objGlobal.SBOApp.MessageBox("Antes de consultar los documentos a enviar debe seleccionar un grupo de artículos.")
                         Exit Function
                     End If
 
@@ -260,9 +261,9 @@ Public Class EXO_SELDOCUS
 
             If pVal.ItemUID = "btGenerar" Then
                 If pVal.ActionSuccess = True Then
-                    If objGlobal.conexionSAP.SBOApp.MessageBox("Se van a generar los asientos contables de los documentos seleccionados. ¿Continuar?", 1, "Aceptar", "Cancelar") = 1 Then
+                    If objGlobal.SBOApp.MessageBox("Se van a generar los asientos contables de los documentos seleccionados. ¿Continuar?", 1, "Aceptar", "Cancelar") = 1 Then
 
-                        objGlobal.conexionSAP.SBOApp.StatusBar.SetText("...Preparando datos para la generación del asiento contable...", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+                        objGlobal.SBOApp.StatusBar.SetText("...Preparando datos para la generación del asiento contable...", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
                         If ComprobarDatos(oForm) = False Then
                             Exit Function
                         End If
@@ -323,10 +324,10 @@ Public Class EXO_SELDOCUS
                             Next
 
                             Try
-                                If Me.Company.InTransaction = True Then
-                                    Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+                                If objGlobal.compañia.InTransaction = True Then
+                                    objGlobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
                                 End If
-                                Me.Company.StartTransaction()
+                                objGlobal.compañia.StartTransaction()
 
                                 'generar el asiento
                                 sComentarios = "PROVISIONES GRUPO " & DT.Rows.Item(0).Item("Grupo").ToString & " - CLASE: " & DT.Rows.Item(0).Item("Clase").ToString
@@ -339,19 +340,19 @@ Public Class EXO_SELDOCUS
                                 End If
 
 
-                                If Me.Company.InTransaction = True Then
-                                    Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit)
+                                If objGlobal.compañia.InTransaction = True Then
+                                    objGlobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit)
                                 End If
 
                             Catch exCOM As System.Runtime.InteropServices.COMException
-                                If Me.Company.InTransaction = True Then
-                                    Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+                                If objGlobal.compañia.InTransaction = True Then
+                                    objGlobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
                                 End If
 
                                 Throw exCOM
                             Catch ex As Exception
-                                If Me.Company.InTransaction = True Then
-                                    Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+                                If objGlobal.compañia.InTransaction = True Then
+                                    objGlobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
                                 End If
 
                                 Throw ex
@@ -376,14 +377,14 @@ Public Class EXO_SELDOCUS
         End Try
     End Function
 
-    Private Function EventHandler_ComboSelect_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_ComboSelect_After(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim oRs As SAPbobsCOM.Recordset = Nothing
         Dim Valor As String = ""
         EventHandler_ComboSelect_After = False
 
         Try
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
 
             Select Case pVal.ItemUID
@@ -400,7 +401,7 @@ Public Class EXO_SELDOCUS
 
         Catch ex As Exception
             oForm.Freeze(False)
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oRs, Object))
@@ -408,10 +409,9 @@ Public Class EXO_SELDOCUS
     End Function
 #End Region
 #Region "Metodos auxiliares"
-    Public Shared Function OpenFormOINVEDI(ByRef OGlobal As EXO_Generales.EXO_General, ByRef Type As Type) As Boolean
+    Public Shared Function OpenFormOINVEDI(ByRef OGlobal As EXO_UIAPI.EXO_UIAPI, ByRef Type As Type) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim oFP As SAPbouiCOM.FormCreationParams = Nothing
-        Dim EXO_Xml As New EXO_Generales.EXO_XML(OGlobal.conexionSAP.refCompañia, OGlobal.conexionSAP.refSBOApp)
         Dim oRs As SAPbobsCOM.Recordset = Nothing
         Dim sSQL As String = ""
         Dim oColumnTxt As SAPbouiCOM.EditTextColumn = Nothing
@@ -420,15 +420,16 @@ Public Class EXO_SELDOCUS
         Try
 
             'abrir formulario
-            oFP = CType(OGlobal.conexionSAP.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams), SAPbouiCOM.FormCreationParams)
-            oFP.XmlData = EXO_Xml.LoadFormXml(OGlobal.Functions.leerEmbebido(Type, "EXO_SELDOCUS.srf"), True).ToString
-            oRs = CType(OGlobal.conexionSAP.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oFP = CType(OGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams), SAPbouiCOM.FormCreationParams)
+            oFP.XmlData = OGlobal.leerEmbebido(Type.GetType(), "EXO_SELDOCUS.srf")
+
+            oRs = CType(OGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
             Try
-                oForm = OGlobal.conexionSAP.SBOApp.Forms.AddEx(oFP)
+                oForm = OGlobal.SBOApp.Forms.AddEx(oFP)
 
             Catch ex As Exception
                 If ex.Message.StartsWith("Form - already exists") = True Then
-                    OGlobal.conexionSAP.SBOApp.StatusBar.SetText("El formulario ya está abierto.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                    OGlobal.SBOApp.StatusBar.SetText("El formulario ya está abierto.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
 
                     Exit Function
                 ElseIf ex.Message.StartsWith("Se produjo un error interno") = True Then 'Falta de autorización
@@ -441,7 +442,7 @@ Public Class EXO_SELDOCUS
             sSQL = "SELECT ItmsGrpCod,ItmsGrpNam FROM OITB WHERE Locked='N'"
             oRs.DoQuery(sSQL)
             If oRs.RecordCount > 0 Then
-                OGlobal.conexionSAP.refSBOApp.cargaCombo(CType(oForm.Items.Item("Cmb_0").Specific, SAPbouiCOM.ComboBox).ValidValues, sSQL)
+                OGlobal.funcionesUI.cargaCombo(CType(oForm.Items.Item("Cmb_0").Specific, SAPbouiCOM.ComboBox).ValidValues, sSQL)
             End If
             oForm.Visible = True
             CType(oForm.Items.Item("EXO_001").Specific, SAPbouiCOM.EditText).Active = True
@@ -455,7 +456,7 @@ Public Class EXO_SELDOCUS
         End Try
     End Function
 
-    Public Shared Sub CargarGrid(ByRef OGlobal As EXO_Generales.EXO_General, ByRef oForm As SAPbouiCOM.Form)
+    Public Shared Sub CargarGrid(ByRef OGlobal As EXO_UIAPI.EXO_UIAPI, ByRef oForm As SAPbouiCOM.Form)
 
         Dim oRs As SAPbobsCOM.Recordset = Nothing
         Dim sSQL As String = ""
@@ -471,11 +472,11 @@ Public Class EXO_SELDOCUS
         Dim strClaseG As String = "COMPRAVENTA,REDENCION,REFACTURACION"
 
         Try
-            OGlobal.conexionSAP.SBOApp.StatusBar.SetText("Por favor, espere: cargando datos de selección", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+            OGlobal.SBOApp.StatusBar.SetText("Por favor, espere: cargando datos de selección", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
             oForm.Freeze(True)
 
             'cargar consulta datos formulario edi
-            oRs = CType(OGlobal.conexionSAP.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(OGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
             strFechaD = CType(oForm.Items.Item("EXO_001").Specific, SAPbouiCOM.EditText).Value
             strFechaH = CType(oForm.Items.Item("EXO_002").Specific, SAPbouiCOM.EditText).Value
@@ -749,20 +750,20 @@ Public Class EXO_SELDOCUS
             ComprobarDatos = False
             If oForm.DataSources.DataTables.Item("DT_GR").Rows.Count > 0 Then
                 If CType(oForm.Items.Item("EXO_003").Specific, SAPbouiCOM.EditText).Value = "" Then
-                    Me.SboApp.MessageBox("Asigne la fecha de generación del asiento contable")
+                    objGlobal.SBOApp.MessageBox("Asigne la fecha de generación del asiento contable")
                     Exit Function
                 End If
 
                 For i As Integer = 0 To oForm.DataSources.DataTables.Item("DT_GR").Rows.Count - 1
                     If oForm.DataSources.DataTables.Item("DT_GR").GetValue("ExpensesAc", i).ToString = "" Then
                         'es obligatoria la cuenta
-                        objGlobal.conexionSAP.SBOApp.MessageBox("Introduza una cuenta de Gastos para ese Grupo de Artículos")
+                        objGlobal.SBOApp.MessageBox("Introduza una cuenta de Gastos para ese Grupo de Artículos")
                         Exit Function
                     End If
 
                     If oForm.DataSources.DataTables.Item("DT_GR").GetValue("TransferAc", i).ToString = "" Then
                         'es obligatoria la cuenta
-                        objGlobal.conexionSAP.SBOApp.MessageBox("Introduza una cuenta de dotación para ese Grupo de Artículos")
+                        objGlobal.SBOApp.MessageBox("Introduza una cuenta de dotación para ese Grupo de Artículos")
                         Exit Function
 
                     End If
@@ -771,13 +772,13 @@ Public Class EXO_SELDOCUS
                     If oForm.DataSources.DataTables.Item("DT_GR").GetValue("Clase", i).ToString = "COMPRAVENTA" OrElse oForm.DataSources.DataTables.Item("DT_GR").GetValue("Clase", i).ToString = "REDENCION" Then
                         If oForm.DataSources.DataTables.Item("DT_GR").GetValue("U_EXO_CTAGASTO", i).ToString = "" Then
                             'es obligatoria la cuenta
-                            objGlobal.conexionSAP.SBOApp.MessageBox("Introduza una cuenta de Gasto Máximo para ese Grupo de Artículos")
+                            objGlobal.SBOApp.MessageBox("Introduza una cuenta de Gasto Máximo para ese Grupo de Artículos")
                             Exit Function
                         End If
 
                         If oForm.DataSources.DataTables.Item("DT_GR").GetValue("U_EXO_CTAPROV", i).ToString = "" Then
                             'es obligatoria la cuenta
-                            objGlobal.conexionSAP.SBOApp.MessageBox("Introduza una cuenta de Provisión Máxima para ese Grupo de Artículos")
+                            objGlobal.SBOApp.MessageBox("Introduza una cuenta de Provisión Máxima para ese Grupo de Artículos")
                             Exit Function
                         End If
                     End If
@@ -785,16 +786,17 @@ Public Class EXO_SELDOCUS
                 ComprobarDatos = True
             End If
         Catch ex As Exception
+            Throw ex
         Finally
 
 
         End Try
     End Function
-    Public Shared Function SelectDataTable(ByVal dt As DataTable, ByVal filter As String, ByVal sort As String) As DataTable
+    Public Shared Function SelectDataTable(ByVal dt As System.Data.DataTable, ByVal filter As String, ByVal sort As String) As Data.DataTable
 
         Dim rows As DataRow()
 
-        Dim dtNew As DataTable
+        Dim dtNew As System.Data.DataTable
 
         ' copy table structure
         dtNew = dt.Clone()
@@ -814,22 +816,22 @@ Public Class EXO_SELDOCUS
 
     End Function
 
-    Public Function ConvertirDataTableSAP(ByVal SAPDataTable As SAPbouiCOM.DataTable) As DataTable
+    Public Function ConvertirDataTableSAP(ByVal SAPDataTable As SAPbouiCOM.DataTable) As Data.DataTable
 
         '\ This function will take an SAP DataTable from the SAPbouiCOM library and convert it to a more
         '\ easily used ADO.NET datatable which can be used for data binding much easier.
 
-        Dim dtTable As New DataTable
-        Dim NewCol As DataColumn
+        Dim dtTable As New Data.DataTable
+        Dim NewCol As Data.DataColumn
         Dim NewRow As DataRow
         Dim ColCount As Integer
         Dim bolAdd As Boolean = False
 
 
         Try
-            objGlobal.conexionSAP.SBOApp.StatusBar.SetText("...Preparando datos para la generación del asiento contable...", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+            objGlobal.SBOApp.StatusBar.SetText("...Preparando datos para la generación del asiento contable...", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
             For ColCount = 0 To SAPDataTable.Columns.Count - 1
-                NewCol = New DataColumn(SAPDataTable.Columns.Item(ColCount).Name)
+                NewCol = New Data.DataColumn(SAPDataTable.Columns.Item(ColCount).Name)
                 'If SAPDataTable.Columns.Item(ColCount).Name = "TotalLinea" OrElse SAPDataTable.Columns.Item(ColCount).Name = "ImporteProvision" OrElse SAPDataTable.Columns.Item(ColCount).Name = "ImporteProvisionMax" OrElse SAPDataTable.Columns.Item(ColCount).Name = "Asiento" Then
                 If SAPDataTable.Columns.Item(ColCount).Name = "TotalLinea" OrElse SAPDataTable.Columns.Item(ColCount).Name = "ImporteProvision" OrElse SAPDataTable.Columns.Item(ColCount).Name = "ImporteProvisionMax" OrElse SAPDataTable.Columns.Item(ColCount).Name = "Asiento" Then
                     With NewCol
@@ -842,8 +844,6 @@ Public Class EXO_SELDOCUS
             Next
 
             For i = 0 To SAPDataTable.Rows.Count - 1
-
-
                 'populate each column in the row we're creating
                 For ColCount = 0 To SAPDataTable.Columns.Count - 1
                     If SAPDataTable.GetValue(0, i).ToString = "Y" Then
@@ -853,7 +853,6 @@ Public Class EXO_SELDOCUS
                         End If
                         NewRow.Item(SAPDataTable.Columns.Item(ColCount).Name) = SAPDataTable.GetValue(ColCount, i)
                     End If
-
                 Next
 
                 'Add the row to the datatable
@@ -876,7 +875,7 @@ Public Class EXO_SELDOCUS
 
 #End Region
 #Region "Objetos SAP"
-    Public Sub AddOJDT(ByVal dtDatos As DataTable, ByVal Asientos As Dictionary(Of String, Decimal), ByVal sCtaDebe As String, ByVal SCtaHaber As String, ByVal dblImpHaber As Double, ByVal sComentarios As String, ByVal sFecha As String)
+    Public Sub AddOJDT(ByVal dtDatos As System.Data.DataTable, ByVal Asientos As Dictionary(Of String, Decimal), ByVal sCtaDebe As String, ByVal SCtaHaber As String, ByVal dblImpHaber As Double, ByVal sComentarios As String, ByVal sFecha As String)
         Dim oOJDT As SAPbobsCOM.JournalEntries = Nothing
         Dim oRs As SAPbobsCOM.Recordset = Nothing
         Dim sTransId As String = "0"
@@ -892,8 +891,8 @@ Public Class EXO_SELDOCUS
 
         Try
 
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-            oOJDT = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oJournalEntries), SAPbobsCOM.JournalEntries)
+            oRs = CType(objGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oOJDT = CType(objGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oJournalEntries), SAPbobsCOM.JournalEntries)
             'If dblImpHaber > 0 Then
 
             'sFecha = Date.Now.ToShortDateString.ToString
@@ -907,7 +906,7 @@ Public Class EXO_SELDOCUS
 
             For Each Par In Asientos
 
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Creando detalle de líneas de asiento - " & i & " de " & Asientos.Count, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+                objGlobal.SBOApp.StatusBar.SetText("Creando detalle de líneas de asiento - " & i & " de " & Asientos.Count, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
 
                 sGrupo = Par.Key
                 dblImpDebe = Par.Value
@@ -1011,9 +1010,9 @@ Public Class EXO_SELDOCUS
 
 
                 If oOJDT.Add() <> 0 Then
-                    Throw New Exception(Me.Company.GetLastErrorCode & " / " & Me.Company.GetLastErrorDescription)
+                    Throw New Exception(objGlobal.compañia.GetLastErrorCode & " / " & objGlobal.compañia.GetLastErrorDescription)
                 End If
-                sTransId = Me.Company.GetNewObjectKey
+                sTransId = objGlobal.compañia.GetNewObjectKey
                 'End If
             End If
             'update de la linea de documentos para pasarlos a tratados 
@@ -1022,19 +1021,19 @@ Public Class EXO_SELDOCUS
                 oRs.DoQuery(sSql)
             Next
 
-            If Me.Company.InTransaction = True Then
-                Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit)
+            If objGlobal.compañia.InTransaction = True Then
+                objGlobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit)
             End If
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            If Me.Company.InTransaction = True Then
-                Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+            If objGlobal.compañia.InTransaction = True Then
+                objGlobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
             End If
 
             Throw exCOM
         Catch ex As Exception
-            If Me.Company.InTransaction = True Then
-                Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+            If objGlobal.compañia.InTransaction = True Then
+                objGlobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
             End If
 
             Throw ex
