@@ -1,5 +1,6 @@
-﻿Public Class SAP_OCST
-    Inherits EXO_Generales.EXO_DLLBase
+﻿Imports SAPbouiCOM
+Public Class SAP_OCST
+    Inherits EXO_UIAPI.EXO_DLLBase
 
 #Region "Variables globales"
 
@@ -9,8 +10,8 @@
 
 #Region "Constructor"
 
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
     End Sub
 
 #End Region
@@ -18,7 +19,7 @@
 #Region "Inicialización"
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros_OCST.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros_OCST.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -32,7 +33,7 @@
 
 #Region "Eventos"
 
-    Public Overrides Function SBOApp_FormDataEvent(ByRef infoEvento As EXO_Generales.EXO_BusinessObjectInfo) As Boolean
+    Public Overrides Function SBOApp_FormDataEvent(ByVal infoEvento As BusinessObjectInfo) As Boolean
         Try
             If infoEvento.BeforeAction = True Then
                 Select Case infoEvento.FormTypeEx
@@ -85,13 +86,15 @@
 
             End If
 
-            Return MyBase.SBOApp_FormDataEvent(infoEvento)
+            Return MyBase.objGlobal.SBOApp.FormDataEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         End Try
     End Function
@@ -111,17 +114,17 @@
         GuardarInterCoOCST = False
 
         Try
-            If EXO_GLOBALES.EmpresaConectadaEsMatriz(objGlobal) = True Then
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Guardando datos para InterCompany ... Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+            If EXO_GLOBALES.EmpresaConectadaEsMatriz(objglobal) = True Then
+                objGlobal.SBOApp.StatusBar.SetText("Guardando datos para InterCompany ... Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
 
-                oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-                oRsAux = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-                oRsAux2 = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+                oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+                oRsAux = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+                oRsAux2 = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-                oRs.DoQuery("SELECT dbName " & _
-                            "FROM [INTERCOMPANY].dbo.[DATABASES] WITH (NOLOCK) " & _
-                            "WHERE dbTipo = 'S' " & _
-                            "AND dbName <> '" & objGlobal.conexionSAP.compañia.CompanyDB & "'")
+                oRs.DoQuery("SELECT dbName " &
+                            "FROM [INTERCOMPANY].dbo.[DATABASES] WITH (NOLOCK) " &
+                            "WHERE dbTipo = 'S' " &
+                            "AND dbName <> '" & objGlobal.compañia.CompanyDB & "'")
 
                 oXml.LoadXml(oRs.GetAsXML())
                 oNodes = oXml.SelectNodes("//row")
@@ -132,29 +135,29 @@
                     For i As Integer = 0 To oNodes.Count - 1
                         oNode = oNodes.Item(i)
 
-                        oRsAux.DoQuery("SELECT DISTINCT Country AS Codigo " & _
-                                       "FROM " & sTableName & " WITH (NOLOCK) " & _
+                        oRsAux.DoQuery("SELECT DISTINCT Country AS Codigo " &
+                                       "FROM " & sTableName & " WITH (NOLOCK) " &
                                        "WHERE Country = '" & _sCountry & "'")
 
                         If oRsAux.RecordCount > 0 Then
-                            oRsAux2.DoQuery("SELECT dbNameOrig " & _
-                                            "FROM [INTERCOMPANY].dbo.[REPLICATE] WITH (NOLOCK) " & _
-                                            "WHERE dbNameOrig = '" & objGlobal.conexionSAP.compañia.CompanyDB & "' " & _
-                                            "AND dbNameDest = '" & oNode.SelectSingleNode("dbName").InnerText & "' " & _
-                                            "AND tableCategory = " & sTableCategory & " " & _
-                                            "AND tableName = '" & sTableName & "' " & _
+                            oRsAux2.DoQuery("SELECT dbNameOrig " &
+                                            "FROM [INTERCOMPANY].dbo.[REPLICATE] WITH (NOLOCK) " &
+                                            "WHERE dbNameOrig = '" & objGlobal.compañia.CompanyDB & "' " &
+                                            "AND dbNameDest = '" & oNode.SelectSingleNode("dbName").InnerText & "' " &
+                                            "AND tableCategory = " & sTableCategory & " " &
+                                            "AND tableName = '" & sTableName & "' " &
                                             "AND codeTable = '" & _sCountry & "'")
 
                             If oRsAux2.RecordCount = 0 Then
-                                oRsAux2.DoQuery("INSERT INTO [INTERCOMPANY].dbo.[REPLICATE] (dbNameOrig, dbNameDest, tableCategory, tableName, codeTable, dateAdd) VALUES " & _
-                                                "('" & objGlobal.conexionSAP.compañia.CompanyDB & "', '" & oNode.SelectSingleNode("dbName").InnerText & "' " & _
+                                oRsAux2.DoQuery("INSERT INTO [INTERCOMPANY].dbo.[REPLICATE] (dbNameOrig, dbNameDest, tableCategory, tableName, codeTable, dateAdd) VALUES " &
+                                                "('" & objGlobal.compañia.CompanyDB & "', '" & oNode.SelectSingleNode("dbName").InnerText & "' " &
                                                 ", " & sTableCategory & ", '" & sTableName & "', '" & _sCountry & "', '" & Now.Year & "-" & Right("0" & Now.Month.ToString, 2) & "-" & Right("0" & Now.Day.ToString, 2) & "')")
                             End If
                         End If
                     Next
                 End If
 
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_None)
+                objGlobal.SBOApp.StatusBar.SetText("", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_None)
             End If
 
             GuardarInterCoOCST = True

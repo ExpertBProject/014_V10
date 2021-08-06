@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9C449496-16C3-4623-93EE-F6D76D062193}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cliente</RootNamespace>
+    <AssemblyName>EXO_Provision</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn>bin\debug</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoWarn>bin\debug</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <NoWarn>bin\debug</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\..\EXO_GEN22\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="ConverterLib">
+      <HintPath>..\..\..\EXO_GEN22\ConverterLib.dll</HintPath>
+    </Reference>
+    <Reference Include="EXO_BasicDLL">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_BasicDLL.dll</HintPath>
+    </Reference>
+    <Reference Include="EXO_CleanCOM">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_CleanCOM.dll</HintPath>
+    </Reference>
+    <Reference Include="EXO_DIAPI">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_DIAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="EXO_Generales">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_Generales.dll</HintPath>
+    </Reference>
+    <Reference Include="EXO_Log">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_Log.dll</HintPath>
+    </Reference>
+    <Reference Include="EXO_UIAPI">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_UIAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SAPbobsCOM">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\Interop.SAPbobsCOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.SAPbouiCOM">
+      <HintPath>..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\Interop.SAPbouiCOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Comunes.cs" />
+    <Compile Include="Especifico.cs" />
+    <Compile Include="Ventanas Propias\EXO_CancProv.cs" />
+    <Compile Include="Ventanas Propias\EXO_Consulta.cs" />
+    <Compile Include="Ventanas Propias\EXO_Genprov.cs" />
+    <Compile Include="Ventanas Propias\EXO_VentRegistros.cs" />
+    <Compile Include="EXO_OpenDialog.cs" />
+    <Compile Include="Inicio.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EXO_SaveDialogFile.cs" />
+    <Compile Include="Ventanas SAP\EXO_138.cs" />
+    <Compile Include="Ventanas SAP\EXO_142.cs" />
+    <Compile Include="Ventanas SAP\EXO_392.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Embebidos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="db_014Provi.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xFiltros014.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Formularios\xEXO_ProviFactTrans.srf" />
+    <EmbeddedResource Include="Formularios\xEXO_VenReg.srf" />
+    <EmbeddedResource Include="qProviCompra.sql" />
+    <EmbeddedResource Include="xMenu014.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="qDetaProvi.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Formularios\xEXO_CanceProv.srf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xMenu014Sin.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>REM copy C:\DESARROLLO\014\014\014\bin\x86\Debug\EXO_Provision.dll C:\DESARROLLO\014\10.Dll\EXO_Provision.dll
+REM copy C:\DESARROLLO\014\014\014\bin\x86\Debug\EXO_Provision.dll C:\DESARROLLO\EXO_GEN22\DLLs\EXO_Provision.dll
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

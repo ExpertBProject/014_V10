@@ -1,10 +1,11 @@
-﻿Public Class SAP_OADM
-    Inherits EXO_Generales.EXO_DLLBase
+﻿Imports SAPbouiCOM
+Public Class SAP_OADM
+    Inherits EXO_UIAPI.EXO_DLLBase
 
 #Region "Constructor"
 
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, ByRef actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
 
         If actualizar Then
             cargaDatos()
@@ -17,27 +18,25 @@
 
     Private Sub cargaDatos()
         Dim oXML As String = ""
-        Dim udoObj As EXO_Generales.EXO_UDO = Nothing
 
         Try
-            If objGlobal.conexionSAP.esAdministrador Then
+            If objGlobal.refDi.comunes.esAdministrador Then
                 'Campos de Usuario para configuración de InterCompany
-                oXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "UDFs_OADM.xml")
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Validando: UDFs Detalles de empresa", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
-                objGlobal.conexionSAP.LoadBDFromXML(oXML)
+                oXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "UDFs_OADM.xml")
+                objGlobal.SBOApp.StatusBar.SetText("Validando: UDFs Detalles de empresa", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+                objGlobal.refDi.comunes.LoadBDFromXML(oXML)
             End If
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objglobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objglobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(udoObj, Object))
         End Try
     End Sub
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros_OADM.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros_OADM.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -51,7 +50,7 @@
 
 #Region "Eventos"
 
-    Public Overrides Function SBOApp_ItemEvent(ByRef infoEvento As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -129,18 +128,18 @@
                 End If
             End If
 
-            Return MyBase.SBOApp_ItemEvent(infoEvento)
+            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         End Try
     End Function
 
-    Private Function EventHandler_Form_Load(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_Form_Load(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         Dim Path As String = ""
         Dim XmlDoc As New System.Xml.XmlDocument
@@ -149,11 +148,11 @@
 
         Try
             'Recuperar el formulario
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objglobal.SboApp.Forms.Item(pVal.FormUID)
 
             'Buscar XML de update
-            SboApp.StatusBar.SetText("Presentando información...Espere por favor", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
-            Path = objGlobal.conexionSAP.pathPantallas
+            objglobal.SboApp.StatusBar.SetText("Presentando información...Espere por favor", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+            Path = objGlobal.refDi.OGEN.pathGeneral & "\01.Pantallas"
             If Path = "" Then
                 Return False
             End If
@@ -162,7 +161,7 @@
             XmlDoc.SelectSingleNode("Application/forms/action/form/@uid").Value = oForm.UniqueID
 
             Try
-                SboApp.LoadBatchActions(XmlDoc.InnerXml.ToString)
+                objglobal.SboApp.LoadBatchActions(XmlDoc.InnerXml.ToString)
             Catch exCOM As System.Runtime.InteropServices.COMException
             Catch ex As Exception
             End Try

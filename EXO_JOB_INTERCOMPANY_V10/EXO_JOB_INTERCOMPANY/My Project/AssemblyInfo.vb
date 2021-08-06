@@ -9,16 +9,16 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("EXO_JOB_INTERCOMPANY")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("EXO_JOB_INTERCOMPANY")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyCompany("EXPERT ONE")>
+<Assembly: AssemblyProduct("EXO_JOB_INTERCOMPANY")>
+<Assembly: AssemblyCopyright("Copyright ©  2021")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("b845d320-48e3-491f-873b-66b0cce1e7c9")> 
+<Assembly: Guid("b845d320-48e3-491f-873b-66b0cce1e7c9")>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("10.1.3.001")>
+<Assembly: AssemblyFileVersion("10.1.3.001")>

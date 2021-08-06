@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("EXO_014_INTERCOMPANY")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("EXO_014_INTERCOMPANY")> 
-<Assembly: AssemblyCopyright("Copyright ©  2016")> 
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyCompany("EXPERT ONE")>
+<Assembly: AssemblyProduct("EXO_014_INTERCOMPANY")>
+<Assembly: AssemblyCopyright("Copyright ©  2021")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.1.1.17")>
-<Assembly: AssemblyFileVersion("1.1.1.17")>
+<Assembly: AssemblyVersion("10.1.3.001")>
+<Assembly: AssemblyFileVersion("10.1.3.001")>

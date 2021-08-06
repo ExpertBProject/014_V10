@@ -1,10 +1,11 @@
-﻿Public Class SAP_OCRD
-    Inherits EXO_Generales.EXO_DLLBase
+﻿Imports SAPbouiCOM
+Public Class SAP_OCRD
+    Inherits EXO_UIAPI.EXO_DLLBase
 
 #Region "Constructor"
 
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, ByRef actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
 
         If actualizar Then
             cargaDatos()
@@ -17,28 +18,26 @@
 
     Private Sub cargaDatos()
         Dim oXML As String = ""
-        Dim udoObj As EXO_Generales.EXO_UDO = Nothing
 
         Try
-            If objGlobal.conexionSAP.esAdministrador Then
+            If objglobal.refDi.comunes.esAdministrador Then
                 'Campos de Usuario para configuración de InterCompany
-                oXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "UDFs_OCRD.xml")
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Validando: UDFs ICs", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
-                objGlobal.conexionSAP.LoadBDFromXML(oXML)
+                oXML = objglobal.funciones.leerEmbebido(Me.GetType(), "UDFs_OCRD.xml")
+                objglobal.SboApp.StatusBar.SetText("Validando: UDFs ICs", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+                objGlobal.refDi.comunes.LoadBDFromXML(oXML)
             End If
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objglobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objglobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(udoObj, Object))
         End Try
 
     End Sub
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros_OCRD.xml")
+        Dim fXML As String = objglobal.funciones.leerEmbebido(Me.GetType(), "Filtros_OCRD.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -52,7 +51,7 @@
 
 #Region "Eventos"
 
-    Public Overrides Function SBOApp_ItemEvent(ByRef infoEvento As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -134,18 +133,20 @@
                 End If
             End If
 
-            Return MyBase.SBOApp_ItemEvent(infoEvento)
+            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         End Try
     End Function
 
-    Public Overrides Function SBOApp_FormDataEvent(ByRef infoEvento As EXO_Generales.EXO_BusinessObjectInfo) As Boolean
+    Public Overrides Function SBOApp_FormDataEvent(ByVal infoEvento As BusinessObjectInfo) As Boolean
         Dim oXml As New Xml.XmlDocument
         Dim sCodigo As String = ""
 
@@ -210,24 +211,24 @@
 
             End If
 
-            Return MyBase.SBOApp_FormDataEvent(infoEvento)
+            Return MyBase.objGlobal.SBOApp.FormDataEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         End Try
     End Function
 
-    Private Function EventHandler_Form_Load(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_Form_Load(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
         EventHandler_Form_Load = False
 
         Try
             'Recuperar el formulario
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objglobal.SboApp.Forms.Item(pVal.FormUID)
 
             If CargarCombos(oForm) = False Then
                 Exit Function
@@ -245,13 +246,13 @@
         End Try
     End Function
 
-    Private Function EventHandler_ComboSelect_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_ComboSelect_After(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         EventHandler_ComboSelect_After = False
 
         Try
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objglobal.SboApp.Forms.Item(pVal.FormUID)
 
             If pVal.ActionSuccess = True Then
                 If pVal.ItemUID = "178" Then
@@ -284,46 +285,46 @@
         CargarCombos = False
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-            oRsAux = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRsAux = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-            oRs = objGlobal.conexionSAP.compañia.GetCompanyList
+            oRs = objGlobal.compañia.GetCompanyList
 
             While Not oRs.EoF
                 'Si las compañías del company list tienen los siguientes dos campos entonces cargamos el grupo de empresas
-                sSQL = "SELECT COL.Name " & _
-                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " & _
-                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " & _
-                        "WHERE OBJ.name = 'OADM' " & _
-                        "AND COL.name = 'U_EXO_CONSOLIDACION' " & _
-                        "UNION ALL " & _
-                        "SELECT COL.Name " & _
-                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " & _
-                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " & _
-                        "WHERE OBJ.name = 'OADM' " & _
-                        "AND COL.name = 'U_EXO_MATRIZ' " & _
-                        "UNION ALL " & _
-                        "SELECT COL.Name " & _
-                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " & _
-                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " & _
-                        "WHERE OBJ.name = 'OADM' " & _
+                sSQL = "SELECT COL.Name " &
+                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " &
+                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " &
+                        "WHERE OBJ.name = 'OADM' " &
+                        "AND COL.name = 'U_EXO_CONSOLIDACION' " &
+                        "UNION ALL " &
+                        "SELECT COL.Name " &
+                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " &
+                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " &
+                        "WHERE OBJ.name = 'OADM' " &
+                        "AND COL.name = 'U_EXO_MATRIZ' " &
+                        "UNION ALL " &
+                        "SELECT COL.Name " &
+                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " &
+                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " &
+                        "WHERE OBJ.name = 'OADM' " &
                         "AND COL.name = 'U_EXO_GRUPOEMPRESA'"
 
                 oRsAux.DoQuery(sSQL)
 
                 If oRsAux.RecordCount = 3 Then
                     'Sólo se carga el combo si la compañia conectada es Matriz o Sucursal
-                    sSQL = "SELECT ISNULL(t1.U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " & _
-                           "FROM [" & objGlobal.conexionSAP.compañia.CompanyDB & "].dbo.[OADM] t1 WITH (NOLOCK) " & _
-                           "WHERE (ISNULL(t1.U_EXO_MATRIZ, 'N') = 'Y' " & _
-                           "OR (ISNULL(t1.U_EXO_CONSOLIDACION, 'N') = 'N' " & _
+                    sSQL = "SELECT ISNULL(t1.U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " &
+                           "FROM [" & objGlobal.compañia.CompanyDB & "].dbo.[OADM] t1 WITH (NOLOCK) " &
+                           "WHERE (ISNULL(t1.U_EXO_MATRIZ, 'N') = 'Y' " &
+                           "OR (ISNULL(t1.U_EXO_CONSOLIDACION, 'N') = 'N' " &
                            "AND ISNULL(t1.U_EXO_MATRIZ, 'N') = 'N')) "
 
                     oRsAux.DoQuery(sSQL)
 
                     If oRsAux.RecordCount > 0 Then
                         'Combo Grupo de empresas
-                        sSQL = "SELECT ISNULL(t1.U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " & _
+                        sSQL = "SELECT ISNULL(t1.U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " &
                                "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.[OADM] t1 WITH (NOLOCK) "
 
                         oRsAux.DoQuery(sSQL)
@@ -365,17 +366,17 @@
         GuardarInterCoOCRD = False
 
         Try
-            If EXO_GLOBALES.EmpresaConectadaEsMatriz(objGlobal) = True Then
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Guardando datos para InterCompany ... Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+            If EXO_GLOBALES.EmpresaConectadaEsMatriz(objglobal) = True Then
+                objGlobal.SBOApp.StatusBar.SetText("Guardando datos para InterCompany ... Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
 
-                oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-                oRsAux = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-                oRsAux2 = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+                oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+                oRsAux = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+                oRsAux2 = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-                oRs.DoQuery("SELECT dbName " & _
-                            "FROM [INTERCOMPANY].dbo.[DATABASES] WITH (NOLOCK) " & _
-                            "WHERE dbTipo = 'S' " & _
-                            "AND dbName <> '" & objGlobal.conexionSAP.compañia.CompanyDB & "'")
+                oRs.DoQuery("SELECT dbName " &
+                            "FROM [INTERCOMPANY].dbo.[DATABASES] WITH (NOLOCK) " &
+                            "WHERE dbTipo = 'S' " &
+                            "AND dbName <> '" & objGlobal.compañia.CompanyDB & "'")
 
                 oXml.LoadXml(oRs.GetAsXML())
                 oNodes = oXml.SelectNodes("//row")
@@ -384,23 +385,23 @@
                     For i As Integer = 0 To oNodes.Count - 1
                         oNode = oNodes.Item(i)
 
-                        oRsAux.DoQuery("SELECT CardCode AS Codigo, ISNULL(U_EXO_GRUPOEMPRESA, '-') AS U_EXO_GRUPOEMPRESA " & _
-                                       "FROM " & sTableName & " WITH (NOLOCK) " & _
+                        oRsAux.DoQuery("SELECT CardCode AS Codigo, ISNULL(U_EXO_GRUPOEMPRESA, '-') AS U_EXO_GRUPOEMPRESA " &
+                                       "FROM " & sTableName & " WITH (NOLOCK) " &
                                        "WHERE CardCode = '" & sCodigo & "'")
 
                         If oRsAux.RecordCount > 0 Then
-                            oRsAux2.DoQuery("SELECT dbNameOrig " & _
-                                            "FROM [INTERCOMPANY].dbo.[REPLICATE] WITH (NOLOCK) " & _
-                                            "WHERE dbNameOrig = '" & objGlobal.conexionSAP.compañia.CompanyDB & "' " & _
-                                            "AND dbNameDest = '" & oNode.SelectSingleNode("dbName").InnerText & "' " & _
-                                            "AND tableCategory = " & sTableCategory & " " & _
-                                            "AND tableName = '" & sTableName & "' " & _
+                            oRsAux2.DoQuery("SELECT dbNameOrig " &
+                                            "FROM [INTERCOMPANY].dbo.[REPLICATE] WITH (NOLOCK) " &
+                                            "WHERE dbNameOrig = '" & objGlobal.compañia.CompanyDB & "' " &
+                                            "AND dbNameDest = '" & oNode.SelectSingleNode("dbName").InnerText & "' " &
+                                            "AND tableCategory = " & sTableCategory & " " &
+                                            "AND tableName = '" & sTableName & "' " &
                                             "AND codeTable = '" & sCodigo & "'")
 
                             'If oRsAux.Fields.Item("U_EXO_GRUPOEMPRESA").Value.ToString = "-" Then
                             If oRsAux2.RecordCount = 0 Then
-                                oRsAux2.DoQuery("INSERT INTO [INTERCOMPANY].dbo.[REPLICATE] (dbNameOrig, dbNameDest, tableCategory, tableName, codeTable, dateAdd) VALUES " & _
-                                                "('" & objGlobal.conexionSAP.compañia.CompanyDB & "', '" & oNode.SelectSingleNode("dbName").InnerText & "' " & _
+                                oRsAux2.DoQuery("INSERT INTO [INTERCOMPANY].dbo.[REPLICATE] (dbNameOrig, dbNameDest, tableCategory, tableName, codeTable, dateAdd) VALUES " &
+                                                "('" & objGlobal.compañia.CompanyDB & "', '" & oNode.SelectSingleNode("dbName").InnerText & "' " &
                                                 ", " & sTableCategory & ", '" & sTableName & "', '" & sCodigo & "', '" & Now.Year & "-" & Right("0" & Now.Month.ToString, 2) & "-" & Right("0" & Now.Day.ToString, 2) & "')")
                             End If
                             'Else
@@ -429,7 +430,7 @@
                     Next
                 End If
 
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_None)
+                objGlobal.SBOApp.StatusBar.SetText("", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_None)
             End If
 
             GuardarInterCoOCRD = True

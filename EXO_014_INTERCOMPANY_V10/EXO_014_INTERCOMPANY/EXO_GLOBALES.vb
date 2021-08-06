@@ -5,16 +5,16 @@
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function EmpresaConectadaEsMatriz(ByRef oObjGlobal As EXO_Generales.EXO_General) As Boolean
+    Public Shared Function EmpresaConectadaEsMatriz(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI) As Boolean
         Dim oRs As SAPbobsCOM.Recordset = Nothing
 
         EmpresaConectadaEsMatriz = False
 
         Try
-            oRs = CType(oObjGlobal.conexionSAP.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(oObjGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-            oRs.DoQuery("SELECT t1.CompnyName " & _
-                        "FROM OADM t1 WITH (NOLOCK) " & _
+            oRs.DoQuery("SELECT t1.CompnyName " &
+                        "FROM OADM t1 WITH (NOLOCK) " &
                         "WHERE ISNULL(t1.U_EXO_MATRIZ, 'N') = 'Y'")
 
             If oRs.RecordCount > 0 Then
@@ -35,16 +35,16 @@
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function EmpresaConectadaEsConsolidacion(ByRef oObjGlobal As EXO_Generales.EXO_General) As Boolean
+    Public Shared Function EmpresaConectadaEsConsolidacion(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI) As Boolean
         Dim oRs As SAPbobsCOM.Recordset = Nothing
 
         EmpresaConectadaEsConsolidacion = False
 
         Try
-            oRs = CType(oObjGlobal.conexionSAP.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(oObjGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-            oRs.DoQuery("SELECT t1.CompnyName " & _
-                        "FROM OADM t1 WITH (NOLOCK) " & _
+            oRs.DoQuery("SELECT t1.CompnyName " &
+                        "FROM OADM t1 WITH (NOLOCK) " &
                         "WHERE ISNULL(t1.U_EXO_CONSOLIDACION, 'N') = 'Y'")
 
             If oRs.RecordCount > 0 Then
@@ -65,17 +65,17 @@
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function EmpresaConectadaEsSucursal(ByRef oObjGlobal As EXO_Generales.EXO_General) As Boolean
+    Public Shared Function EmpresaConectadaEsSucursal(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI) As Boolean
         Dim oRs As SAPbobsCOM.Recordset = Nothing
 
         EmpresaConectadaEsSucursal = False
 
         Try
-            oRs = CType(oObjGlobal.conexionSAP.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(oObjGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-            oRs.DoQuery("SELECT t1.CompnyName " & _
-                        "FROM OADM t1 WITH (NOLOCK) " & _
-                        "WHERE ISNULL(t1.U_EXO_MATRIZ, 'N') = 'N' " & _
+            oRs.DoQuery("SELECT t1.CompnyName " &
+                        "FROM OADM t1 WITH (NOLOCK) " &
+                        "WHERE ISNULL(t1.U_EXO_MATRIZ, 'N') = 'N' " &
                         "AND ISNULL(t1.U_EXO_CONSOLIDACION, 'N') = 'N'")
 
             If oRs.RecordCount > 0 Then
@@ -91,21 +91,21 @@
         End Try
     End Function
 
-    Public Shared Sub Connect_Company(ByRef oObjGlobal As EXO_Generales.EXO_General, ByRef oCompany As SAPbobsCOM.Company, ByVal sDatabaseName As String)
+    Public Shared Sub Connect_Company(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef oCompany As SAPbobsCOM.Company, ByVal sDatabaseName As String)
         Try
             'Conectar DI SAP
             oCompany = New SAPbobsCOM.Company
 
             oCompany.language = SAPbobsCOM.BoSuppLangs.ln_Spanish
-            oCompany.Server = oObjGlobal.conexionSAP.compañia.Server
+            oCompany.Server = oObjGlobal.compañia.Server
             'oCompany.LicenseServer = oObjGlobal.conexionSAP.compañia.LicenseServer 'Esto no funciona con el PL08 de la 9.2
-            oCompany.LicenseServer = oObjGlobal.conexionSAP.compañia.Server
-            oCompany.UserName = oObjGlobal.conexionSAP.compañia.UserName
+            oCompany.LicenseServer = oObjGlobal.compañia.Server
+            oCompany.UserName = oObjGlobal.compañia.UserName
             oCompany.Password = "159357"
             oCompany.UseTrusted = False
-            oCompany.DbPassword = oObjGlobal.conexionSAP.refCompañia.OGEN.claveSQL
-            oCompany.DbUserName = oObjGlobal.conexionSAP.compañia.DbUserName
-            oCompany.DbServerType = oObjGlobal.conexionSAP.compañia.DbServerType
+            oCompany.DbPassword = oObjGlobal.refDi.compañia.OGEN.claveSQL
+            oCompany.DbUserName = oObjGlobal.refDi.compañia.DbUserName
+            oCompany.DbServerType = oObjGlobal.refDi.compañia.DbServerType
             oCompany.CompanyDB = sDatabaseName
 
             If oCompany.Connect <> 0 Then

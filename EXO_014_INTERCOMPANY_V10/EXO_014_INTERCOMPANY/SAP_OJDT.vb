@@ -1,10 +1,11 @@
-﻿Public Class SAP_OJDT
-    Inherits EXO_Generales.EXO_DLLBase
+﻿Imports SAPbouiCOM
+Public Class SAP_OJDT
+    Inherits EXO_UIAPI.EXO_DLLBase
 
 #Region "Constructor"
 
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
     End Sub
 
 #End Region
@@ -12,13 +13,13 @@
 #Region "Inicialización"
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros_OJDT.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros_OJDT.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
     End Function
 
-     Public Overrides Function menus() As System.Xml.XmlDocument
+    Public Overrides Function menus() As System.Xml.XmlDocument
         Return Nothing
     End Function
 
@@ -26,7 +27,7 @@
 
 #Region "Eventos"
 
-    Public Overrides Function SBOApp_FormDataEvent(ByRef infoEvento As EXO_Generales.EXO_BusinessObjectInfo) As Boolean
+    Public Overrides Function SBOApp_FormDataEvent(ByVal infoEvento As BusinessObjectInfo) As Boolean
         Dim oXml As New Xml.XmlDocument
         Dim sCodigo As String = ""
 
@@ -71,13 +72,15 @@
 
             End If
 
-            Return MyBase.SBOApp_FormDataEvent(infoEvento)
+            Return MyBase.objGlobal.SBOApp.FormDataEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
+
             Return False
         End Try
     End Function
@@ -92,11 +95,11 @@
         GuardarDatos = False
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-            oRs.DoQuery("UPDATE OJDT SET U_EXO_GRUPOEMPRESA = '', " & _
-                        "U_EXO_COMPANY1 = '', " & _
-                        "U_EXO_COMPANY2 = '' " & _
+            oRs.DoQuery("UPDATE OJDT SET U_EXO_GRUPOEMPRESA = '', " &
+                        "U_EXO_COMPANY1 = '', " &
+                        "U_EXO_COMPANY2 = '' " &
                         "WHERE TransId = " & sCodigo)
 
             GuardarDatos = True
@@ -111,5 +114,5 @@
     End Function
 
 #End Region
-    
+
 End Class

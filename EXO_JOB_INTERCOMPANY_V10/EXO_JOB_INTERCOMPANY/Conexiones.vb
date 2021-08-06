@@ -30,7 +30,7 @@ Public Class Conexiones
                                 oCompany.UseTrusted = False
                                 oCompany.DbPassword = Reader.GetAttribute("DbPassword").ToString.Trim
                                 oCompany.DbUserName = Reader.GetAttribute("DbUserName").ToString.Trim
-                                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2014
+                                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2017
                                 oCompany.CompanyDB = sDatabaseName
 
                                 If oCompany.Connect <> 0 Then

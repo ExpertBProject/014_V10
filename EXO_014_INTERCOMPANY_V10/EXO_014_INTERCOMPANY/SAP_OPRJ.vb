@@ -1,9 +1,9 @@
 ﻿'Public Class SAP_OPRJ
-'    Inherits EXO_Generales.EXO_DLLBase
+'    Inherits EXO_UIAPI.EXO_DLLBase
 
 '#Region "Constructor"
 
-'    Public Sub New(ByRef generales As EXO_Generales.EXO_General, actualizar As Boolean)
+'    Public Sub New(ByRef generales As EXO_UIAPI.EXO_UIAPI, actualizar As Boolean)
 '        MyBase.New(generales, actualizar)
 '    End Sub
 
@@ -12,7 +12,7 @@
 '#Region "Inicialización"
 
 '    Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-'        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros_OPRJ.xml")
+'        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros_OPRJ.xml")
 '        Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
 '        filtro.LoadFromXML(fXML)
 '        Return filtro
@@ -26,7 +26,7 @@
 
 '#Region "Eventos"
 
-'    Public Overrides Function SBOApp_FormDataEvent(ByRef infoEvento As EXO_Generales.EXO_BusinessObjectInfo) As Boolean
+'    Public Overrides Function objglobal.SboApp.FormDataEvent(ByRef infoEvento As EXO_Generales.EXO_BusinessObjectInfo) As Boolean
 '        Try
 '            If infoEvento.BeforeAction = True Then
 '                Select Case infoEvento.FormTypeEx
@@ -79,7 +79,7 @@
 
 '            End If
 
-'            Return MyBase.SBOApp_FormDataEvent(infoEvento)
+'            Return MyBase.objglobal.SboApp.FormDataEvent(infoEvento)
 
 '        Catch exCOM As System.Runtime.InteropServices.COMException
 '            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
@@ -109,11 +109,11 @@
 
 '        Try
 '            If EXO_GLOBALES.EmpresaConectadaEsMatriz(objGlobal) = True Then
-'                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Guardando datos para InterCompany ... Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+'                objGlobal.conexionSAP.objglobal.SboApp.StatusBar.SetText("Guardando datos para InterCompany ... Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
 
-'                oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-'                oRsAux = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-'                oRsAux2 = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+'                oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+'                oRsAux = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+'                oRsAux2 = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
 '                oRs.DoQuery("SELECT dbName " & _
 '                            "FROM [INTERCOMPANY].dbo.[DATABASES] WITH (NOLOCK) " & _
@@ -160,7 +160,7 @@
 '                    Next
 '                End If
 
-'                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_None)
+'                objGlobal.conexionSAP.objglobal.SboApp.StatusBar.SetText("", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_None)
 '            End If
 
 '            GuardarInterCoOPRJ = True

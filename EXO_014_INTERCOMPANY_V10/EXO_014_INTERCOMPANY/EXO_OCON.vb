@@ -1,10 +1,11 @@
-﻿Public Class EXO_OCON
-    Inherits EXO_Generales.EXO_DLLBase
+﻿Imports SAPbouiCOM
+Public Class EXO_OCON
+    Inherits EXO_UIAPI.EXO_DLLBase
 
 #Region "Constructor"
 
-    Public Sub New(ByRef generales As EXO_Generales.EXO_General, actualizar As Boolean)
-        MyBase.New(generales, actualizar)
+    Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
+        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
 
         If actualizar Then
             cargaDatos()
@@ -18,27 +19,26 @@
 
     Private Sub cargaDatos()
         Dim oXML As String = ""
-        Dim udoObj As EXO_Generales.EXO_UDO = Nothing
 
         Try
-            If objGlobal.conexionSAP.esAdministrador Then
+            If objGlobal.refDi.comunes.esAdministrador Then
                 'Campos de Usuario para configuración de InterCompany
-                oXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "UDFs_OJDT.xml")
-                objGlobal.conexionSAP.SBOApp.StatusBar.SetText("Validando: UDFs OJDT", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
-                objGlobal.conexionSAP.LoadBDFromXML(oXML)
+                oXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "UDFs_OJDT.xml")
+                objGlobal.SBOApp.StatusBar.SetText("Validando: UDFs OJDT", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+                objGlobal.refDi.comunes.LoadBDFromXML(oXML)
             End If
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(udoObj, Object))
+
         End Try
     End Sub
 
     Public Overrides Function filtros() As SAPbouiCOM.EventFilters
-        Dim fXML As String = objGlobal.Functions.leerEmbebido(Me.GetType(), "Filtros_EXO_OCON.xml")
+        Dim fXML As String = objGlobal.funciones.leerEmbebido(Me.GetType(), "Filtros_EXO_OCON.xml")
         Dim filtro As SAPbouiCOM.EventFilters = New SAPbouiCOM.EventFilters()
         filtro.LoadFromXML(fXML)
         Return filtro
@@ -50,26 +50,24 @@
         Dim oRs As SAPbobsCOM.Recordset = Nothing
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
             oRs.DoQuery("SELECT CompnyName FROM OADM WITH (NOLOCK) WHERE ISNULL(U_EXO_CONSOLIDACION, 'N') = 'Y'")
 
             'Sólo cargamos el menú en las empresas de Consolidación
             If oRs.RecordCount > 0 Then
-                menuXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_MENUCONSO.xml")
-                SboApp.LoadBatchActions(menuXML)
-                res = SboApp.GetLastBatchResults
+                menuXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_MENUCONSO.xml")
+                objGlobal.SboApp.LoadBatchActions(menuXML)
+                res = objglobal.SboApp.GetLastBatchResults
             End If
 
             Return Nothing
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
-
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return Nothing
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
-
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return Nothing
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oRs, Object))
@@ -83,21 +81,21 @@
         Dim oRs As SAPbobsCOM.Recordset = Nothing
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
             oRs.DoQuery("SELECT CompnyName FROM OADM WITH (NOLOCK) WHERE ISNULL(U_EXO_CONSOLIDACION, 'N') = 'Y'")
 
             'Sólo creamos la autorización en las empresas de Consolidación
             If oRs.RecordCount > 0 Then
-                autorizacionXML = objGlobal.Functions.leerEmbebido(Me.GetType(), "EXO_AUCONSO.xml")
-                Me.objGlobal.conexionSAP.refCompañia.LoadBDFromXML(autorizacionXML)
-                res = SboApp.GetLastBatchResults
+                autorizacionXML = objGlobal.funciones.leerEmbebido(Me.GetType(), "EXO_AUCONSO.xml")
+                objGlobal.refDi.comunes.LoadBDFromXML(autorizacionXML)
+                res = objglobal.SboApp.GetLastBatchResults
             End If
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oRs, Object))
         End Try
@@ -106,14 +104,12 @@
 #End Region
 
 #Region "Eventos"
-
-    Public Overrides Function SBOApp_MenuEvent(ByRef infoEvento As EXO_Generales.EXO_MenuEvent) As Boolean
+    Public Overrides Function SBOApp_MenuEvent(infoEvento As MenuEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
-        'Dim oPermisoUser As SAPbobsCOM.BoPermission = Nothing
 
         Try
             If infoEvento.BeforeAction = True Then
-                oForm = SboApp.Forms.ActiveForm
+                oForm = objGlobal.SBOApp.Forms.ActiveForm
 
                 Select Case oForm.TypeEx
                     Case "169"
@@ -128,7 +124,7 @@
                                     Return False
                                 End If
                                 'Else
-                                'Me.SboApp.StatusBar.SetText("El usuario no tiene permisos para acceder a este formulario.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                                'Me.objglobal.SboApp.StatusBar.SetText("El usuario no tiene permisos para acceder a este formulario.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
                                 'End If
 
                         End Select
@@ -136,33 +132,28 @@
                 End Select
 
             Else
-                oForm = SboApp.Forms.ActiveForm
+                oForm = objGlobal.SBOApp.Forms.ActiveForm
 
                 Select Case oForm.TypeEx
-                    Case "EXO_OCON"
-
-                        Select Case infoEvento.MenuUID
-
-                        End Select
 
                 End Select
 
             End If
 
-            Return MyBase.SBOApp_MenuEvent(infoEvento)
+            Return MyBase.objGlobal.SBOApp.MenuEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
 
-    Public Overrides Function SBOApp_ItemEvent(ByRef infoEvento As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -251,13 +242,13 @@
                 End If
             End If
 
-            Return MyBase.SBOApp_ItemEvent(infoEvento)
+            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         Catch ex As Exception
-            objGlobal.conexionSAP.Mostrar_Error(ex, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)
+            objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
         End Try
     End Function
@@ -267,24 +258,24 @@
         Dim Path As String = ""
         Dim XmlDoc As New System.Xml.XmlDocument
         Dim oFP As SAPbouiCOM.FormCreationParams = Nothing
-        Dim EXO_Xml As New EXO_Generales.EXO_XML(objGlobal.conexionSAP.refCompañia, objGlobal.conexionSAP.refSBOApp)
+        Dim EXO_Xml As New EXO_UIAPI.EXO_XML(objGlobal)
 
         EventHandler_Form_Load = False
 
         Try
             'Buscar XML de update
-            SboApp.StatusBar.SetText("Presentando información...Espere por favor", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
-            Path = objGlobal.conexionSAP.pathPantallas
+            objglobal.SboApp.StatusBar.SetText("Presentando información...Espere por favor", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+            Path = objGlobal.refDi.OGEN.pathGeneral & "\01.Pantallas"
             If Path = "" Then
                 Return False
             End If
 
-            oFP = CType(SboApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams), SAPbouiCOM.FormCreationParams)
+            oFP = CType(objglobal.SboApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams), SAPbouiCOM.FormCreationParams)
             oFP.XmlData = EXO_Xml.LoadFormXml(Path & "\EXO_OCON.srf", False).ToString
 
             Try
                 'Lo metemos en un try catch porque si intenta acceder un usuario sin autorización salta un error interno
-                oForm = SboApp.Forms.AddEx(oFP)
+                oForm = objglobal.SboApp.Forms.AddEx(oFP)
 
                 If CargarCombos(oForm) = False Then
                     Exit Function
@@ -304,13 +295,13 @@
         End Try
     End Function
 
-    Private Function EventHandler_ItemPressed_After(ByRef pVal As EXO_Generales.EXO_infoItemEvent) As Boolean
+    Private Function EventHandler_ItemPressed_After(ByRef pVal As ItemEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         EventHandler_ItemPressed_After = False
 
         Try
-            oForm = SboApp.Forms.Item(pVal.FormUID)
+            oForm = objglobal.SBOApp.Forms.Item(pVal.FormUID)
 
             If pVal.ItemUID = "3" Then
                 If pVal.ActionSuccess = True Then
@@ -347,48 +338,48 @@
         CargarCombos = False
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-            oRsAux = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRsAux = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-            oRs = objGlobal.conexionSAP.compañia.GetCompanyList
+            oRs = objGlobal.compañia.GetCompanyList
 
             While Not oRs.EoF
                 'Si las compañías del company list tienen los siguientes tres campos entonces cargamos el grupo de empresas
-                sSQL = "SELECT COL.Name " & _
-                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " & _
-                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " & _
-                        "WHERE OBJ.name = 'OADM' " & _
-                        "AND COL.name = 'U_EXO_CONSOLIDACION' " & _
-                        "UNION ALL " & _
-                        "SELECT COL.Name " & _
-                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " & _
-                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " & _
-                        "WHERE OBJ.name = 'OADM' " & _
-                        "AND COL.name = 'U_EXO_MATRIZ' " & _
-                        "UNION ALL " & _
-                        "SELECT COL.Name " & _
-                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " & _
-                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " & _
-                        "WHERE OBJ.name = 'OADM' " & _
+                sSQL = "SELECT COL.Name " &
+                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " &
+                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " &
+                        "WHERE OBJ.name = 'OADM' " &
+                        "AND COL.name = 'U_EXO_CONSOLIDACION' " &
+                        "UNION ALL " &
+                        "SELECT COL.Name " &
+                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " &
+                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " &
+                        "WHERE OBJ.name = 'OADM' " &
+                        "AND COL.name = 'U_EXO_MATRIZ' " &
+                        "UNION ALL " &
+                        "SELECT COL.Name " &
+                        "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.syscolumns COL WITH (NOLOCK) INNER JOIN " &
+                        "[" & oRs.Fields.Item(0).Value.ToString & "].dbo.sysobjects OBJ WITH (NOLOCK) ON OBJ.id = COL.id " &
+                        "WHERE OBJ.name = 'OADM' " &
                         "AND COL.name = 'U_EXO_GRUPOEMPRESA'"
 
                 oRsAux.DoQuery(sSQL)
 
                 If oRsAux.RecordCount = 3 Then
-                    sSQL = "SELECT DocEntry " & _
-                           "FROM [@EXO_ICO1] t1 WITH (NOLOCK) " & _
-                           "WHERE t1.U_EXO_DBNAME = '" & oRs.Fields.Item(0).Value.ToString & "' " & _
+                    sSQL = "SELECT DocEntry " &
+                           "FROM [@EXO_ICO1] t1 WITH (NOLOCK) " &
+                           "WHERE t1.U_EXO_DBNAME = '" & oRs.Fields.Item(0).Value.ToString & "' " &
                            "AND t1.U_EXO_PRCNT > 0 "
 
                     oRsAux.DoQuery(sSQL)
 
                     If oRsAux.RecordCount > 0 Then
                         'Combo Grupo de empresas
-                        sSQL = "SELECT ISNULL(t1.U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " & _
-                               "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.[OADM] t1 WITH (NOLOCK) " & _
-                               "WHERE (ISNULL(t1.U_EXO_MATRIZ, 'N') = 'Y' " & _
-                               "OR (ISNULL(t1.U_EXO_CONSOLIDACION, 'N') = 'N' " & _
-                               "AND ISNULL(t1.U_EXO_MATRIZ, 'N') = 'N')) " & _
+                        sSQL = "SELECT ISNULL(t1.U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " &
+                               "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.[OADM] t1 WITH (NOLOCK) " &
+                               "WHERE (ISNULL(t1.U_EXO_MATRIZ, 'N') = 'Y' " &
+                               "OR (ISNULL(t1.U_EXO_CONSOLIDACION, 'N') = 'N' " &
+                               "AND ISNULL(t1.U_EXO_MATRIZ, 'N') = 'N')) " &
                                "AND ISNULL(t1.U_EXO_GRUPOEMPRESA, '') <> ''"
 
                         oRsAux.DoQuery(sSQL)
@@ -428,17 +419,17 @@
 
         Try
             If IsDate(oForm.DataSources.UserDataSources.Item("DocDateD").Value) = False AndAlso IsDate(oForm.DataSources.UserDataSources.Item("DocDateH").Value) = False Then
-                SboApp.StatusBar.SetText("Debe indicar al menos una fecha.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                objglobal.SboApp.StatusBar.SetText("Debe indicar al menos una fecha.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
 
                 Exit Function
             ElseIf IsDate(oForm.DataSources.UserDataSources.Item("DocDateD").Value) AndAlso IsDate(oForm.DataSources.UserDataSources.Item("DocDateH").Value) Then
                 If CDate(oForm.DataSources.UserDataSources.Item("DocDateD").Value) > CDate(oForm.DataSources.UserDataSources.Item("DocDateH").Value) Then
-                    SboApp.StatusBar.SetText("La fecha de contabilización desde debe ser menor o igual a la fecha de contabilización hasta.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                    objglobal.SboApp.StatusBar.SetText("La fecha de contabilización desde debe ser menor o igual a la fecha de contabilización hasta.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
 
                     Exit Function
                 End If
             ElseIf oForm.DataSources.UserDataSources.Item("Asiento").Value.Trim = "" Then
-                SboApp.StatusBar.SetText("Debe indicar los asientos a importar.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                objglobal.SboApp.StatusBar.SetText("Debe indicar los asientos a importar.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
 
                 Exit Function
             End If
@@ -468,28 +459,28 @@
         Consolidar = False
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-            oRsAux = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRsAux = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
             If oForm.DataSources.UserDataSources.Item("Asiento").Value.Trim = "ALL" Then
-                sSQL = "SELECT t1.U_EXO_DBNAME, t1.U_EXO_PRCNT, t1.U_EXO_TIPOCONSO " & _
-                       "FROM [@EXO_ICO1] t1 WITH (NOLOCK) " 
+                sSQL = "SELECT t1.U_EXO_DBNAME, t1.U_EXO_PRCNT, t1.U_EXO_TIPOCONSO " &
+                       "FROM [@EXO_ICO1] t1 WITH (NOLOCK) "
             Else
-                oRs = objGlobal.conexionSAP.compañia.GetCompanyList
+                oRs = objGlobal.compañia.GetCompanyList
 
                 While Not oRs.EoF
-                    oRsAux.DoQuery("SELECT t1.U_EXO_DBNAME " & _
-                                   "FROM [@EXO_ICO1] t1 WITH (NOLOCK) " & _
+                    oRsAux.DoQuery("SELECT t1.U_EXO_DBNAME " &
+                                   "FROM [@EXO_ICO1] t1 WITH (NOLOCK) " &
                                    "WHERE t1.U_EXO_DBNAME = '" & oRs.Fields.Item(0).Value.ToString & "'")
 
                     If oRsAux.RecordCount > 0 Then
-                        oRsAux.DoQuery("SELECT t1.CompnyName " & _
-                                       "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.[OADM] t1 WITH (NOLOCK) " & _
+                        oRsAux.DoQuery("SELECT t1.CompnyName " &
+                                       "FROM [" & oRs.Fields.Item(0).Value.ToString & "].dbo.[OADM] t1 WITH (NOLOCK) " &
                                        "WHERE ISNULL(t1.U_EXO_GRUPOEMPRESA, '') = '" & oForm.DataSources.UserDataSources.Item("Asiento").Value.Trim & "'")
 
                         If oRsAux.RecordCount > 0 Then
-                            sSQL = "SELECT t1.U_EXO_DBNAME, t1.U_EXO_PRCNT, t1.U_EXO_TIPOCONSO " & _
-                                   "FROM [@EXO_ICO1] t1 WITH (NOLOCK) " & _
+                            sSQL = "SELECT t1.U_EXO_DBNAME, t1.U_EXO_PRCNT, t1.U_EXO_TIPOCONSO " &
+                                   "FROM [@EXO_ICO1] t1 WITH (NOLOCK) " &
                                    "WHERE t1.U_EXO_DBNAME = '" & oRs.Fields.Item(0).Value.ToString & "'"
 
                             Exit While
@@ -527,12 +518,12 @@
 
                     Process.Start(sFile)
 
-                    Me.SboApp.StatusBar.SetText("Fin de la consolidación contable. Abriendo fichero de log. Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+                    Me.objglobal.SboApp.StatusBar.SetText("Fin de la consolidación contable. Abriendo fichero de log. Espere por favor ...", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
                 Else
-                    Me.SboApp.StatusBar.SetText("El grupo de empresa seleccionado no existe.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                    Me.objglobal.SboApp.StatusBar.SetText("El grupo de empresa seleccionado no existe.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
                 End If
             Else
-                Me.SboApp.StatusBar.SetText("El grupo de empresa seleccionado no existe.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                Me.objglobal.SboApp.StatusBar.SetText("El grupo de empresa seleccionado no existe.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
             End If
 
             Consolidar = True
@@ -576,19 +567,19 @@
         OJDT = False
 
         Try
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
-            oRsAux = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRsAux = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
-            sSQL = "SELECT DISTINCT t1.TransId, t1.Number, ISNULL(t1.U_EXO_COMPANY1, '') U_EXO_COMPANY1, ISNULL(t1.U_EXO_COMPANY2, '') U_EXO_COMPANY2 " & _
-                   "FROM [" & sdbName & "].dbo.[OJDT] t1 WITH (NOLOCK) INNER JOIN " & _
-                   "[" & sdbName & "].dbo.[JDT1] t2 WITH (NOLOCK) ON t1.TransId = t2.TransId " & _
-                   "WHERE t1.TransType <> '-3' " & _
-                   "AND t1.TransType <> '-2' " & _
-                   "AND ISNULL(t1.U_EXO_COMPANY1, '') <> '" & objGlobal.conexionSAP.compañia.CompanyDB & "' " & _
-                   "AND ISNULL(t1.U_EXO_COMPANY2, '') <> '" & objGlobal.conexionSAP.compañia.CompanyDB & "' " & _
-                   "AND t1.TransId NOT IN (SELECT DISTINCT t3.TransId " & _
-                                           "FROM [" & sdbName & "].dbo.[JDT1] t3 WITH (NOLOCK) INNER JOIN " & _
-                                           "[" & objGlobal.conexionSAP.compañia.CompanyDB & "].dbo.[@EXO_OCTE] t4 WITH (NOLOCK) ON t3.Account = t4.U_EXO_ACCTCODE " & _
+            sSQL = "SELECT DISTINCT t1.TransId, t1.Number, ISNULL(t1.U_EXO_COMPANY1, '') U_EXO_COMPANY1, ISNULL(t1.U_EXO_COMPANY2, '') U_EXO_COMPANY2 " &
+                   "FROM [" & sdbName & "].dbo.[OJDT] t1 WITH (NOLOCK) INNER JOIN " &
+                   "[" & sdbName & "].dbo.[JDT1] t2 WITH (NOLOCK) ON t1.TransId = t2.TransId " &
+                   "WHERE t1.TransType <> '-3' " &
+                   "AND t1.TransType <> '-2' " &
+                   "AND ISNULL(t1.U_EXO_COMPANY1, '') <> '" & objGlobal.compañia.CompanyDB & "' " &
+                   "AND ISNULL(t1.U_EXO_COMPANY2, '') <> '" & objGlobal.compañia.CompanyDB & "' " &
+                   "AND t1.TransId NOT IN (SELECT DISTINCT t3.TransId " &
+                                           "FROM [" & sdbName & "].dbo.[JDT1] t3 WITH (NOLOCK) INNER JOIN " &
+                                           "[" & objGlobal.compañia.CompanyDB & "].dbo.[@EXO_OCTE] t4 WITH (NOLOCK) ON t3.Account = t4.U_EXO_ACCTCODE " &
                                            "WHERE t3.TransId = t1.TransId) "
             '"AND ISNULL(t1.StornoToTr, 0) = 0 " & _
             '"AND t1.TransId NOT IN (SELECT t5.StornoToTr " & _
@@ -609,36 +600,36 @@
             oNodes = oXmlRs.SelectNodes("//row")
 
             If oRs.RecordCount > 0 Then
-                oRsAux.DoQuery("SELECT ISNULL(U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " & _
+                oRsAux.DoQuery("SELECT ISNULL(U_EXO_GRUPOEMPRESA, '') U_EXO_GRUPOEMPRESA " &
                                "FROM [" & sdbName & "].dbo.[OADM] ")
 
                 If oRsAux.RecordCount > 0 Then
                     sGrupoEmpresa = oRsAux.Fields.Item("U_EXO_GRUPOEMPRESA").Value.ToString
                 End If
 
-                Me.SboApp.StatusBar.SetText("Iniciando consolidación compañía " & sdbName, SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+                Me.objglobal.SboApp.StatusBar.SetText("Iniciando consolidación compañía " & sdbName, SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
 
-                EXO_GLOBALES.Connect_Company(objGlobal, oCompanyO, sdbName)
+                EXO_GLOBALES.Connect_Company(objglobal, oCompanyO, sdbName)
 
                 oCompanyO.XMLAsString = True
                 oCompanyO.XmlExportType = SAPbobsCOM.BoXmlExportTypes.xet_ExportImportMode
 
-                objGlobal.conexionSAP.compañia.XMLAsString = True
-                objGlobal.conexionSAP.compañia.XmlExportType = SAPbobsCOM.BoXmlExportTypes.xet_ExportImportMode
+                objGlobal.compañia.XMLAsString = True
+                objGlobal.compañia.XmlExportType = SAPbobsCOM.BoXmlExportTypes.xet_ExportImportMode
 
                 For i As Integer = 0 To oNodes.Count - 1
                     Try
-                        Me.SboApp.StatusBar.SetText(sdbName & " - Asiento " & (i + 1).ToString & " de " & oNodes.Count, SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+                        Me.objglobal.SboApp.StatusBar.SetText(sdbName & " - Asiento " & (i + 1).ToString & " de " & oNodes.Count, SAPbouiCOM.BoMessageTime.bmt_Long, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
 
                         oNode = oNodes.Item(i)
 
                         cSumCredit = 0
                         cSumDebit = 0
 
-                        If Me.Company.InTransaction = True Then
-                            Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+                        If objglobal.compañia.InTransaction = True Then
+                            objglobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
                         End If
-                        Me.Company.StartTransaction()
+                        objglobal.compañia.StartTransaction()
 
                         oOJDT = CType(oCompanyO.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oJournalEntries), SAPbobsCOM.JournalEntries)
 
@@ -760,17 +751,17 @@
 
                                 If sTipo = "S" Then
                                     'Si el tipo de consolidación es 'Sistema'
-                                    oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("CreditSys").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                    oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("CreditSys").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
 
-                                    oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("DebitSys").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                    oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("DebitSys").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
 
                                     cSumCredit += CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ","))
                                     cSumDebit += CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ","))
                                 Else
                                     'Si el tipo de consolidación es 'Local'
-                                    oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                    oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
 
-                                    oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                    oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round((CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
 
                                     cSumCredit += CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ","))
                                     cSumDebit += CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ","))
@@ -778,17 +769,17 @@
 
                                 'Ajustamos el importe al último asiento si hay diferencias
                                 If j = 0 Then
-                                    If Math.Round(cSumCredit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) > Math.Round(cSumDebit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) Then
+                                    If Math.Round(cSumCredit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) > Math.Round(cSumDebit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) Then
                                         If CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ",")) <> 0 Then
-                                            oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ",")) + Math.Round(Math.Round(cSumCredit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumDebit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                            oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ",")) + Math.Round(Math.Round(cSumCredit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumDebit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
                                         Else
-                                            oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ",")) - Math.Round(Math.Round(cSumCredit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumDebit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                            oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ",")) - Math.Round(Math.Round(cSumCredit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumDebit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
                                         End If
-                                    ElseIf Math.Round(cSumCredit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) < Math.Round(cSumDebit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) Then
+                                    ElseIf Math.Round(cSumCredit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) < Math.Round(cSumDebit, objGlobal.refdi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) Then
                                         If CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ",")) <> 0 Then
-                                            oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ",")) + Math.Round(Math.Round(cSumDebit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumCredit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                            oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Credit").InnerText.Replace(".", ",")) + Math.Round(Math.Round(cSumDebit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumCredit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
                                         Else
-                                            oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ",")) - Math.Round(Math.Round(cSumDebit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumCredit, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
+                                            oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText = Math.Round(CDbl(oXmlNodes.Item(j).SelectSingleNode("Debit").InnerText.Replace(".", ",")) - Math.Round(Math.Round(cSumDebit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero) - Math.Round(cSumCredit, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero), objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero).ToString.Replace(",", ".")
                                         End If
                                     End If
                                 End If
@@ -1000,41 +991,41 @@
 
                             sXML = oXml.OuterXml
 
-                            oOJDT = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oJournalEntries), SAPbobsCOM.JournalEntries)
+                            oOJDT = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oJournalEntries), SAPbobsCOM.JournalEntries)
 
-                            oOJDT = Me.Company.GetBusinessObjectFromXML(sXML, 0)
+                            oOJDT = objglobal.compañia.GetBusinessObjectFromXML(sXML, 0)
 
                             oOJDT.AutoVAT = SAPbobsCOM.BoYesNoEnum.tNO
                             oOJDT.UserFields.Fields.Item("U_EXO_GRUPOEMPRESA").Value = sGrupoEmpresa
 
                             If oOJDT.Add() <> 0 Then
-                                Throw New Exception(Me.Company.GetLastErrorCode & " / " & Me.Company.GetLastErrorDescription)
+                                Throw New Exception(objglobal.compañia.GetLastErrorCode & " / " & objglobal.compañia.GetLastErrorDescription)
                             End If
 
                             If oNode.SelectSingleNode("U_EXO_COMPANY1").InnerText = "" Then
-                                oRsAux.DoQuery("UPDATE [" & sdbName & "].dbo.[OJDT] SET U_EXO_COMPANY1 = '" & objGlobal.conexionSAP.compañia.CompanyDB & "' " & _
+                                oRsAux.DoQuery("UPDATE [" & sdbName & "].dbo.[OJDT] SET U_EXO_COMPANY1 = '" & objGlobal.compañia.CompanyDB & "' " &
                                                "WHERE TransId = " & oNode.SelectSingleNode("TransId").InnerText)
                             ElseIf oNode.SelectSingleNode("U_EXO_COMPANY2").InnerText = "" Then
-                                oRsAux.DoQuery("UPDATE [" & sdbName & "].dbo.[OJDT] SET U_EXO_COMPANY2 = '" & objGlobal.conexionSAP.compañia.CompanyDB & "' " & _
+                                oRsAux.DoQuery("UPDATE [" & sdbName & "].dbo.[OJDT] SET U_EXO_COMPANY2 = '" & objGlobal.compañia.CompanyDB & "' " &
                                                "WHERE TransId = " & oNode.SelectSingleNode("TransId").InnerText)
                             End If
                         End If
 
-                        If Me.Company.InTransaction = True Then
-                            Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit)
+                        If objglobal.compañia.InTransaction = True Then
+                            objglobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit)
                         End If
 
                     Catch exCOM As System.Runtime.InteropServices.COMException
                         log.escribeMensaje("DB " & sdbName & " ASIENTO " & oNode.SelectSingleNode("Number").InnerText & " ----- " & exCOM.Message, EXO_Log.EXO_Log.Tipo.error)
 
-                        If Me.Company.InTransaction = True Then
-                            Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+                        If objglobal.compañia.InTransaction = True Then
+                            objglobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
                         End If
                     Catch ex As Exception
                         log.escribeMensaje("DB " & sdbName & " ASIENTO " & oNode.SelectSingleNode("Number").InnerText & " ----- " & ex.Message, EXO_Log.EXO_Log.Tipo.error)
 
-                        If Me.Company.InTransaction = True Then
-                            Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+                        If objglobal.compañia.InTransaction = True Then
+                            objglobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
                         End If
                     End Try
                 Next
@@ -1043,14 +1034,14 @@
             OJDT = True
 
         Catch exCOM As System.Runtime.InteropServices.COMException
-            If Me.Company.InTransaction = True Then
-                Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+            If objglobal.compañia.InTransaction = True Then
+                objglobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
             End If
 
             Throw exCOM
         Catch ex As Exception
-            If Me.Company.InTransaction = True Then
-                Me.Company.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
+            If objglobal.compañia.InTransaction = True Then
+                objglobal.compañia.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack)
             End If
 
             Throw ex
@@ -1061,7 +1052,7 @@
 
             EXO_GLOBALES.Disconnect_Company(oCompanyO)
 
-            Me.SboApp.StatusBar.SetText("Fin consolidación compañía " & sdbName, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+            Me.objglobal.SboApp.StatusBar.SetText("Fin consolidación compañía " & sdbName, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
         End Try
     End Function
 
@@ -1080,20 +1071,20 @@
 
             If sCostingCode <> "" Then
                 'Comprobamos que sea manual en el origen
-                oRsAux.DoQuery("SELECT t1.PrcCode, t1.PrcAmount, t1.OcrTotal " & _
-                               "FROM MDR1 t1 WITH (NOLOCK) " & _
+                oRsAux.DoQuery("SELECT t1.PrcCode, t1.PrcAmount, t1.OcrTotal " &
+                               "FROM MDR1 t1 WITH (NOLOCK) " &
                                "WHERE t1.OcrCode = '" & sCostingCode & "'")
 
                 oXmlAux.LoadXml(oRsAux.GetAsXML())
                 oNodesAux = oXmlAux.SelectNodes("//row")
 
                 If oRsAux.RecordCount > 0 Then
-                    cOcrTotal = Math.Round((CDbl(oNodesAux.Item(0).SelectSingleNode("OcrTotal").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero)
+                    cOcrTotal = Math.Round((CDbl(oNodesAux.Item(0).SelectSingleNode("OcrTotal").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero)
 
                     For h As Integer = 0 To oNodesAux.Count - 1
                         oNodeAux = oNodesAux.Item(h)
 
-                        cPrcAmount = Math.Round((CDbl(oNodesAux.Item(h).SelectSingleNode("PrcAmount").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.conexionSAP.OADM.decimalesImportes, MidpointRounding.AwayFromZero)
+                        cPrcAmount = Math.Round((CDbl(oNodesAux.Item(h).SelectSingleNode("PrcAmount").InnerText.Replace(".", ",")) * cPrcnt) / 100, objGlobal.refDi.OADM.decimalesImportes, MidpointRounding.AwayFromZero)
 
                         cSumOcrTotal += cPrcAmount
 
@@ -1143,7 +1134,7 @@
 
         Try
             'Recupero el numerador de SAP
-            oRs = CType(Me.Company.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs = CType(objglobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
 
             sSQL = "SELECT TOP 1 AutoKey FROM ONNM WITH (NOLOCK) WHERE ObjectCode = '252'"
 
@@ -1189,7 +1180,7 @@
             sSQL = sSQL & ",'N'"
             sSQL = sSQL & ",'N'"
             sSQL = sSQL & ",'I'"
-            sSQL = sSQL & "," & Me.Company.UserSignature
+            sSQL = sSQL & "," & objglobal.compañia.UserSignature
             sSQL = sSQL & "," & sDimCode
             sSQL = sSQL & "," & iNumerador
             sSQL = sSQL & ",'Y'"
