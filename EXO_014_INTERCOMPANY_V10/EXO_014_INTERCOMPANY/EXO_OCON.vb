@@ -109,39 +109,18 @@ Public Class EXO_OCON
 
         Try
             If infoEvento.BeforeAction = True Then
-                oForm = objGlobal.SBOApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-                    Case "169"
-
-                        Select Case infoEvento.MenuUID
-                            Case "EXO-MnConso"
-                                'oPermisoUser = objGlobal.conexionSAP.refCompañia.autorizacionUsuario("EXO_AUCONSO")
-
-                                'If oPermisoUser = SAPbobsCOM.BoPermission.boper_Full OrElse oPermisoUser = SAPbobsCOM.BoPermission.boper_ReadOnly Then
-                                If EventHandler_Form_Load() = False Then
-                                    GC.Collect()
-                                    Return False
-                                End If
-                                'Else
-                                'Me.objglobal.SboApp.StatusBar.SetText("El usuario no tiene permisos para acceder a este formulario.", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
-                                'End If
-
-                        End Select
-
+                Select Case infoEvento.MenuUID
+                    Case "EXO-MnConso"
+                        oForm = objGlobal.SBOApp.Forms.ActiveForm
+                        If oForm.TypeEx = "169" Then
+                            If EventHandler_Form_Load() = False Then
+                                GC.Collect()
+                                Return False
+                            End If
+                        End If
                 End Select
-
-            Else
-                oForm = objGlobal.SBOApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-
-                End Select
-
             End If
-
-            Return MyBase.objGlobal.SBOApp.MenuEvent(infoEvento)
-
+            Return MyBase.SBOApp_MenuEvent(infoEvento)
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
@@ -152,6 +131,7 @@ Public Class EXO_OCON
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
+
 
     Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try

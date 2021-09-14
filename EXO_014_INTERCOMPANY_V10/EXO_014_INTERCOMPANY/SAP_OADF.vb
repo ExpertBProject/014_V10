@@ -32,41 +32,20 @@ Public Class SAP_OADF
 #End Region
 
 #Region "Eventos"
-
     Public Overrides Function SBOApp_MenuEvent(infoEvento As MenuEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         Try
             If infoEvento.BeforeAction = True Then
-                oForm = objglobal.SBOApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-                    Case "419"
-
-                        Select Case infoEvento.MenuUID
-                            Case "1283"
-                                _sCodigo = CType(oForm.Items.Item("4").Specific, SAPbouiCOM.EditText).Value
-
-                        End Select
-
+                Select Case infoEvento.MenuUID
+                    Case "1283"
+                        oForm = objGlobal.SBOApp.Forms.ActiveForm
+                        If oForm.TypeEx = "419" Then
+                            _sCodigo = CType(oForm.Items.Item("4").Specific, SAPbouiCOM.EditText).Value
+                        End If
                 End Select
-
-            Else
-                oForm = objglobal.SboApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-                    Case "419"
-
-                        Select Case infoEvento.MenuUID
-
-                        End Select
-
-                End Select
-
             End If
-
-            Return MyBase.objGlobal.SBOApp.MenuEvent(infoEvento)
-
+            Return MyBase.SBOApp_MenuEvent(infoEvento)
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
@@ -77,6 +56,7 @@ Public Class SAP_OADF
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
+
 
     Public Overrides Function SBOApp_FormDataEvent(ByVal infoEvento As BusinessObjectInfo) As Boolean
         Try

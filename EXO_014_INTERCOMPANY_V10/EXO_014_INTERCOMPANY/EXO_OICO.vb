@@ -120,57 +120,41 @@ Public Class EXO_OICO
 #End Region
 
 #Region "Eventos"
-
     Public Overrides Function SBOApp_MenuEvent(infoEvento As MenuEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         Try
             If infoEvento.BeforeAction = True Then
-                oForm = objglobal.SBOApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-                    Case "169"
-
-                        Select Case infoEvento.MenuUID
-                            Case "EXO-MnInterCo"
-                                objglobal.funcionesUI.cargaFormUdoBD("EXO_OICO")
-
-                        End Select
-
+                Select Case infoEvento.MenuUID
+                    Case "EXO-MnInterCo"
+                        oForm = objGlobal.SBOApp.Forms.ActiveForm
+                        If oForm.TypeEx = "169" Then
+                            objGlobal.funcionesUI.cargaFormUdoBD("EXO_OICO")
+                        End If
                 End Select
-
             Else
-                oForm = objglobal.SboApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-                    Case "UDO_FT_EXO_OICO"
-
-                        Select Case infoEvento.MenuUID
-                            Case "1282" 'Nuevo
-                                If InicializarValores(oForm) = False Then
-                                    Return False
-                                End If
-
-                        End Select
-
+                Select Case infoEvento.MenuUID
+                    Case "1282" 'Nuevo
+                        oForm = objGlobal.SBOApp.Forms.ActiveForm
+                        If oForm.TypeEx = "UDO_FT_EXO_OICO" Then
+                            If InicializarValores(oForm) = False Then
+                                Return False
+                            End If
+                        End If
                 End Select
-
             End If
-
-            Return MyBase.objGlobal.SBOApp.MenuEvent(infoEvento)
-
+            Return MyBase.SBOApp_MenuEvent(infoEvento)
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
-
             Return False
         Catch ex As Exception
             objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
-
             Return False
         Finally
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
+
 
     Public Overrides Function SBOApp_FormDataEvent(ByVal infoEvento As BusinessObjectInfo) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing

@@ -114,39 +114,23 @@ Public Class EXO_OCTE
 #End Region
 
 #Region "Eventos"
-
     Public Overrides Function SBOApp_MenuEvent(infoEvento As MenuEvent) As Boolean
         Dim oForm As SAPbouiCOM.Form = Nothing
 
         Try
             If infoEvento.BeforeAction = True Then
-                oForm = objGlobal.SBOApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-                    Case "169"
-
-                        Select Case infoEvento.MenuUID
-                            Case "EXO-MnCtaEx"
-                                If EventHandler_Form_Visible() = False Then
-                                    GC.Collect()
-                                    Return False
-                                End If
-
-                        End Select
-
+                Select Case infoEvento.MenuUID
+                    Case "EXO-MnCtaEx"
+                        oForm = objGlobal.SBOApp.Forms.ActiveForm
+                        If oForm.TypeEx = "169" Then
+                            If EventHandler_Form_Visible() = False Then
+                                GC.Collect()
+                                Return False
+                            End If
+                        End If
                 End Select
-
-            Else
-                oForm = objGlobal.SBOApp.Forms.ActiveForm
-
-                Select Case oForm.TypeEx
-
-                End Select
-
             End If
-
-            Return MyBase.objGlobal.SBOApp.MenuEvent(infoEvento)
-
+            Return MyBase.SBOApp_MenuEvent(infoEvento)
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
             Return False
@@ -157,6 +141,7 @@ Public Class EXO_OCTE
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
     End Function
+
 
     Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
         Try
@@ -268,7 +253,7 @@ Public Class EXO_OCTE
 
         Try
             'Recuperar el formulario
-            oForm = Me.objglobal.SboApp.OpenForm(SAPbouiCOM.BoFormObjectEnum.fo_UserDefinedObject, "EXO_OCTE", "")
+            oForm = Me.objGlobal.SBOApp.OpenForm(SAPbouiCOM.BoFormObjectEnum.fo_UserDefinedObject, "EXO_OCTE", "")
 
             If oForm.Visible = True Then
                 oForm.Title = "Cuentas contables excluidas para la consolidación"
