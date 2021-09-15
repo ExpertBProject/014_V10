@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Pd Audio")]
+[assembly: AssemblyTitle("PROVISION")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EXPERT ONE")]
-[assembly: AssemblyProduct("Pd Audio")]
+[assembly: AssemblyProduct("PROVISION")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("10.1.3.001")]
-[assembly: AssemblyFileVersion("10.1.3.001")]
+[assembly: AssemblyVersion("10.1.3.002")]
+[assembly: AssemblyFileVersion("10.1.3.002")]

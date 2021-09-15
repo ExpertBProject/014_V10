@@ -11,7 +11,7 @@ Public Class SAP_OACT_804
 #Region "Constructor"
 
     Public Sub New(ByRef oObjGlobal As EXO_UIAPI.EXO_UIAPI, ByRef actualizar As Boolean, usaLicencia As Boolean, idAddOn As Integer)
-        MyBase.New(oObjGlobal, actualizar, usaLicencia, idAddOn)
+        MyBase.New(oObjGlobal, actualizar, False, idAddOn)
     End Sub
 
 #End Region
@@ -33,7 +33,7 @@ Public Class SAP_OACT_804
 
 #Region "Eventos"
 
-    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -132,7 +132,7 @@ Public Class SAP_OACT_804
                 End If
             End If
 
-            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
+             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)

@@ -10,7 +10,7 @@ namespace Cliente
     public class EXO_392
     {
 
-        public bool MenuEvent(EXO_Generales.EXO_MenuEvent args)
+        public bool MenuEvent(MenuEvent args)
         {
             switch (args.MenuUID)
             {
@@ -19,12 +19,12 @@ namespace Cliente
                     #region Limpio nombre sales
                     if (args.BeforeAction)
                     {
-                        SAPbouiCOM.Form oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.ActiveForm;
+                        SAPbouiCOM.Form oForm = Matriz.oGlobal.SBOApp.Forms.ActiveForm;
                         if (oForm.DataSources.DBDataSources.Item("OJDT").GetValue("U_EXO_EsProvi", 0).Trim() == "Y")
                         {
                             if (oForm.DataSources.DBDataSources.Item("OJDT").GetValue("U_EXO_CancProv", 0).Trim() == "Y")
                             {
-                                Matriz.oGlobal.conexionSAP.SBOApp.SetStatusBarMessage("Ya ha cancelado este asiento de provision", BoMessageTime.bmt_Short, true);                                
+                                Matriz.oGlobal.SBOApp.SetStatusBarMessage("Ya ha cancelado este asiento de provision", BoMessageTime.bmt_Short, true);                                
                                 return false;
                             }
                             

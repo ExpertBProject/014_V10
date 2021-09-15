@@ -9,9 +9,9 @@ namespace Cliente
 {
     public class EXO_142
     {
-        public bool ItemEvent(EXO_Generales.EXO_infoItemEvent infoEvento)
+        public bool ItemEvent(ItemEvent infoEvento)
         {
-            SAPbouiCOM.Form oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
+            SAPbouiCOM.Form oForm = Matriz.oGlobal.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
 
             switch (infoEvento.EventType)
             {
@@ -80,9 +80,9 @@ namespace Cliente
             return true;
         }
 
-        public bool DataEvent(EXO_Generales.EXO_BusinessObjectInfo args)
+        public bool DataEvent(BusinessObjectInfo args)
         {
-            SAPbouiCOM.Form oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.Item(args.FormUID);
+            SAPbouiCOM.Form oForm = Matriz.oGlobal.SBOApp.Forms.Item(args.FormUID);
 
             if (args.EventType == SAPbouiCOM.BoEventTypes.et_FORM_DATA_ADD && args.BeforeAction)
             {

@@ -222,7 +222,7 @@ Public Class EXO_OCON
                 End If
             End If
 
-            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
+            Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)

@@ -72,7 +72,7 @@ Public Class SAP_OJDT
 
             End If
 
-            Return MyBase.objGlobal.SBOApp.FormDataEvent(infoEvento)
+           Return MyBase.SBOApp_FormDataEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)

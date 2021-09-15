@@ -27,7 +27,7 @@ Public Class SAP_OCQG
 
 #Region "Eventos"
 
-    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -118,7 +118,7 @@ Public Class SAP_OCQG
                 End If
             End If
 
-            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
+             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)

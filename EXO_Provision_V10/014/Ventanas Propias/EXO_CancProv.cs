@@ -16,7 +16,7 @@ namespace Cliente
                 SAPbouiCOM.Form oForm = null;
 
                 #region CargoScreen
-                SAPbouiCOM.FormCreationParams oParametrosCreacion = (SAPbouiCOM.FormCreationParams)(Matriz.oGlobal.conexionSAP.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams));
+                SAPbouiCOM.FormCreationParams oParametrosCreacion = (SAPbouiCOM.FormCreationParams)(Matriz.oGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams));
                 
                 //EXOCANCPPROV                
                 string strXML = Utilidades.LeoFichEmbebido("Formularios.xEXO_CanceProv.srf");
@@ -25,11 +25,11 @@ namespace Cliente
 
                 try
                 {
-                    oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.AddEx(oParametrosCreacion);
+                    oForm = Matriz.oGlobal.SBOApp.Forms.AddEx(oParametrosCreacion);
                 }
                 catch (Exception ex)
                 {
-                    Matriz.oGlobal.conexionSAP.SBOApp.MessageBox(ex.Message, 1, "Ok", "", "");
+                    Matriz.oGlobal.SBOApp.MessageBox(ex.Message, 1, "Ok", "", "");
                 }
                 #endregion
 
@@ -41,9 +41,9 @@ namespace Cliente
             }           
        }
 
-        public bool ItemEvent(EXO_Generales.EXO_infoItemEvent infoEvento)
+        public bool ItemEvent(ItemEvent infoEvento)
         {
-            SAPbouiCOM.Form oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
+            SAPbouiCOM.Form oForm = Matriz.oGlobal.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
 
             switch (infoEvento.EventType)
             {
@@ -54,7 +54,7 @@ namespace Cliente
 
                         int nNumAsi = Convert.ToInt32(oForm.DataSources.UserDataSources.Item("dsAsien").ValueEx);
                         #region Pido confirmacion
-                        if (Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("¿ Cancelar asiento " + nNumAsi.ToString() + " ?", 2, "Si", "No", "") != 1)
+                        if (Matriz.oGlobal.SBOApp.MessageBox("¿ Cancelar asiento " + nNumAsi.ToString() + " ?", 2, "Si", "No", "") != 1)
                         {
                             return true;
                         }
@@ -62,7 +62,7 @@ namespace Cliente
                         string cFechaAsiento = oForm.DataSources.UserDataSources.Item("dsFecCan").ValueEx;
                         if (cFechaAsiento == "")
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("Ha de introducir Fecha para el asiento de cancelacion", 1, "Ok", "", "");
+                            Matriz.oGlobal.SBOApp.MessageBox("Ha de introducir Fecha para el asiento de cancelacion", 1, "Ok", "", "");
                             return true;
                         }
 
@@ -80,15 +80,15 @@ namespace Cliente
                         {
                             
                             #region INICIO TRANSACCION
-                            if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                            if (Matriz.oGlobal.compañia.InTransaction)
                             {
-                                Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
+                                Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
                             }
-                            Matriz.oGlobal.conexionSAP.compañia.StartTransaction();
+                            Matriz.oGlobal.compañia.StartTransaction();
                             #endregion
 
                             #region Creo el asiento 'al reves' y 'desmarco' los pedidos
-                            SAPbobsCOM.JournalEntries oAsiento = (SAPbobsCOM.JournalEntries)Matriz.oGlobal.conexionSAP.compañia.GetBusinessObject(BoObjectTypes.oJournalEntries);
+                            SAPbobsCOM.JournalEntries oAsiento = (SAPbobsCOM.JournalEntries)Matriz.oGlobal.compañia.GetBusinessObject(BoObjectTypes.oJournalEntries);
                             oAsiento.ReferenceDate = dFechasiento;
                             oAsiento.TaxDate = dFechasiento;
                             oAsiento.DueDate = dFechasiento;
@@ -103,7 +103,7 @@ namespace Cliente
                             sql += " T1.ProfitCode as 'CeCo1', T1.OcrCode2 as 'Ceco2', T1.OcrCode3 as 'Ceco3', T1.Line_ID FROM OJDT T0 INNER JOIN JDT1 T1 ON T0.TransId = T1.TransId ";
                             sql += " WHERE T0.TransId = " + nNumAsi.ToString();
                             sql += " ORDER BY T1.Line_ID ";
-                            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.SQL.sqlComoRsB1(sql);
+                            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.refDi.SQL.sqlComoRsB1(sql);
                             while (!oRec.EoF)
                             {
                                 if (lPrimera)
@@ -202,11 +202,11 @@ namespace Cliente
                                         {
 
                                             #region COMPLETO TRANSACCION - UNICO PUNTO
-                                            if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                                            if (Matriz.oGlobal.compañia.InTransaction)
                                             {
-                                                Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_Commit);
+                                                Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_Commit);
                                                 lTransaccionOK = true;
-                                                cNuevoAsiento = Matriz.oGlobal.conexionSAP.compañia.GetNewObjectKey();
+                                                cNuevoAsiento = Matriz.oGlobal.compañia.GetNewObjectKey();
                                             }
                                             #endregion
                                         }
@@ -214,28 +214,28 @@ namespace Cliente
                                 }
                                 else
                                 {
-                                    cMenError = Matriz.oGlobal.conexionSAP.compañia.GetLastErrorDescription();
+                                    cMenError = Matriz.oGlobal.compañia.GetLastErrorDescription();
                                 }
                             }
                         }
                         catch (Exception ex)
                         {
                             #region RECHAZO TRANSACCION
-                            if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                            if (Matriz.oGlobal.compañia.InTransaction)
                             {
-                                Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
+                                Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
                             }
                             #endregion
 
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("ERROR en la generacion del apunte de provision\n" + ex.Message, 1, "Ok", "", "");                                                        
+                            Matriz.oGlobal.SBOApp.MessageBox("ERROR en la generacion del apunte de provision\n" + ex.Message, 1, "Ok", "", "");                                                        
           
                         }
                         finally
                         {
                             #region RECHAZO TRANSACCION
-                            if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                            if (Matriz.oGlobal.compañia.InTransaction)
                             {
-                                Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
+                                Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
                                 if (cMenError == "") cMenError = "No se completo la transaccion";                                
                             }
                             #endregion                           
@@ -243,7 +243,7 @@ namespace Cliente
 
                         if (lTransaccionOK)
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("Proceso terminado con exito\nAsiento creado " + cNuevoAsiento, 1, "Ok", "", "");
+                            Matriz.oGlobal.SBOApp.MessageBox("Proceso terminado con exito\nAsiento creado " + cNuevoAsiento, 1, "Ok", "", "");
                             string cUnqFormIDOQUT = oForm.DataSources.UserDataSources.Item("dsFormU").ValueEx;
                             oForm.Close();
 
@@ -255,7 +255,7 @@ namespace Cliente
                         }
                         else
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox(cMenError, 1, "Ok", "", "");
+                            Matriz.oGlobal.SBOApp.MessageBox(cMenError, 1, "Ok", "", "");
                         }
 
                         #endregion
@@ -272,7 +272,7 @@ namespace Cliente
 
             try
             {
-                if (Matriz.oGlobal.SQL.sqlStringB1("SELECT T0.OcrCode FROM OOCR T0 WHERE T0.OcrCode = '" + cNormaReparto + "'") != "")
+                if (Matriz.oGlobal.refDi.SQL.sqlStringB1("SELECT T0.OcrCode FROM OOCR T0 WHERE T0.OcrCode = '" + cNormaReparto + "'") != "")
                 {
                     cRetorno = cNormaReparto;
                 }
@@ -281,7 +281,7 @@ namespace Cliente
                     List<RepartosCeCos> ListaCeCosDim = new List<RepartosCeCos>();
 
                     string sql1 = "SELECT T0.OcrCode as 'CodNorma', T0.PrcCode AS 'CeCo', T0.PrcAmount as 'Total' FROM MDR1 T0 WHERE T0.OcrCode = '" + cNormaReparto + "'";
-                    SAPbobsCOM.Recordset oRecNorma = Matriz.oGlobal.SQL.sqlComoRsB1(sql1);
+                    SAPbobsCOM.Recordset oRecNorma = Matriz.oGlobal.refDi.SQL.sqlComoRsB1(sql1);
                     while (!oRecNorma.EoF)
                     {
                         double nImpCeCo = oRecNorma.Fields.Item("Total").Value;

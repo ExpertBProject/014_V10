@@ -32,7 +32,7 @@ namespace Cliente
                 SAPbouiCOM.Form oForm = null;
 
                 #region CargoScreen
-                SAPbouiCOM.FormCreationParams oParametrosCreacion = (SAPbouiCOM.FormCreationParams)(Matriz.oGlobal.conexionSAP.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams));
+                SAPbouiCOM.FormCreationParams oParametrosCreacion = (SAPbouiCOM.FormCreationParams)(Matriz.oGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams));
                 
                 //EXOGENPROV                
                 string strXML = Utilidades.LeoFichEmbebido("Formularios.xEXO_ProviFactTrans.srf");
@@ -41,11 +41,11 @@ namespace Cliente
 
                 try
                 {
-                    oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.AddEx(oParametrosCreacion);
+                    oForm = Matriz.oGlobal.SBOApp.Forms.AddEx(oParametrosCreacion);
                 }
                 catch (Exception ex)
                 {
-                    Matriz.oGlobal.conexionSAP.SBOApp.MessageBox(ex.Message, 1, "Ok", "", "");
+                    Matriz.oGlobal.SBOApp.MessageBox(ex.Message, 1, "Ok", "", "");
                 }
                 #endregion
 
@@ -60,9 +60,9 @@ namespace Cliente
             }
         }
 
-        public bool ItemEvent(EXO_Generales.EXO_infoItemEvent infoEvento)
+        public bool ItemEvent(ItemEvent infoEvento)
         {
-            SAPbouiCOM.Form oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
+            SAPbouiCOM.Form oForm = Matriz.oGlobal.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
 
             switch (infoEvento.EventType)
             {
@@ -75,7 +75,7 @@ namespace Cliente
                         #region Valido
                         if (cHastaFecha == "")
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("Ha de introducir 'Hasta Fecha'", 1, "Ok", "", "");
+                            Matriz.oGlobal.SBOApp.MessageBox("Ha de introducir 'Hasta Fecha'", 1, "Ok", "", "");
                             return false;
                         }
                         #endregion
@@ -89,19 +89,19 @@ namespace Cliente
                 case BoEventTypes.et_ITEM_PRESSED:
                     if (!infoEvento.BeforeAction && infoEvento.ItemUID == "btnGenerar")
                     {
-                        if (Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("¿ Generar asiento de provision ?", 1, "Si", "No", "") != 1) return true;
+                        if (Matriz.oGlobal.SBOApp.MessageBox("¿ Generar asiento de provision ?", 1, "Si", "No", "") != 1) return true;
 
                         string cFechaAsiento = oForm.DataSources.UserDataSources.Item("dsFecha").ValueEx;
                         #region Valido
                         if (cFechaAsiento == "")
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("Fecha Asiento no válida", 1, "Ok", "", "");
+                            Matriz.oGlobal.SBOApp.MessageBox("Fecha Asiento no válida", 1, "Ok", "", "");
                             return true;
                         }
                         #endregion
 
                         //Avanzado o no
-                        bool lAvanzada = ( Matriz.oGlobal.SQL.sqlStringB1("SELECT isnull(NewAcctDe, 'Y') AS 'DeterAva' FROM OADM") == "Y" );
+                        bool lAvanzada = ( Matriz.oGlobal.refDi.SQL.sqlStringB1("SELECT isnull(NewAcctDe, 'Y') AS 'DeterAva' FROM OADM") == "Y" );
 
                         
                         string cTextoApun = oForm.DataSources.UserDataSources.Item("dsText").ValueEx;
@@ -120,7 +120,7 @@ namespace Cliente
                             #region Relleno la lista con los futuros apuntes a crear
                             int nNumPed = oTabla.GetValue("Clave", j);
                             string sql = sqlBase.Replace("##CLAVEPEDIDO", nNumPed.ToString());
-                            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.SQL.sqlComoRsB1(sql);
+                            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.refDi.SQL.sqlComoRsB1(sql);
                             while (!oRec.EoF)
                             {
                                 AuxApun = new ApuntesProvision();
@@ -157,11 +157,11 @@ namespace Cliente
 
                         if (ListaApuntes.Count == 0)
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("No hay apuntes a crear", 1, "Ok", "", "");
+                            Matriz.oGlobal.SBOApp.MessageBox("No hay apuntes a crear", 1, "Ok", "", "");
                             return true;
                         }
                         
-                        SAPbobsCOM.JournalEntries oAsiento = (SAPbobsCOM.JournalEntries) Matriz.oGlobal.conexionSAP.compañia.GetBusinessObject(BoObjectTypes.oJournalEntries);
+                        SAPbobsCOM.JournalEntries oAsiento = (SAPbobsCOM.JournalEntries) Matriz.oGlobal.compañia.GetBusinessObject(BoObjectTypes.oJournalEntries);
 
                         oAsiento.ReferenceDate = dFechasiento;
                         oAsiento.TaxDate = dFechasiento;
@@ -195,16 +195,16 @@ namespace Cliente
                         try
                         {          
                             #region INICIO TRANSACCION
-                            if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                            if (Matriz.oGlobal.compañia.InTransaction)
                             {
-                                Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
+                                Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_RollBack);
                             }
-                            Matriz.oGlobal.conexionSAP.compañia.StartTransaction();
+                            Matriz.oGlobal.compañia.StartTransaction();
                             #endregion
 
                             if (oAsiento.Add() == 0)
                             {
-                                cNuevApun = Matriz.oGlobal.conexionSAP.compañia.GetNewObjectKey();
+                                cNuevApun = Matriz.oGlobal.compañia.GetNewObjectKey();
                                 #region Genero la lista
                                 string cCadenaUp = "";
                                 foreach (int x in ListaPedidos)
@@ -220,9 +220,9 @@ namespace Cliente
                                 if (cMenError == "")
                                 {
                                     #region COMPLETO TRANSACCION
-                                    if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                                    if (Matriz.oGlobal.compañia.InTransaction)
                                     {
-                                        Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_Commit);
+                                        Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_Commit);
                                         lTransaccionOK = true;
                                     }
                                     #endregion
@@ -230,36 +230,36 @@ namespace Cliente
                             }
                             else
                             {
-                                cMenError = Matriz.oGlobal.conexionSAP.compañia.GetLastErrorDescription();
+                                cMenError = Matriz.oGlobal.compañia.GetLastErrorDescription();
                             }
                         }
                         catch(Exception ex)
                         {
                             #region RECHAZO TRANSACCION
-                            if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                            if (Matriz.oGlobal.compañia.InTransaction)
                             {
-                                Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_RollBack );
+                                Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_RollBack );
                             }
                             #endregion
 
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("ERROR en la generacion del apunte de provision\n" + ex.Message, 1, "Ok", "", "");                                                        
+                            Matriz.oGlobal.SBOApp.MessageBox("ERROR en la generacion del apunte de provision\n" + ex.Message, 1, "Ok", "", "");                                                        
                         }
                         finally
                         {
                             #region RECHAZO TRANSACCION
-                            if (Matriz.oGlobal.conexionSAP.compañia.InTransaction)
+                            if (Matriz.oGlobal.compañia.InTransaction)
                             {
-                                Matriz.oGlobal.conexionSAP.compañia.EndTransaction(BoWfTransOpt.wf_RollBack );
+                                Matriz.oGlobal.compañia.EndTransaction(BoWfTransOpt.wf_RollBack );
                                 if (cMenError == "") cMenError = "No se completo la transaccion";
                                                                                                        
-                                Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("No se completo la transaccion\n" + cMenError, 1, "Ok", "", "");                            
+                                Matriz.oGlobal.SBOApp.MessageBox("No se completo la transaccion\n" + cMenError, 1, "Ok", "", "");                            
                             }
                             #endregion                           
                         }
 
                         if (lTransaccionOK)
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.MessageBox("Proceso terminado con exito\nCreado apunte " + cNuevApun, 1, "Ok", "", "");
+                            Matriz.oGlobal.SBOApp.MessageBox("Proceso terminado con exito\nCreado apunte " + cNuevApun, 1, "Ok", "", "");
                             CargoMatriz(ref oForm);
                         }                        
                     }
@@ -296,7 +296,7 @@ namespace Cliente
             try
             {                
                 oMatLin.LoadFromDataSource();
-                EXO_CleanCOM.CLiberaCOM.FormMatrix(ref oMatLin);
+                EXO_CleanCOM.CLiberaCOM.FormMatrix(oMatLin);
             }
             catch (Exception ex)
             { }

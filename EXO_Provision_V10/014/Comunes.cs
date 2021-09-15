@@ -146,7 +146,7 @@ namespace Cliente
                 }
                 catch (Exception ex)
                 {
-                    Matriz.oGlobal.conexionSAP.SBOApp.MessageBox(ex.Message, 1, "OK", "", "");
+                    Matriz.oGlobal.SBOApp.MessageBox(ex.Message, 1, "OK", "", "");
                 }
                 threadGetFile = null;
                 oFichero = null;
@@ -180,7 +180,7 @@ namespace Cliente
                 }
                 catch (Exception ex)
                 {
-                    Matriz.oGlobal.conexionSAP.SBOApp.MessageBox(ex.Message, 1, "OK", "", "");
+                    Matriz.oGlobal.SBOApp.MessageBox(ex.Message, 1, "OK", "", "");
                     threadGetFile.Abort();
                     threadGetFile = null;
                     OpenFileDialog.InitialDirectory = "";
@@ -235,7 +235,7 @@ namespace Cliente
         {
             SAPbobsCOM.UserObjectsMD oUserObjectMD = null;
             GC.Collect();            
-            oUserObjectMD = (SAPbobsCOM.UserObjectsMD)  Matriz.oGlobal.conexionSAP.compañia.GetBusinessObject(BoObjectTypes.oUserObjectsMD);
+            oUserObjectMD = (SAPbobsCOM.UserObjectsMD)  Matriz.oGlobal.compañia.GetBusinessObject(BoObjectTypes.oUserObjectsMD);
             int lRetCode;
             string cMensaje = "";
 
@@ -247,7 +247,7 @@ namespace Cliente
                 oUserObjectMD.FormSRF = cFormSRF;
                 lRetCode = oUserObjectMD.Update();
 
-                cMensaje = (lRetCode != 0) ? Matriz.oGlobal.conexionSAP.compañia.GetLastErrorDescription() : "Actualizado el UDO " + cUDO;
+                cMensaje = (lRetCode != 0) ? Matriz.oGlobal.compañia.GetLastErrorDescription() : "Actualizado el UDO " + cUDO;
                 lError = (lRetCode != 0);
             }
             catch (Exception ex)
@@ -280,7 +280,7 @@ namespace Cliente
 
             try
             {
-                oFORMORET = Matriz.oGlobal.conexionSAP.SBOApp.Forms.Item(cFormUID);
+                oFORMORET = Matriz.oGlobal.SBOApp.Forms.Item(cFormUID);
             }
             catch (Exception EX)
             { }
@@ -291,19 +291,19 @@ namespace Cliente
         public static bool LanzoMenuUserTable(string cTablaSinArroba, bool lUDO)
         {
             bool lRetorno = false;
-            SAPbouiCOM.Menus oMenus = Matriz.oGlobal.conexionSAP.SBOApp.Menus.Item(lUDO ? "47616":"51200").SubMenus;
+            SAPbouiCOM.Menus oMenus = Matriz.oGlobal.SBOApp.Menus.Item(lUDO ? "47616":"51200").SubMenus;
             for (int i = 0; i <= oMenus.Count - 1; i++)
             {
                 if (oMenus.Item(i).String.IndexOf(cTablaSinArroba) == 0)
                 {
-                    Matriz.oGlobal.conexionSAP.SBOApp.ActivateMenuItem(oMenus.Item(i).UID);
+                    Matriz.oGlobal.SBOApp.ActivateMenuItem(oMenus.Item(i).UID);
                     lRetorno = true;
                     break;
                 }
             }
 
 
-            EXO_CleanCOM.CLiberaCOM.Menus(ref oMenus);
+            EXO_CleanCOM.CLiberaCOM.Menus( oMenus);
             return lRetorno;
         }
 
@@ -311,7 +311,7 @@ namespace Cliente
         public static bool LanzoQueryPorMenu(string cCategoria, string cNomQuery)
         {
             bool lRetorno = false;
-            SAPbouiCOM.Menus oMenus = Matriz.oGlobal.conexionSAP.SBOApp.Menus.Item("53248").SubMenus;
+            SAPbouiCOM.Menus oMenus = Matriz.oGlobal.SBOApp.Menus.Item("53248").SubMenus;
             SAPbouiCOM.Menus oMenusCons;
             for (int i = 0; i <= oMenus.Count - 1; i++)
             {                
@@ -322,7 +322,7 @@ namespace Cliente
                     {
                         if ( oMenusCons.Item(j).String.IndexOf(cNomQuery) == 0)
                         {
-                            Matriz.oGlobal.conexionSAP.SBOApp.ActivateMenuItem(oMenusCons.Item(j).UID);
+                            Matriz.oGlobal.SBOApp.ActivateMenuItem(oMenusCons.Item(j).UID);
                             lRetorno = true;
                             break;
                         }
@@ -331,7 +331,7 @@ namespace Cliente
             }
 
 
-            EXO_CleanCOM.CLiberaCOM.Menus(ref oMenus);
+            EXO_CleanCOM.CLiberaCOM.Menus( oMenus);
             return lRetorno;
         }
 
@@ -396,7 +396,7 @@ namespace Cliente
             }
             catch (Exception ex)
             {
-                Matriz.oGlobal.conexionSAP.SBOApp.MessageBox(ex.Message, 1, "Ok", "", "");
+                Matriz.oGlobal.SBOApp.MessageBox(ex.Message, 1, "Ok", "", "");
             }
 
             oFormulario.Freeze(false);
@@ -448,7 +448,7 @@ namespace Cliente
         {
             SAPbouiCOM.ComboBox oCombo = (SAPbouiCOM.ComboBox)oItemCombo.Specific;
             string sql = "SELECT T0.Code, T0.Name FROM [" + cTabla + "] T0 " + cWhere + " ORDER BY T0.Name ";
-            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.SQL.sqlComoRsB1(sql);
+            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.refDi.SQL.sqlComoRsB1(sql);
             while (!oRec.EoF)
             {
                 oCombo.ValidValues.Add(oRec.Fields.Item(0).Value, oRec.Fields.Item(1).Value);
@@ -461,7 +461,7 @@ namespace Cliente
         public static void LLenoComboGenerico(ref SAPbouiCOM.Column oColumCombo, string cTabla, string cWhere = "")
         {
             string sql = "SELECT T0.Code, T0.Name FROM [" + cTabla + "] T0 " + cWhere + " ORDER BY T0.Name ";
-            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.SQL.sqlComoRsB1(sql);
+            SAPbobsCOM.Recordset oRec = Matriz.oGlobal.refDi.SQL.sqlComoRsB1(sql);
             while (!oRec.EoF)
             {
                 oColumCombo.ValidValues.Add(oRec.Fields.Item(0).Value, oRec.Fields.Item(1).Value);
@@ -474,7 +474,7 @@ namespace Cliente
         public static void ActualizarBBDD(string sqlUPD, ref string cMenError)
         {
 
-            SAPbobsCOM.Recordset oRec = (SAPbobsCOM.Recordset)Matriz.oGlobal.conexionSAP.compañia.GetBusinessObject(BoObjectTypes.BoRecordset);
+            SAPbobsCOM.Recordset oRec = (SAPbobsCOM.Recordset)Matriz.oGlobal.compañia.GetBusinessObject(BoObjectTypes.BoRecordset);
 
             try
             {
@@ -522,7 +522,7 @@ namespace Cliente
         public static string CreoNormaRepartoManual(ref string cMenError, int nDimension, List<RepartosCeCos> ListaDatos)
         {
             //HAY QUE LANZARLA DENTRO DE UNA TRANSACION
-            SAPbobsCOM.Recordset oRec = (SAPbobsCOM.Recordset)Matriz.oGlobal.conexionSAP.compañia.GetBusinessObject(BoObjectTypes.BoRecordset);
+            SAPbobsCOM.Recordset oRec = (SAPbobsCOM.Recordset)Matriz.oGlobal.compañia.GetBusinessObject(BoObjectTypes.BoRecordset);
             string cRetorno = "";
             bool lErrorTransaction = false;
             string sqlUpd = "";
@@ -531,7 +531,7 @@ namespace Cliente
             {
                 #region Busco el contador de repartos manuales
                 string sql = "select top 1 AutoKey from onnm where objectcode = '252'";
-                int nNumerador = Convert.ToInt32(Matriz.oGlobal.SQL.sqlNumericaB1(sql));
+                int nNumerador = Convert.ToInt32(Matriz.oGlobal.refDi.SQL.sqlNumericaB1(sql));
                 if (nNumerador == 0)
                 {
                     cMenError = "No se pudo recuperar el numerador de repartos manuales";
@@ -566,7 +566,7 @@ namespace Cliente
                     sqlUpd += ",'N'";
                     sqlUpd += ",'N'";
                     sqlUpd += ",'I'";
-                    sqlUpd += "," + Matriz.oGlobal.conexionSAP.compañia.UserSignature;
+                    sqlUpd += "," + Matriz.oGlobal.compañia.UserSignature;
                     sqlUpd += "," + nDimension.ToString();
                     sqlUpd += "," + nNumerador.ToString();
                     sqlUpd += ",'Y'";

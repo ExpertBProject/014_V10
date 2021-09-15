@@ -9,10 +9,10 @@ namespace Cliente
 {
     public class EXO_138
     {
-        public bool ItemEvent(EXO_Generales.EXO_infoItemEvent infoEvento)
+        public bool ItemEvent(ItemEvent infoEvento)
         {
 
-            SAPbouiCOM.Form oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
+            SAPbouiCOM.Form oForm = Matriz.oGlobal.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
 
             switch (infoEvento.EventType)
             {
@@ -39,7 +39,7 @@ namespace Cliente
                     }
                     break;                
             }
-            EXO_CleanCOM.CLiberaCOM.Form(ref oForm);
+            EXO_CleanCOM.CLiberaCOM.Form(oForm);
             return true;
         }
                 

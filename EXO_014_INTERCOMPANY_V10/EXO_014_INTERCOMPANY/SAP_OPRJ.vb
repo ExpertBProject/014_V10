@@ -79,7 +79,7 @@
 
 '            End If
 
-'            Return MyBase.objglobal.SboApp.FormDataEvent(infoEvento)
+'           Return MyBase.SBOApp_FormDataEvent(infoEvento)
 
 '        Catch exCOM As System.Runtime.InteropServices.COMException
 '            objGlobal.conexionSAP.Mostrar_Error(exCOM, EXO_Generales.EXO_SAP.EXO_TipoMensaje.Excepcion)

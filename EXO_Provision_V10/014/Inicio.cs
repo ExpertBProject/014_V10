@@ -9,9 +9,9 @@ using System.Xml;
 namespace Cliente
 {
     
-    public class Matriz:EXO_Generales.EXO_DLLBase
+    public class Matriz:EXO_UIAPI.EXO_DLLBase
     {
-        public static EXO_Generales.EXO_General oGlobal;
+        public static EXO_UIAPI.EXO_UIAPI oGlobal;
         public static Type TypeMatriz;
         public static bool lgProvArtNoInv;
       //  public static double ngValorMinimo;
@@ -25,10 +25,10 @@ namespace Cliente
         public static int MeasureDec;
         public static string SepMill;
         public static string SepDec;
-                
-        
-        public Matriz(EXO_Generales.EXO_General gen, bool act)
-            : base(ref gen, act)
+
+
+        public Matriz(EXO_UIAPI.EXO_UIAPI gen, Boolean act, Boolean usalicencia, int idAddon)
+             : base(gen, act, usalicencia, idAddon)
         {
             oGlobal = this.objGlobal;
             TypeMatriz = this.GetType();
@@ -36,7 +36,7 @@ namespace Cliente
             if (act)
             {
                 #region Creo tablas y UDO
-                if (objGlobal.conexionSAP.esAdministrador())
+                if (objGlobal.refDi.comunes.esAdministrador())
                 {
                     string fBD = "", cMen = "", cUDO = "";
                     EXO_Generales.EXO_UDO fUDO = null;
@@ -53,21 +53,21 @@ namespace Cliente
                     #region Campos de usuario y tablas no UDO
                     cMen = "";
                     fBD = Utilidades.LeoFichEmbebido("db_014Provi.xml");                                        
-                    if (!objGlobal.conexionSAP.LoadBDFromXML(ref fBD, ref cMen))
+                    if (!objGlobal.refDi.comunes.LoadBDFromXML( fBD, cMen))
                     {
-                        this.SboApp.MessageBox(cMen, 1, "Ok", "", "");
-                        this.SboApp.MessageBox("Error en creacion de campos db_014Provi.xml", 1, "Ok", "", "");
+                        objGlobal.SBOApp.MessageBox(cMen, 1, "Ok", "", "");
+                        objGlobal.SBOApp.MessageBox("Error en creacion de campos db_014Provi.xml", 1, "Ok", "", "");
                     }
                     else
                     {
-                        this.SboApp.MessageBox("Actualizacion de campos db_014Provi.xml realizada", 1, "Ok", "", "");
+                        objGlobal.SBOApp.MessageBox("Actualizacion de campos db_014Provi.xml realizada", 1, "Ok", "", "");
                     }
                     #endregion
                                        
                 }
                 else
                 {
-                    this.SboApp.MessageBox("Necesita permisos de administrador para actualizar la base de datos.\nCampos no creados", 1, "Ok", "", "");
+                    objGlobal.SBOApp.MessageBox("Necesita permisos de administrador para actualizar la base de datos.\nCampos no creados", 1, "Ok", "", "");
                 }
                 #endregion
                
@@ -80,7 +80,7 @@ namespace Cliente
             #region Decimales de la aplicacion y provisionar o no art no inve
             string sql = "SELECT T0.SumDec as 'SumDec', T0.PriceDec as 'PriceDec', T0.RateDec as 'RateDec', T0.QtyDec as 'QtyDec', T0.PercentDec as 'PercentDec', T0.MeasureDec as 'MeasureDec', ";
             sql += " T0.ThousSep as 'ThousSep', T0.DecSep as 'DecSep', T0.U_EXO_ProviComp as 'ProviComp' FROM OADM T0";
-            SAPbobsCOM.Recordset oRec = oGlobal.SQL.sqlComoRsB1(sql);
+            SAPbobsCOM.Recordset oRec = oGlobal.refDi.SQL.sqlComoRsB1(sql);
             SumDec =  Convert.ToInt32(oRec.Fields.Item("SumDec").Value);
             PriceDec = Convert.ToInt32(oRec.Fields.Item("PriceDec").Value);
             RateDec = Convert.ToInt32(oRec.Fields.Item("RateDec").Value);
@@ -119,7 +119,7 @@ namespace Cliente
             }
             catch (Exception ex)
             {
-                this.SboApp.MessageBox("Error en carga de filtros 014 Provision", 1, "Ok", "", "");
+                objGlobal.SBOApp.MessageBox("Error en carga de filtros 014 Provision", 1, "Ok", "", "");
                 oFilter = null;
             }
             #endregion            
@@ -136,7 +136,7 @@ namespace Cliente
             return oXML;
         }
 
-        public override bool SBOApp_ItemEvent(ref EXO_Generales.EXO_infoItemEvent infoEvento)
+        public override bool SBOApp_ItemEvent(ItemEvent infoEvento)
         {
             bool lRetorno = true;
 
@@ -172,7 +172,7 @@ namespace Cliente
              return lRetorno;            
         }
 
-        public override bool SBOApp_FormDataEvent(ref EXO_Generales.EXO_BusinessObjectInfo infoDataEvent)
+        public override bool SBOApp_FormDataEvent(BusinessObjectInfo infoDataEvent)
         {
             bool lRetorno = true;
 
@@ -188,14 +188,14 @@ namespace Cliente
             return lRetorno;
         }
 
-        public override bool SBOApp_MenuEvent(ref EXO_Generales.EXO_MenuEvent infoMenuEvent)
+        public override bool SBOApp_MenuEvent(MenuEvent infoMenuEvent)
         {
             bool lRetorno = true;
             
             switch (infoMenuEvent.MenuUID)
             {
                 case "1284": //cANCELAR
-                    switch (Matriz.oGlobal.conexionSAP.SBOApp.Forms.ActiveForm.TypeEx)
+                    switch (Matriz.oGlobal.SBOApp.Forms.ActiveForm.TypeEx)
                         {
 
                             case "392":
@@ -223,13 +223,13 @@ namespace Cliente
             return lRetorno;
         }
 
-        public override bool SBOApp_RightClickEvent(ref EXO_Generales.EXO_ContextMenuInfo infoMenu)
+        public override bool SBOApp_RightClickEvent(ContextMenuInfo infoMenu)
         {
             bool lRetorno = true;
             string cTypeEx = "";
             try
             {
-                cTypeEx = Matriz.oGlobal.conexionSAP.SBOApp.Forms.Item(infoMenu.FormUID).TypeEx;
+                cTypeEx = Matriz.oGlobal.SBOApp.Forms.Item(infoMenu.FormUID).TypeEx;
             }
             catch (Exception ex)
             {                

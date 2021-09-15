@@ -21,7 +21,7 @@ namespace Cliente
                 SAPbouiCOM.Matrix oMatrix = null;
                 #region CargoScreen
 
-                SAPbouiCOM.FormCreationParams oParametrosCreacion = (SAPbouiCOM.FormCreationParams)(Matriz.oGlobal.conexionSAP.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams));
+                SAPbouiCOM.FormCreationParams oParametrosCreacion = (SAPbouiCOM.FormCreationParams)(Matriz.oGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams));
                 string strXML = "";
                 //string strXML = Utilidades.LeoFichEmbebido("xEXO_VenReg.srf");                
                 oParametrosCreacion.XmlData = strXML;
@@ -29,11 +29,11 @@ namespace Cliente
                                 
                 try
                 {
-                    oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.AddEx(oParametrosCreacion);
+                    oForm = Matriz.oGlobal.SBOApp.Forms.AddEx(oParametrosCreacion);
                 }
                 catch (Exception ex)
                 {
-                    Matriz.oGlobal.conexionSAP.SBOApp.MessageBox(Matriz.oGlobal.conexionSAP.compañia.GetLastErrorDescription(), 1, "Ok", "", "");
+                    Matriz.oGlobal.SBOApp.MessageBox(Matriz.oGlobal.compañia.GetLastErrorDescription(), 1, "Ok", "", "");
                 }
 
                 #endregion
@@ -65,7 +65,7 @@ namespace Cliente
             }
         }
 
-        public bool ItemEvent(EXO_Generales.EXO_infoItemEvent infoEvento)
+        public bool ItemEvent(ItemEvent infoEvento)
         {
 
             switch (infoEvento.EventType)
@@ -74,7 +74,7 @@ namespace Cliente
                     {
                         if (infoEvento.ItemUID == "matLin" && infoEvento.BeforeAction)
                         {
-                            SAPbouiCOM.Form oForm = Matriz.oGlobal.conexionSAP.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
+                            SAPbouiCOM.Form oForm = Matriz.oGlobal.SBOApp.Forms.GetForm(infoEvento.FormTypeEx, infoEvento.FormTypeCount);
 
                             //infoEvento
                             SAPbouiCOM.Matrix oMatLin = (SAPbouiCOM.Matrix) oForm.Items.Item("matLin").Specific;

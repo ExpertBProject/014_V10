@@ -221,7 +221,7 @@ Public Class EXO_OICO
 
             End If
 
-            Return MyBase.objGlobal.SBOApp.FormDataEvent(infoEvento)
+            Return MyBase.SBOApp_FormDataEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
@@ -329,7 +329,7 @@ Public Class EXO_OICO
                 End If
             End If
 
-            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
+             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)

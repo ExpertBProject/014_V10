@@ -51,7 +51,7 @@ Public Class SAP_OCRD
 
 #Region "Eventos"
 
-    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -133,7 +133,7 @@ Public Class SAP_OCRD
                 End If
             End If
 
-            Return MyBase.objGlobal.SBOApp.ItemEvent(infoEvento)
+             Return MyBase.SBOApp_ItemEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
@@ -211,7 +211,7 @@ Public Class SAP_OCRD
 
             End If
 
-            Return MyBase.objGlobal.SBOApp.FormDataEvent(infoEvento)
+           Return MyBase.SBOApp_FormDataEvent(infoEvento)
 
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
@@ -228,7 +228,7 @@ Public Class SAP_OCRD
 
         Try
             'Recuperar el formulario
-            oForm = objglobal.SboApp.Forms.Item(pVal.FormUID)
+            oForm = objGlobal.SBOApp.Forms.Item(pVal.FormUID)
 
             If CargarCombos(oForm) = False Then
                 Exit Function
