@@ -14,7 +14,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OAGP.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -95,7 +95,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OFRM.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -213,7 +213,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCRN.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -382,7 +382,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_ODIM.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -505,7 +505,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCCT.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -638,7 +638,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OPRJ.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -772,7 +772,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OACG.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2, t1.codeTable3 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -940,7 +940,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OBPP.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1076,7 +1076,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCDC.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1208,7 +1208,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCQG.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1323,7 +1323,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCRG.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1461,7 +1461,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OEGP.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1586,7 +1586,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OLNG.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1727,7 +1727,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCRY.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1863,7 +1863,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OADF.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -1970,7 +1970,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OPYB.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -2100,7 +2100,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OTER.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2, t1.codeTable3 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -2249,7 +2249,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OSHP.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -2378,7 +2378,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OIDC.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -2506,7 +2506,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OOND.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -2644,7 +2644,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCST.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -2799,7 +2799,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OPRC.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -2932,7 +2932,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_ODSC.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -3143,7 +3143,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCTG.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQLSelect = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                          "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -3365,7 +3365,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OPYM.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQLSelect = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                          "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -3598,7 +3598,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OOCR.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -3760,7 +3760,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCRC.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQLSelect = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
                          "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -3892,7 +3892,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_MODFINAN.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -4059,7 +4059,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OACT.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t2.dbTipo " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) INNER JOIN " & _
@@ -4364,7 +4364,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OCRD.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
 
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
                    "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
@@ -4899,7 +4899,7 @@ Public Class Procesos
         Try
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OINV.txt", 1)
 
-            Conexiones.Connect_SQLServer(oDB)
+            Conexiones.Connect_SQLServer(oDB, log)
             sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
               "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
               "WHERE t1.tableName = 'OINV' " & _

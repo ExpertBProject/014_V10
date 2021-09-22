@@ -416,12 +416,15 @@ Public Class EXO_SELDOCUS
         Dim sSQL As String = ""
         Dim oColumnTxt As SAPbouiCOM.EditTextColumn = Nothing
         Dim oColumnChk As SAPbouiCOM.CheckBoxColumn = Nothing
+        Dim EXO_Xml As New EXO_UIAPI.EXO_XML(OGlobal)
         OpenFormOINVEDI = False
         Try
 
             'abrir formulario
             oFP = CType(OGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams), SAPbouiCOM.FormCreationParams)
-            oFP.XmlData = OGlobal.leerEmbebido(Type.GetType(), "EXO_SELDOCUS.srf")
+            oFP.XmlData = EXO_Xml.LoadFormXml(OGlobal.leerEmbebido(GetType(EXO_SELDOCUS), "EXO_SELDOCUS.srf"), True).ToString
+            'oFP = CType(OGlobal.SBOApp.CreateObject(SAPbouiCOM.BoCreatableObjectType.cot_FormCreationParams), SAPbouiCOM.FormCreationParams)
+            'oFP.XmlData = OGlobal.leerEmbebido(Type.GetType(), "EXO_SELDOCUS.srf")
 
             oRs = CType(OGlobal.compañia.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
             Try
@@ -447,6 +450,7 @@ Public Class EXO_SELDOCUS
             oForm.Visible = True
             CType(oForm.Items.Item("EXO_001").Specific, SAPbouiCOM.EditText).Active = True
 
+            OpenFormOINVEDI = True
         Catch ex As Exception
             Throw ex
         Finally

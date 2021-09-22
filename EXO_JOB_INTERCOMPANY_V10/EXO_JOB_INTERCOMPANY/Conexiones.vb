@@ -30,7 +30,13 @@ Public Class Conexiones
                                 oCompany.UseTrusted = False
                                 oCompany.DbPassword = Reader.GetAttribute("DbPassword").ToString.Trim
                                 oCompany.DbUserName = Reader.GetAttribute("DbUserName").ToString.Trim
-                                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2017
+                                Dim sVersion As String = Reader.GetAttribute("Version").ToString.Trim
+                                Select Case sVersion
+                                    Case "2016" : oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2016
+                                    Case "2017" : oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2017
+                                    Case "2018" : oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2019
+                                End Select
+
                                 oCompany.CompanyDB = sDatabaseName
 
                                 If oCompany.Connect <> 0 Then
@@ -74,7 +80,7 @@ Public Class Conexiones
 
 #Region "Connect to SQL Server"
 
-    Public Shared Sub Connect_SQLServer(ByRef db As SqlConnection)
+    Public Shared Sub Connect_SQLServer(ByRef db As SqlConnection, ByRef olog As EXO_Log.EXO_Log)
         Dim myStream As Stream = Nothing
         Dim Reader As XmlTextReader = Nothing
 
@@ -89,9 +95,11 @@ Public Class Conexiones
                         Select Case Reader.Name.ToString.Trim
                             Case "SQL"
                                 If db Is Nothing OrElse db.State = ConnectionState.Closed Then
+                                    Dim sCadConex As String = ""
+                                    sCadConex = "Database=" & Reader.GetAttribute("Db").ToString.Trim & ";Data Source=" & Reader.GetAttribute("Server").ToString.Trim & ";User Id=" & Reader.GetAttribute("DbUser").ToString & ";Password=" & Reader.GetAttribute("DbPwd").ToString
                                     db = New SqlConnection
-                                    db.ConnectionString = "Database=" & Reader.GetAttribute("Db").ToString.Trim.Trim & ";Data Source=" & Reader.GetAttribute("Server").ToString.Trim & ";User Id=" & Reader.GetAttribute("DbUser").ToString & ";Password=" & Reader.GetAttribute("DbPwd").ToString
-
+                                    db.ConnectionString = sCadConex
+                                    olog.escribeMensaje("Conexión SQL: " & db.ConnectionString, EXO_Log.EXO_Log.Tipo.advertencia)
                                     db.Open()
                                 End If
 

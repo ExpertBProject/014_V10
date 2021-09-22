@@ -99,39 +99,29 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EXO_BasicDLL, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EXO_BasicDLL, Version=10.0.1.3, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_BasicDLL.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\EXO_Kernel_10.0.1.4\x64\desarrollo\EXO_BasicDLL.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_CleanCOM, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EXO_CleanCOM, Version=10.0.1.3, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_CleanCOM.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\EXO_Kernel_10.0.1.4\x64\desarrollo\EXO_CleanCOM.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_DIAPI, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EXO_DIAPI, Version=10.0.1.3, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_DIAPI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\EXO_Kernel_10.0.1.4\x64\desarrollo\EXO_DIAPI.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_Generales, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EXO_Generales, Version=10.0.1.3, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_Generales.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\EXO_Kernel_10.0.1.4\x64\desarrollo\EXO_Generales.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_Log, Version=9.1.0.28, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EXO_Log, Version=10.0.1.3, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_Log.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\EXO_Kernel_10.0.1.4\x64\desarrollo\EXO_Log.dll</HintPath>
     </Reference>
-    <Reference Include="EXO_UIAPI, Version=9.1.0.27, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="EXO_UIAPI, Version=10.0.1.3, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\EXO_UIAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.SAPbobsCOM, Version=9.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\Interop.SAPbobsCOM.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.SAPbouiCOM, Version=9.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\EXO_Kernel_10.0.1.3\x64\desarrollo\Interop.SAPbouiCOM.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\EXO_Kernel_10.0.1.4\x64\desarrollo\EXO_UIAPI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -230,6 +220,26 @@
     <EmbeddedResource Include="XML_BD\UDFs_OPRJ.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SAPbobsCOM">
+      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30100}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="SAPbouiCOM">
+      <Guid>{6048236A-956D-498D-A6F1-9C81C13AB6E8}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
