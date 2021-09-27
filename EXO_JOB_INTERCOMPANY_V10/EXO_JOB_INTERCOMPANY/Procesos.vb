@@ -227,8 +227,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -236,7 +236,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -245,7 +245,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -396,12 +396,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oDIMServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.DimensionsService)
                 oDIMParamsO = oDIMServiceO.GetDataInterface(SAPbobsCOM.DimensionsServiceDataInterfaces.dsDimensionParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oDIMServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.DimensionsService)
                 oDIMParamsD = oDIMServiceD.GetDataInterface(SAPbobsCOM.DimensionsServiceDataInterfaces.dsDimensionParams)
@@ -412,7 +412,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oDIMServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.DimensionsService)
                             oDIMParamsO = oDIMServiceO.GetDataInterface(SAPbobsCOM.DimensionsServiceDataInterfaces.dsDimensionParams)
@@ -424,7 +424,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oDIMServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.DimensionsService)
                             oDIMParamsD = oDIMServiceD.GetDataInterface(SAPbobsCOM.DimensionsServiceDataInterfaces.dsDimensionParams)
@@ -519,12 +519,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oCCTServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.CostCenterTypesService)
                 oCCTParamsO = oCCTServiceO.GetDataInterface(SAPbobsCOM.CostCenterTypesServiceDataInterfaces.cctsCostCenterTypeParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oCCTServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.CostCenterTypesService)
                 oCCTParamsD = oCCTServiceD.GetDataInterface(SAPbobsCOM.CostCenterTypesServiceDataInterfaces.cctsCostCenterTypeParams)
@@ -535,7 +535,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oCCTServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.CostCenterTypesService)
                             oCCTParamsO = oCCTServiceO.GetDataInterface(SAPbobsCOM.CostCenterTypesServiceDataInterfaces.cctsCostCenterTypeParams)
@@ -547,7 +547,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oCCTServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.CostCenterTypesService)
                             oCCTParamsD = oCCTServiceD.GetDataInterface(SAPbobsCOM.CostCenterTypesServiceDataInterfaces.cctsCostCenterTypeParams)
@@ -652,12 +652,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oPRJServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.ProjectsService)
                 oPRJParamsO = oPRJServiceO.GetDataInterface(SAPbobsCOM.ProjectsServiceDataInterfaces.psProjectParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToStringm, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oPRJServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.ProjectsService)
                 oPRJParamsD = oPRJServiceD.GetDataInterface(SAPbobsCOM.ProjectsServiceDataInterfaces.psProjectParams)
@@ -668,7 +668,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oPRJServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.ProjectsService)
                             oPRJParamsO = oPRJServiceO.GetDataInterface(SAPbobsCOM.ProjectsServiceDataInterfaces.psProjectParams)
@@ -680,7 +680,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oPRJServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.ProjectsService)
                             oPRJParamsD = oPRJServiceD.GetDataInterface(SAPbobsCOM.ProjectsServiceDataInterfaces.psProjectParams)
@@ -786,12 +786,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oACGServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.AccountCategoryService)
                 oACGParamsO = oACGServiceO.GetDataInterface(SAPbobsCOM.AccountCategoryServiceDataInterfaces.acsAccountCategoryParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oACGServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.AccountCategoryService)
                 oACGParamsD = oACGServiceD.GetDataInterface(SAPbobsCOM.AccountCategoryServiceDataInterfaces.acsAccountCategoryParams)
@@ -802,7 +802,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oACGServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.AccountCategoryService)
                             oACGParamsO = oACGServiceO.GetDataInterface(SAPbobsCOM.AccountCategoryServiceDataInterfaces.acsAccountCategoryParams)
@@ -814,7 +814,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oACGServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.AccountCategoryService)
                             oACGParamsD = oACGServiceD.GetDataInterface(SAPbobsCOM.AccountCategoryServiceDataInterfaces.acsAccountCategoryParams)
@@ -954,8 +954,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -963,7 +963,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -972,7 +972,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -1090,12 +1090,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oCDCServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.CashDiscountsService)
                 oCDCParamsO = oCDCServiceO.GetDataInterface(SAPbobsCOM.CashDiscountsServiceDataInterfaces.cdsCashDiscountParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oCDCServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.CashDiscountsService)
                 oPRJParamsD = oCDCServiceD.GetDataInterface(SAPbobsCOM.CashDiscountsServiceDataInterfaces.cdsCashDiscountParams)
@@ -1106,7 +1106,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oCDCServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.CashDiscountsService)
                             oCDCParamsO = oCDCServiceO.GetDataInterface(SAPbobsCOM.CashDiscountsServiceDataInterfaces.cdsCashDiscountParams)
@@ -1118,7 +1118,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oCDCServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.CashDiscountsService)
                             oPRJParamsD = oCDCServiceD.GetDataInterface(SAPbobsCOM.CashDiscountsServiceDataInterfaces.cdsCashDiscountParams)
@@ -1222,12 +1222,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oCQGServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.BusinessPartnerPropertiesService)
                 oCQGParamsO = oCQGServiceO.GetDataInterface(SAPbobsCOM.BusinessPartnerPropertiesServiceDataInterfaces.bppsBusinessPartnerPropertyParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oCQGServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.BusinessPartnerPropertiesService)
                 oCQGParamsD = oCQGServiceD.GetDataInterface(SAPbobsCOM.BusinessPartnerPropertiesServiceDataInterfaces.bppsBusinessPartnerPropertyParams)
@@ -1238,7 +1238,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oCQGServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.BusinessPartnerPropertiesService)
                             oCQGParamsO = oCQGServiceO.GetDataInterface(SAPbobsCOM.BusinessPartnerPropertiesServiceDataInterfaces.bppsBusinessPartnerPropertyParams)
@@ -1250,7 +1250,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oCQGServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.BusinessPartnerPropertiesService)
                             oCQGParamsD = oCQGServiceD.GetDataInterface(SAPbobsCOM.BusinessPartnerPropertiesServiceDataInterfaces.bppsBusinessPartnerPropertyParams)
@@ -1337,8 +1337,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -1346,7 +1346,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -1355,7 +1355,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -1475,12 +1475,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oEGPServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.EmailGroupsService)
                 oEGPParamsO = oEGPServiceO.GetDataInterface(SAPbobsCOM.EmailGroupsServiceDataInterfaces.egsEmailGroupParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oEGPServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.EmailGroupsService)
                 oEGPParamsD = oEGPServiceD.GetDataInterface(SAPbobsCOM.EmailGroupsServiceDataInterfaces.egsEmailGroupParams)
@@ -1491,7 +1491,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oEGPServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.EmailGroupsService)
                             oEGPParamsO = oEGPServiceO.GetDataInterface(SAPbobsCOM.EmailGroupsServiceDataInterfaces.egsEmailGroupParams)
@@ -1503,7 +1503,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oEGPServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.EmailGroupsService)
                             oEGPParamsD = oEGPServiceD.GetDataInterface(SAPbobsCOM.EmailGroupsServiceDataInterfaces.egsEmailGroupParams)
@@ -1600,8 +1600,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -1609,7 +1609,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -1618,7 +1618,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -1741,12 +1741,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oCRYServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.CountriesService)
                 oCRYParamsO = oCRYServiceO.GetDataInterface(SAPbobsCOM.CountriesServiceDataInterfaces.csCountryParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oCRYServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.CountriesService)
                 oCRYParamsD = oCRYServiceD.GetDataInterface(SAPbobsCOM.CountriesServiceDataInterfaces.csCountryParams)
@@ -1757,7 +1757,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oCRYServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.CountriesService)
                             oCRYParamsO = oCRYServiceO.GetDataInterface(SAPbobsCOM.CountriesServiceDataInterfaces.csCountryParams)
@@ -1769,7 +1769,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oCRYServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.CountriesService)
                             oCRYParamsD = oCRYServiceD.GetDataInterface(SAPbobsCOM.CountriesServiceDataInterfaces.csCountryParams)
@@ -1984,12 +1984,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oPYBServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.PaymentBlocksService)
                 oPYBParamsO = oPYBServiceO.GetDataInterface(SAPbobsCOM.PaymentBlocksServiceDataInterfaces.pbsPaymentBlockParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oPYBServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.PaymentBlocksService)
                 oPYBParamsD = oPYBServiceD.GetDataInterface(SAPbobsCOM.PaymentBlocksServiceDataInterfaces.pbsPaymentBlockParams)
@@ -2000,7 +2000,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oPYBServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.PaymentBlocksService)
                             oPYBParamsO = oPYBServiceO.GetDataInterface(SAPbobsCOM.PaymentBlocksServiceDataInterfaces.pbsPaymentBlockParams)
@@ -2012,7 +2012,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oPYBServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.PaymentBlocksService)
                             oPYBParamsD = oPYBServiceD.GetDataInterface(SAPbobsCOM.PaymentBlocksServiceDataInterfaces.pbsPaymentBlockParams)
@@ -2114,8 +2114,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -2123,7 +2123,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -2132,7 +2132,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -2263,8 +2263,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -2272,7 +2272,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -2281,7 +2281,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -2392,8 +2392,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -2401,7 +2401,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -2410,7 +2410,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -2520,8 +2520,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -2529,7 +2529,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -2538,7 +2538,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -2667,12 +2667,12 @@ Public Class Procesos
                 oDt = New System.Data.DataTable
                 Conexiones.FillDtDB(oDB, oDt, sSQL)
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oCSTServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.StatesService)
                 oCSTParamsO = oCSTServiceO.GetDataInterface(SAPbobsCOM.StatesServiceDataInterfaces.ssStateParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oCSTServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.StatesService)
                 oCSTParamsD = oCSTServiceD.GetDataInterface(SAPbobsCOM.StatesServiceDataInterfaces.ssStateParams)
@@ -2683,7 +2683,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oCSTServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.StatesService)
                             oCSTParamsO = oCSTServiceO.GetDataInterface(SAPbobsCOM.StatesServiceDataInterfaces.ssStateParams)
@@ -2706,7 +2706,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oCSTServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.StatesService)
                             oCSTParamsD = oCSTServiceD.GetDataInterface(SAPbobsCOM.StatesServiceDataInterfaces.ssStateParams)
@@ -2813,12 +2813,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
                 oCmpSrvO = oCompanyO.GetCompanyService()
                 oPRCServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.ProfitCentersService)
                 oPRCParamsO = oPRCServiceO.GetDataInterface(SAPbobsCOM.ProfitCentersServiceDataInterfaces.pcsProfitCenterParams)
 
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
                 oCmpSrvD = oCompanyD.GetCompanyService()
                 oPRCServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.ProfitCentersService)
                 oPRCParamsD = oPRCServiceD.GetDataInterface(SAPbobsCOM.ProfitCentersServiceDataInterfaces.pcsProfitCenterParams)
@@ -2829,7 +2829,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
                             oCmpSrvO = oCompanyO.GetCompanyService()
                             oPRCServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.ProfitCentersService)
                             oPRCParamsO = oPRCServiceO.GetDataInterface(SAPbobsCOM.ProfitCentersServiceDataInterfaces.pcsProfitCenterParams)
@@ -2841,7 +2841,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
                             oCmpSrvD = oCompanyD.GetCompanyService()
                             oPRCServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.ProfitCentersService)
                             oPRCParamsD = oPRCServiceD.GetDataInterface(SAPbobsCOM.ProfitCentersServiceDataInterfaces.pcsProfitCenterParams)
@@ -2946,8 +2946,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -2955,7 +2955,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -2964,7 +2964,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -3157,8 +3157,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -3166,7 +3166,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -3175,7 +3175,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -3379,8 +3379,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -3388,7 +3388,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -3397,7 +3397,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -3612,12 +3612,12 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                'Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
+                'Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString,log)
                 'oCmpSrvO = oCompanyO.GetCompanyService()
                 'oCCTServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.DistributionRulesService)
                 'oCCTParamsO = oCCTServiceO.GetDataInterface(SAPbobsCOM.DistributionRulesServiceDataInterfaces.drsDistributionRuleParams)
 
-                'Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                'Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString,LOG)
                 'oCmpSrvD = oCompanyD.GetCompanyService()
                 'oCCTServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.DistributionRulesService)
                 'oCCTParamsD = oCCTServiceD.GetDataInterface(SAPbobsCOM.DistributionRulesServiceDataInterfaces.drsDistributionRuleParams)
@@ -3628,7 +3628,7 @@ Public Class Procesos
                             ''Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             'Conexiones.Disconnect_Company(oCompanyO)
 
-                            'Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            'Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString,log)
                             'oCmpSrvO = oCompanyO.GetCompanyService()
                             'oCCTServiceO = oCmpSrvO.GetBusinessService(SAPbobsCOM.ServiceTypes.DistributionRulesService)
                             'oCCTParamsO = oCCTServiceO.GetDataInterface(SAPbobsCOM.DistributionRulesServiceDataInterfaces.drsDistributionRuleParams)
@@ -3640,7 +3640,7 @@ Public Class Procesos
                             ''Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             'Conexiones.Disconnect_Company(oCompanyD)
 
-                            'Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            'Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString,log)
                             'oCmpSrvD = oCompanyD.GetCompanyService()
                             'oCCTServiceD = oCmpSrvD.GetBusinessService(SAPbobsCOM.ServiceTypes.DistributionRulesService)
                             'oCCTParamsD = oCCTServiceD.GetDataInterface(SAPbobsCOM.DistributionRulesServiceDataInterfaces.drsDistributionRuleParams)
@@ -3662,10 +3662,10 @@ Public Class Procesos
                         'If sXML <> "" Then
                         If Conexiones.GetValueDB(oDB, oTransaction, "[" & sDBD & "].dbo.[OOCR]", "OcrCode", "OcrCode = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "'") = "" Then
                             'Añadir
-                            sSQL = "INSERT INTO [" & sDBD & "].dbo.[OOCR] " & _
-                                   "SELECT [OcrCode], [OcrName], [OcrTotal], [Direct], [Locked], [DataSource], [UserSign], " & _
-                                   "[DimCode], [AbsEntry], [Active], [logInstanc], [UserSign2], [updateDate] " & _
-                                   "FROM [" & sDBO & "].dbo.[OOCR] t0 WITH (NOLOCK) " & _
+                            sSQL = "INSERT INTO [" & sDBD & "].dbo.[OOCR] " &
+                                   "SELECT [OcrCode], [OcrName], [OcrTotal], [Direct], [Locked], [DataSource], [UserSign], " &
+                                   "[DimCode], [AbsEntry], [Active], [logInstanc], [UserSign2], [updateDate] " &
+                                   "FROM [" & sDBO & "].dbo.[OOCR] t0 WITH (NOLOCK) " &
                                    "WHERE t0.[OcrCode] = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "'; "
                         Else
                             'oCCTParamsD.FactorCode = oDt.Rows.Item(i).Item("codeTable").ToString
@@ -3678,29 +3678,29 @@ Public Class Procesos
                             'oCCTServiceD.UpdateDistributionRule(oOOCR)
 
                             'Modificar"
-                            sSQL = "UPDATE t1 SET [OcrName] = t0.[OcrName], " & _
-                                   "[OcrTotal] = t0.[OcrTotal],  " & _
-                                   "[Direct] = t0.[Direct], " & _
-                                   "[Locked] = t0.[Locked], " & _
-                                   "[DataSource] = t0.[DataSource], " & _
-                                   "[UserSign] = t0.[UserSign], " & _
-                                   "[DimCode] = t0.[DimCode], " & _
-                                   "[AbsEntry] = t0.[AbsEntry], " & _
-                                   "[Active] = t0.[Active], " & _
-                                   "[logInstanc] = t0.[logInstanc], " & _
-                                   "[UserSign2] = t0.[UserSign2], " & _
-                                   "[updateDate] = t0.[updateDate] " & _
-                                   "FROM [" & sDBO & "].dbo.[OOCR] t0 WITH (NOLOCK) INNER JOIN " & _
-                                   "[" & sDBD & "].dbo.[OOCR] t1 WITH (NOLOCK) ON t0.[OcrCode] = t1.[OcrCode] " & _
+                            sSQL = "UPDATE t1 SET [OcrName] = t0.[OcrName], " &
+                                   "[OcrTotal] = t0.[OcrTotal],  " &
+                                   "[Direct] = t0.[Direct], " &
+                                   "[Locked] = t0.[Locked], " &
+                                   "[DataSource] = t0.[DataSource], " &
+                                   "[UserSign] = t0.[UserSign], " &
+                                   "[DimCode] = t0.[DimCode], " &
+                                   "[AbsEntry] = t0.[AbsEntry], " &
+                                   "[Active] = t0.[Active], " &
+                                   "[logInstanc] = t0.[logInstanc], " &
+                                   "[UserSign2] = t0.[UserSign2], " &
+                                   "[updateDate] = t0.[updateDate] " &
+                                   "FROM [" & sDBO & "].dbo.[OOCR] t0 WITH (NOLOCK) INNER JOIN " &
+                                   "[" & sDBD & "].dbo.[OOCR] t1 WITH (NOLOCK) ON t0.[OcrCode] = t1.[OcrCode] " &
                                    "WHERE t0.[OcrCode] = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "'; "
                         End If
 
                         sSQL &= "DELETE FROM [" & sDBD & "].dbo.[OCR1] WHERE [OcrCode] = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "'; "
 
-                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[OCR1] " & _
-                               "SELECT [OcrCode], [PrcCode], [PrcAmount], [OcrTotal], [Direct], [UserSign], [ValidFrom], " & _
-                               "[ValidTo], [logInstanc], [UserSign2], [updateDate] " & _
-                               "FROM [" & sDBO & "].dbo.[OCR1] t0 WITH (NOLOCK) " & _
+                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[OCR1] " &
+                               "SELECT [OcrCode], [PrcCode], [PrcAmount], [OcrTotal], [Direct], [UserSign], [ValidFrom], " &
+                               "[ValidTo], [logInstanc], [UserSign2], [updateDate] " &
+                               "FROM [" & sDBO & "].dbo.[OCR1] t0 WITH (NOLOCK) " &
                                "WHERE t0.[OcrCode] = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "'; "
                         'End If
 
@@ -3762,9 +3762,9 @@ Public Class Procesos
 
             Conexiones.Connect_SQLServer(oDB, log)
 
-            sSQLSelect = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " & _
-                         "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
-                         "WHERE t1.tableName = 'OCRC' " & _
+            sSQLSelect = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t1.codeTable2 " &
+                         "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " &
+                         "WHERE t1.tableName = 'OCRC' " &
                          "ORDER BY t1.dbNameOrig, t1.dbNameDest "
 
             oDt = New System.Data.DataTable
@@ -3774,8 +3774,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -3783,7 +3783,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -3792,7 +3792,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -3894,9 +3894,9 @@ Public Class Procesos
 
             Conexiones.Connect_SQLServer(oDB, log)
 
-            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
-                   "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
-                   "WHERE t1.tableName = 'MODFINAN' " & _
+            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " &
+                   "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " &
+                   "WHERE t1.tableName = 'MODFINAN' " &
                    "ORDER BY t1.dbNameOrig, t1.dbNameDest "
 
             oDt = New System.Data.DataTable
@@ -3925,32 +3925,32 @@ Public Class Procesos
 
                         sSQL &= "TRUNCATE TABLE [" & sDBD & "].dbo.[OFRC] "
 
-                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[OFRT] " & _
-                                "SELECT AbsId, Name, DocType, FRTCounter, MoveChk1, MoveChk2, MoveTo_1, MoveTo_2, Title_1, " & _
-                                "Title_2, ShowMiss, ToTitle_1, ToTitle_2, UserSign, DimCode " & _
+                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[OFRT] " &
+                                "SELECT AbsId, Name, DocType, FRTCounter, MoveChk1, MoveChk2, MoveTo_1, MoveTo_2, Title_1, " &
+                                "Title_2, ShowMiss, ToTitle_1, ToTitle_2, UserSign, DimCode " &
                                 "FROM [" & sDBO & "].dbo.[OFRT] WITH (NOLOCK) "
 
-                        sSQL &= "UPDATE t1 SET [AutoKey] = t0.[AutoKey] " & _
-                               "FROM [" & sDBO & "].dbo.[ONNM] t0 WITH (NOLOCK) INNER JOIN " & _
-                               "[" & sDBD & "].dbo.[ONNM] t1 WITH (NOLOCK) ON t0.[ObjectCode] = t1.[ObjectCode] AND t0.[DocSubType] = t1.[DocSubType] " & _
+                        sSQL &= "UPDATE t1 SET [AutoKey] = t0.[AutoKey] " &
+                               "FROM [" & sDBO & "].dbo.[ONNM] t0 WITH (NOLOCK) INNER JOIN " &
+                               "[" & sDBD & "].dbo.[ONNM] t1 WITH (NOLOCK) ON t0.[ObjectCode] = t1.[ObjectCode] AND t0.[DocSubType] = t1.[DocSubType] " &
                                "WHERE t0.[ObjectCode] = '95' "
 
-                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[OFRC] " & _
-                                "SELECT CatId, TemplateId, Name, FrgnName, Levels, FatherNum, Active, HasSons, VisOrder, SubSum, " & _
-                                "SubName, Furmula, Param_1, Param_2, Param_3, Param_4, Param_5, Param_6, Param_7, Param_8, " & _
-                                "Param_9, Param_10, Param_11, Param_12, Param_13, Param_14, Param_15, Param_16, Param_17, " & _
-                                "Param_18, Param_19, Param_20, Param_21, Param_22, Param_23, Param_24, Param_25, OP_1, OP_2, " & _
-                                "OP_3, OP_4, OP_5, OP_6, OP_7, OP_8, OP_9, OP_10, OP_11, OP_12, OP_13, OP_14, OP_15, OP_16, " & _
-                                "OP_17, OP_18, OP_19, OP_20, OP_21, OP_22, OP_23, OP_24, ProfitLoss, MoveNeg, [Dummy], HideAct, " & _
-                                "UserSign, ToGroup, ToTitle, LineNum, IndentChar, Reversal, TextTitle, SumType, NetIncome, " & _
-                                "PLTempId, CustName, ExtFromBS, ExtData, LegalRef, PLCatId, SignAggr, Mandatory, AcctReq, " & _
-                                "NotPermit, KPIFactor, CatCode, CatClass " & _
+                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[OFRC] " &
+                                "SELECT CatId, TemplateId, Name, FrgnName, Levels, FatherNum, Active, HasSons, VisOrder, SubSum, " &
+                                "SubName, Furmula, Param_1, Param_2, Param_3, Param_4, Param_5, Param_6, Param_7, Param_8, " &
+                                "Param_9, Param_10, Param_11, Param_12, Param_13, Param_14, Param_15, Param_16, Param_17, " &
+                                "Param_18, Param_19, Param_20, Param_21, Param_22, Param_23, Param_24, Param_25, OP_1, OP_2, " &
+                                "OP_3, OP_4, OP_5, OP_6, OP_7, OP_8, OP_9, OP_10, OP_11, OP_12, OP_13, OP_14, OP_15, OP_16, " &
+                                "OP_17, OP_18, OP_19, OP_20, OP_21, OP_22, OP_23, OP_24, ProfitLoss, MoveNeg, [Dummy], HideAct, " &
+                                "UserSign, ToGroup, ToTitle, LineNum, IndentChar, Reversal, TextTitle, SumType, NetIncome, " &
+                                "PLTempId, CustName, ExtFromBS, ExtData, LegalRef, PLCatId, SignAggr, Mandatory, AcctReq, " &
+                                "NotPermit, KPIFactor, CatCode, CatClass " &
                                 "FROM [" & sDBO & "].dbo.[OFRC] WITH (NOLOCK) "
 
-                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[FRC1] " & _
-                                "SELECT CatId, TemplateId, AcctCode, VisOrder, CFWId, CalcMethod, SlpCode, PrcCode, CalMethod2, CalMethod3, Linked, Sign " & _
-                                "FROM [" & sDBO & "].dbo.[FRC1] WITH (NOLOCK) " & _
-                                "WHERE AcctCode IN (SELECT t1.AcctCode " & _
+                        sSQL &= "INSERT INTO [" & sDBD & "].dbo.[FRC1] " &
+                                "SELECT CatId, TemplateId, AcctCode, VisOrder, CFWId, CalcMethod, SlpCode, PrcCode, CalMethod2, CalMethod3, Linked, Sign " &
+                                "FROM [" & sDBO & "].dbo.[FRC1] WITH (NOLOCK) " &
+                                "WHERE AcctCode IN (SELECT t1.AcctCode " &
                                                    "FROM [" & sDBD & "].dbo.[OACT] t1 WITH (NOLOCK)) "
 
                         sSQL &= "DELETE FROM [INTERCOMPANY].dbo.[REPLICATE] WHERE dbNameOrig = '" & sDBO & "' AND dbNameDest = '" & sDBD & "' AND tableName = '" & oDt.Rows.Item(i).Item("tableName").ToString & "' AND codeTable = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "'"
@@ -4061,10 +4061,10 @@ Public Class Procesos
 
             Conexiones.Connect_SQLServer(oDB, log)
 
-            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t2.dbTipo " & _
-                   "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) INNER JOIN " & _
-                   "[INTERCOMPANY].dbo.[DATABASES] t2 WITH (NOLOCK) ON t1.dbNameDest = t2.dbName " & _
-                   "WHERE t1.tableName = 'OACT' " & _
+            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable, t2.dbTipo " &
+                   "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) INNER JOIN " &
+                   "[INTERCOMPANY].dbo.[DATABASES] t2 WITH (NOLOCK) ON t1.dbNameDest = t2.dbName " &
+                   "WHERE t1.tableName = 'OACT' " &
                    "ORDER BY t1.dbNameOrig, t1.dbNameDest "
 
             oDt = New System.Data.DataTable
@@ -4074,8 +4074,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -4083,7 +4083,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -4092,7 +4092,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -4366,9 +4366,9 @@ Public Class Procesos
 
             Conexiones.Connect_SQLServer(oDB, log)
 
-            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
-                   "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
-                   "WHERE t1.tableName = 'OCRD' " & _
+            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " &
+                   "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " &
+                   "WHERE t1.tableName = 'OCRD' " &
                    "ORDER BY t1.dbNameOrig, t1.dbNameDest "
 
             oDt = New System.Data.DataTable
@@ -4378,8 +4378,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 For i = 0 To oDt.Rows.Count - 1
                     Try
@@ -4387,7 +4387,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             sDBO = oDt.Rows.Item(i).Item("dbNameOrig").ToString
                         End If
@@ -4396,7 +4396,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             sDBD = oDt.Rows.Item(i).Item("dbNameDest").ToString
                         End If
@@ -4803,29 +4803,29 @@ Public Class Procesos
                             sSQL = "UPDATE [" & sDBD & "].dbo.[OCRD] SET AgentCode = '" & sAgentCode & "' WHERE CardCode = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "' "
 
                             'Actualizamos los medios de comunicación porque por DI API no funciona
-                            sSQL &= "UPDATE t2 SET BlockComm = ISNULL(t1.BlockComm, 'N') " & _
-                                    "FROM [" & sDBO & "].dbo.[OCPR] t1 WITH (NOLOCK) INNER JOIN " & _
-                                    "[" & sDBD & "].dbo.[OCPR] t2 WITH (NOLOCK) ON t1.CardCode = t2.CardCode AND " & _
-                                    "t1.Name = t2.Name " & _
+                            sSQL &= "UPDATE t2 SET BlockComm = ISNULL(t1.BlockComm, 'N') " &
+                                    "FROM [" & sDBO & "].dbo.[OCPR] t1 WITH (NOLOCK) INNER JOIN " &
+                                    "[" & sDBD & "].dbo.[OCPR] t2 WITH (NOLOCK) ON t1.CardCode = t2.CardCode AND " &
+                                    "t1.Name = t2.Name " &
                                     "WHERE t2.CardCode = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "' "
 
-                            sSQL &= "DELETE t1 FROM [" & sDBD & "].dbo.[CPRC] t1 WITH (NOLOCK) INNER JOIN " & _
-                                    "[" & sDBD & "].dbo.[OCPR] t2 WITH (NOLOCK) ON t1.CntctCode = t2.CntctCode " & _
+                            sSQL &= "DELETE t1 FROM [" & sDBD & "].dbo.[CPRC] t1 WITH (NOLOCK) INNER JOIN " &
+                                    "[" & sDBD & "].dbo.[OCPR] t2 WITH (NOLOCK) ON t1.CntctCode = t2.CntctCode " &
                                     "WHERE t2.CardCode = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "' "
 
-                            sSQL &= "INSERT INTO [" & sDBD & "].dbo.[CPRC] " & _
-                                    "SELECT t3.CntctCode, t1.CommMeanId, t1.[Select] " & _
-                                    "FROM [" & sDBO & "].dbo.[CPRC] t1 WITH (NOLOCK) INNER JOIN " & _
-                                    "[" & sDBO & "].dbo.[OCPR] t2 WITH (NOLOCK) ON t1.CntctCode = t2.CntctCode INNER JOIN " & _
-                                    "[" & sDBD & "].dbo.[OCPR] t3 WITH (NOLOCK) ON t2.Name = t3.Name AND " & _
-                                    "t2.CardCode = t3.CardCode " & _
+                            sSQL &= "INSERT INTO [" & sDBD & "].dbo.[CPRC] " &
+                                    "SELECT t3.CntctCode, t1.CommMeanId, t1.[Select],t1.Cardcode,t1.CntctName " &
+                                    "FROM [" & sDBO & "].dbo.[CPRC] t1 WITH (NOLOCK) INNER JOIN " &
+                                    "[" & sDBO & "].dbo.[OCPR] t2 WITH (NOLOCK) ON t1.CntctCode = t2.CntctCode INNER JOIN " &
+                                    "[" & sDBD & "].dbo.[OCPR] t3 WITH (NOLOCK) ON t2.Name = t3.Name AND " &
+                                    "t2.CardCode = t3.CardCode " &
                                     "WHERE t2.CardCode = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "' "
 
                             'El grupo de empresas al ser un combo que se rellena en tiempo de ejecución, no se puede actualizar el valor
                             'por DI API, por lo que tiene que ser por SQL
                             'If oDt.Rows.Item(i).Item("codeTable2").ToString <> "" Then
                             If sU_EXO_GRUPOEMPRESA <> "" Then
-                                sSQL &= "UPDATE [" & sDBD & "].dbo.[OCRD] SET U_EXO_GRUPOEMPRESA = '" & sU_EXO_GRUPOEMPRESA & "' " & _
+                                sSQL &= "UPDATE [" & sDBD & "].dbo.[OCRD] SET U_EXO_GRUPOEMPRESA = '" & sU_EXO_GRUPOEMPRESA & "' " &
                                         "WHERE CardCode = '" & oDt.Rows.Item(i).Item("codeTable").ToString & "' "
                             End If
                             'End If
@@ -4900,9 +4900,9 @@ Public Class Procesos
             log = New EXO_Log.EXO_Log(My.Application.Info.DirectoryPath.ToString & "\Logs\Log_ERRORES_OINV.txt", 1)
 
             Conexiones.Connect_SQLServer(oDB, log)
-            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " & _
-              "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " & _
-              "WHERE t1.tableName = 'OINV' " & _
+            sSQL = "SELECT t1.dbNameOrig, t1.dbNameDest, t1.tableName, t1.codeTable " &
+              "FROM [INTERCOMPANY].dbo.[REPLICATE] t1 WITH (NOLOCK) " &
+              "WHERE t1.tableName = 'OINV' " &
               "ORDER BY t1.dbNameOrig, t1.dbNameDest "
 
             oDt = New System.Data.DataTable
@@ -4912,8 +4912,8 @@ Public Class Procesos
                 sDBO = oDt.Rows.Item(0).Item("dbNameOrig").ToString
                 sDBD = oDt.Rows.Item(0).Item("dbNameDest").ToString
 
-                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString)
-                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString)
+                Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(0).Item("dbNameOrig").ToString, log)
+                Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(0).Item("dbNameDest").ToString, log)
 
                 oCompanyO.XMLAsString = True
                 oCompanyO.XmlExportType = SAPbobsCOM.BoXmlExportTypes.xet_ExportImportMode
@@ -4927,7 +4927,7 @@ Public Class Procesos
                             'Desconectar Company Origen y volver a conectar con la nueva Company Origen
                             Conexiones.Disconnect_Company(oCompanyO)
 
-                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString)
+                            Conexiones.Connect_Company(oCompanyO, oDt.Rows.Item(i).Item("dbNameOrig").ToString, log)
 
                             oCompanyO.XMLAsString = True
                             oCompanyO.XmlExportType = SAPbobsCOM.BoXmlExportTypes.xet_ExportImportMode
@@ -4939,7 +4939,7 @@ Public Class Procesos
                             'Desconectar Company Destino y volver a conectar con la nueva Company Destino
                             Conexiones.Disconnect_Company(oCompanyD)
 
-                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString)
+                            Conexiones.Connect_Company(oCompanyD, oDt.Rows.Item(i).Item("dbNameDest").ToString, log)
 
                             oCompanyD.XMLAsString = True
                             oCompanyD.XmlExportType = SAPbobsCOM.BoXmlExportTypes.xet_ExportImportMode

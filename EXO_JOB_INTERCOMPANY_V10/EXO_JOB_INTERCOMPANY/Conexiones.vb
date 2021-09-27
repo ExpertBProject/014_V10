@@ -6,7 +6,7 @@ Public Class Conexiones
 
 #Region "Connect to Company"
 
-    Public Shared Sub Connect_Company(ByRef oCompany As SAPbobsCOM.Company, ByVal sDatabaseName As String)
+    Public Shared Sub Connect_Company(ByRef oCompany As SAPbobsCOM.Company, ByVal sDatabaseName As String, ByRef olog As EXO_Log.EXO_Log)
         Dim myStream As Stream = Nothing
         Dim Reader As XmlTextReader = Nothing
 
@@ -40,7 +40,10 @@ Public Class Conexiones
                                 oCompany.CompanyDB = sDatabaseName
 
                                 If oCompany.Connect <> 0 Then
+                                    olog.escribeMensaje("Conexión Compañia " & sDatabaseName & ": " & oCompany.GetLastErrorDescription.Trim, EXO_Log.EXO_Log.Tipo.error)
                                     Throw New System.Exception("Error en la conexión a la compañia:" & oCompany.GetLastErrorDescription.Trim)
+                                Else
+
                                 End If
                         End Select
                 End Select
@@ -48,8 +51,10 @@ Public Class Conexiones
 
 
         Catch exCOM As System.Runtime.InteropServices.COMException
+            olog.escribeMensaje("Conexión Compañia: " & exCOM.ErrorCode & " - " & exCOM.Message, EXO_Log.EXO_Log.Tipo.error)
             Throw exCOM
         Catch ex As Exception
+            olog.escribeMensaje("Conexión SQL: " & ex.GetHashCode & " - " & ex.Message, EXO_Log.EXO_Log.Tipo.error)
             Throw ex
         Finally
             myStream = Nothing
@@ -101,6 +106,7 @@ Public Class Conexiones
                                     db.ConnectionString = sCadConex
                                     olog.escribeMensaje("Conexión SQL: " & db.ConnectionString, EXO_Log.EXO_Log.Tipo.advertencia)
                                     db.Open()
+                                    olog.escribeMensaje("Conectado", EXO_Log.EXO_Log.Tipo.advertencia)
                                 End If
 
                         End Select
@@ -108,8 +114,10 @@ Public Class Conexiones
             End While
 
         Catch exCOM As System.Runtime.InteropServices.COMException
+            olog.escribeMensaje("Conexión SQL: " & exCOM.ErrorCode & " - " & exCOM.Message, EXO_Log.EXO_Log.Tipo.error)
             Throw exCOM
         Catch ex As Exception
+            olog.escribeMensaje("Conexión SQL: " & ex.GetHashCode & " - " & ex.Message, EXO_Log.EXO_Log.Tipo.error)
             Throw ex
         Finally
             myStream = Nothing
