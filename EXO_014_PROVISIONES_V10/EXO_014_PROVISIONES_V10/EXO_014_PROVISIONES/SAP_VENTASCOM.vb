@@ -255,7 +255,7 @@ Public Class SAP_VENTASCOM
         Catch ex As Exception
             Throw ex
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFLEvento, Object))
+
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oDataTable, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try

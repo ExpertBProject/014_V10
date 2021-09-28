@@ -376,7 +376,7 @@ Public Class EXO_PROVPOR
         Catch ex As Exception
             Throw ex
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFLEvento, Object))
+
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oConds, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCond, Object))
@@ -431,7 +431,7 @@ Public Class EXO_PROVPOR
         Catch ex As Exception
             Throw ex
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFLEvento, Object))
+
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oDataTable, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try

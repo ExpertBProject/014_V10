@@ -249,6 +249,9 @@ REM copy """$(TargetPath)""" "C:\Desarrollo\014\Ficheros\10.Dll\DLLs\$(TargetFil
 ) ELSE (
 REM copy """$(TargetPath)""" "C:\Desarrollo\9.1.0.37\x64\desarrollo\DLLs\$(TargetFileName)"
 REM copy """$(TargetPath)""" "C:\Desarrollo\014\Ficheros\10.Dll_64\EXT\$(TargetFileName)"
+copy """$(TargetPath)""" "\\xper-rdpdes02\compartidaB1\Pruebas\10.Dll_64\EXT\$(TargetFileName)"
+copy """$(TargetPath)""" "E:\Desarrollo\EXO_Kernel_10.0.1.4\x64\DLLs\$(TargetFileName)"
+
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -39,7 +39,7 @@ Public Class SAP_OPRJ
 #End Region
 
 #Region "Eventos"
-    Public Overrides Function SBOApp_ItemEvent(ByVal infoEvento As ItemEvent) As Boolean
+    Public Overrides Function SBOApp_ItemEvent(infoEvento As ItemEvent) As Boolean
         Try
             If infoEvento.InnerEvent = False Then
                 If infoEvento.BeforeAction = False Then
@@ -141,14 +141,11 @@ Public Class SAP_OPRJ
             End If
 
             Return MyBase.SBOApp_ItemEvent(infoEvento)
-
         Catch exCOM As System.Runtime.InteropServices.COMException
             objGlobal.Mostrar_Error(exCOM, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
-
             Return False
         Catch ex As Exception
             objGlobal.Mostrar_Error(ex, EXO_UIAPI.EXO_UIAPI.EXO_TipoMensaje.Excepcion)
-
             Return False
         End Try
     End Function
@@ -246,7 +243,7 @@ Public Class SAP_OPRJ
         Catch ex As Exception
             Throw ex
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFLEvento, Object))
+
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oConds, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCond, Object))
@@ -313,7 +310,7 @@ Public Class SAP_OPRJ
         Catch ex As Exception
             Throw ex
         Finally
-            EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oCFLEvento, Object))
+
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oDataTable, Object))
             EXO_CleanCOM.CLiberaCOM.liberaCOM(CType(oForm, Object))
         End Try
